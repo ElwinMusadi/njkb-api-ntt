@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "phase": "8D",
+  "status": "BLOCKED_AT_PREFLIGHT",
+  "timestamp_utc": "2026-09-22T13:23:04.531Z",
+  "last_successful_gate": "remote_d1_initial_state_verification",
+  "blocking_gate": "git_release_baseline",
+  "blocker": {
+    "code": "NO_GIT_COMMIT",
+    "description": "Branch main tidak memiliki commit dan seluruh repository masih untracked; deployment version/commit SHA dan rollback baseline tidak dapat direkam secara auditabel.",
+    "evidence": [
+      "git rev-parse --verify HEAD -> fatal: Needed a single revision",
+      "git log -1 --oneline -> fatal: current branch main does not have any commits yet",
+      "git status --short -> seluruh project berstatus untracked"
+    ],
+    "required_action": "Buat dan review baseline commit resmi untuk Phase 8C, kemudian ulangi seluruh preflight Phase 8D dari commit tersebut."
+  },
+  "cloudflare": {
+    "account_name": "Elwinmusadi@gmail.com's Account",
+    "account_id": "04b8b2073be2f1aa21fc6489e0db36f6",
+    "worker_name": "njkb-api-ntt",
+    "worker_exists_before_deployment": false,
+    "production_database": {
+      "name": "njkb-api-production",
+      "id": "ae3097b9-d76d-430f-b5c5-7653c8242b52",
+      "region": "APAC",
+      "applied_migrations": 0,
+      "initial_user_schema_objects": ["_cf_KV", "d1_migrations"]
+    }
+  },
+  "preflight": {
+    "typecheck": "PASS",
+    "tests": {"status": "PASS", "files": 7, "tests": 114},
+    "build": "PASS",
+    "local_d1_verification": {"status": "PASS", "references": 64874, "mappings": 0},
+    "deterministic_samples": {"status": "PASS", "samples": 40},
+    "canonical_datasets": {
+      "pergub": {"records": 62091, "sha256": "c9218eb8df0e0a01e1f73dc528f99618daa8c8d069107726bf39c58f891b2a7c", "status": "PASS"},
+      "permendagri": {"records": 2783, "sha256": "fcc332ff3e5758791d55f1b08864fd25f0b939ce36ef1f288c8c9b937e33f17e", "status": "PASS"}
+    },
+    "production_manifest": {"status": "PASS", "records": 64874, "chunks": 188, "chunk_hash_failures": 0},
+    "wrangler_authentication": "PASS",
+    "target_d1_identity": "PASS",
+    "remote_initial_state": "PASS_EMPTY",
+    "git_release_baseline": "FAIL"
+  },
+  "production_mutations_executed": {
+    "migrations": false,
+    "dataset_upload": false,
+    "worker_deployment": false,
+    "route_activation": false
+  },
+  "live_verification": {
+    "production_url": null,
+    "health": "NOT_RUN",
+    "ready": "NOT_RUN",
+    "api_smoke": "NOT_RUN",
+    "security_headers": "NOT_RUN",
+    "rate_limit": "NOT_RUN",
+    "query_plan": "NOT_RUN",
+    "match_audits": "NOT_RUN"
+  },
+  "rollback": {
+    "worker_previous_version": null,
+    "worker_rollback_available": false,
+    "reason": "Worker belum pernah dideploy",
+    "d1_recovery_required": false,
+    "reason_d1": "Tidak ada migration atau data deployment yang dijalankan"
+  }
+}
