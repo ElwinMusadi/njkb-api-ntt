@@ -1,0 +1,67 @@
+{
+  "schema_version": 2,
+  "manifest": {
+    "dataset_id": "permendagri-11-2026-part-a-sample-v1",
+    "created_at": "2026-09-20T00:00:00Z",
+    "regulation": {
+      "id": "reg-b",
+      "jurisdiction": "ID",
+      "kind": "Permendagri",
+      "number": "11",
+      "regulation_year": 2026,
+      "title": "Permendagri No. 11 Tahun 2026",
+      "effective_from": "2026-04-01",
+      "effective_to": null
+    },
+    "source_document": {
+      "id": "doc-b",
+      "regulation_id": "reg-b",
+      "original_filename": "Permendagri No. 11 Tahun 2026.pdf",
+      "source_url": null,
+      "acquisition_method": "user_upload",
+      "sha256": "7275fd53416f1880b818dfc74b108d53eb3af3ab896fb3cffec2a333c45be638",
+      "page_count": 73
+    },
+    "edition": {
+      "id": "edition-2026",
+      "regulation_id": "reg-b",
+      "tax_year": 2026,
+      "jurisdiction": "ID",
+      "applicability_status": "approved",
+      "applicability_note": "Authoritative national 2026 reference under Permendagri 11/2026 Pasal 18; automatic resolution remains constrained to exact vehicle year and identity.",
+      "vehicle_year_min": 2026,
+      "vehicle_year_max": 2026
+    },
+    "extraction": {
+      "method": "manual_transcription",
+      "tool": "visual-review",
+      "tool_version": "1"
+    },
+    "defaults": {
+      "section": "A.13",
+      "vehicle_category": "SEPEDA MOTOR RODA DUA"
+    }
+  },
+  "records": [
+    {
+      "source": {
+        "pdf_page": 55,
+        "source_row": "311"
+      },
+      "raw": {
+        "NO": "311",
+        "KODING": "701167 67749",
+        "MERK": "HONDA",
+        "TYPE": "C1M02N42L1 A/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "12.900.000",
+        "BOBOT": "1,0",
+        "DP_PKB": "12.900.000"
+      },
+      "review": {
+        "status": "verified",
+        "note": "Visually verified at PDF page 55, source row 311."
+      }
+    }
+  ]
+}

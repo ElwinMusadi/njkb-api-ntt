@@ -1,0 +1,695 @@
+{
+  "schema_version": 1,
+  "source_document_id": "doc-b",
+  "description": "Source-backed residual row corrections verified against rendered pages from the pinned Permendagri 11/2026 PDF. These corrections supplement systematic OCR parsing only where the primary line OCR is absent or the row is intentionally admitted after visual verification.",
+  "corrections": [
+    {
+      "section": "A.1",
+      "pdf_page": 16,
+      "source_row": "120",
+      "raw": {
+        "NO": "120",
+        "KODING": "101401 27226",
+        "MERK": "VOLVO",
+        "TYPE": "ES90 EL-ENGINE 4X2 A/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "1.227.000.000",
+        "BOBOT": "1,025",
+        "DP_PKB": "1.257.675.000"
+      },
+      "evidence": "Rendered PDF page 16, final table row"
+    },
+    {
+      "section": "A.2",
+      "pdf_page": 18,
+      "source_row": "90",
+      "raw": {
+        "NO": "90",
+        "KODING": "102848 01725",
+        "MERK": "JETOUR",
+        "TYPE": "T1 (4X4) DCT A/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "185.000.000",
+        "BOBOT": "1,050",
+        "DP_PKB": "194.250.000"
+      },
+      "evidence": "Rendered PDF page 18, row 90"
+    },
+    {
+      "section": "A.3",
+      "pdf_page": 26,
+      "source_row": "339",
+      "raw": {
+        "NO": "339",
+        "KODING": "103253 30149",
+        "MERK": "MAZDA",
+        "TYPE": "CX-60 A/T AWD",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "474.000.000",
+        "BOBOT": "1,050",
+        "DP_PKB": "497.700.000"
+      },
+      "evidence": "Rendered PDF page 26, row 339; OCR read year as 202G"
+    },
+    {
+      "section": "A.12",
+      "pdf_page": 44,
+      "source_row": "78",
+      "raw": {
+        "NO": "78",
+        "KODING": "401160 64649",
+        "MERK": "HINO",
+        "TYPE": "FS1EPRD-XS (6X4) M/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "806.000.000",
+        "BOBOT": "1,4",
+        "DP_PKB": "1.128.400.000"
+      },
+      "evidence": "Rendered PDF page 44, row 78; OCR read /S1EPRD and 80G"
+    },
+    {
+      "section": "A.12",
+      "pdf_page": 48,
+      "source_row": "333",
+      "raw": {
+        "NO": "333",
+        "KODING": "401640 11649",
+        "MERK": "UD TRUCKS",
+        "TYPE": "CDE 250 6X2R WB6100MM BL M/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "601.000.000",
+        "BOBOT": "1,4",
+        "DP_PKB": "841.400.000"
+      },
+      "evidence": "Rendered PDF page 48, row 333; OCR read 4016+40 and G01"
+    },
+    {
+      "section": "A.12",
+      "pdf_page": 48,
+      "source_row": "352",
+      "raw": {
+        "NO": "352",
+        "KODING": "401640 16149",
+        "MERK": "UD TRUCKS",
+        "TYPE": "CKE 250 4X2R WB5200MM E5",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "591.000.000",
+        "BOBOT": "1,4",
+        "DP_PKB": "827.400.000"
+      },
+      "evidence": "Rendered PDF page 48, row 352; OCR read B27 for 827"
+    },
+    {
+      "section": "A.13",
+      "pdf_page": 59,
+      "source_row": "542",
+      "raw": {
+        "NO": "542",
+        "KODING": "701222 06526",
+        "MERK": "KTM",
+        "TYPE": "690 SMC R M/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "270.500.000",
+        "BOBOT": "1,0",
+        "DP_PKB": "270.500.000"
+      },
+      "evidence": "Rendered PDF page 59, row 542; OCR read LO for weight 1,0"
+    },
+    {
+      "section": "A.13",
+      "pdf_page": 69,
+      "source_row": "1137",
+      "raw": {
+        "NO": "1137",
+        "KODING": "701874 00499",
+        "MERK": "ZONTES",
+        "TYPE": "ZT703R R M/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "87.000.000",
+        "BOBOT": "1,0",
+        "DP_PKB": "87.000.000"
+      },
+      "evidence": "Rendered PDF page 69, row 1137; OCR read LO for weight 1,0"
+    },
+    {
+      "section": "A.2",
+      "pdf_page": 17,
+      "source_row": "3",
+      "raw": {
+        "NO": "3",
+        "KODING": "102027 07432",
+        "MERK": "AUDI",
+        "TYPE": "Q7 3.0 TFSI AT",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "2.155.905.000",
+        "BOBOT": "1,050",
+        "DP_PKB": "2.263.700.250"
+      },
+      "evidence": "Rendered official PDF page 17, section A.2, source row 3; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.2",
+      "pdf_page": 17,
+      "source_row": "69",
+      "raw": {
+        "NO": "69",
+        "KODING": "102185 45149",
+        "MERK": "ISUZU",
+        "TYPE": "UCR6Y MU-X S (4X2) A/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "439.875.000",
+        "BOBOT": "1,050",
+        "DP_PKB": "461.868.750"
+      },
+      "evidence": "Rendered official PDF page 17, section A.2, source row 69; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.2",
+      "pdf_page": 20,
+      "source_row": "229",
+      "raw": {
+        "NO": "229",
+        "KODING": "102364 46949",
+        "MERK": "SUZUKI",
+        "TYPE": "6N5VX (4X4) A/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "373.635.000",
+        "BOBOT": "1,050",
+        "DP_PKB": "392.316.750"
+      },
+      "evidence": "Rendered official PDF page 20, section A.2, source row 229; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.2",
+      "pdf_page": 20,
+      "source_row": "230",
+      "raw": {
+        "NO": "230",
+        "KODING": "102364 46849",
+        "MERK": "SUZUKI",
+        "TYPE": "6N5VX (4X4) M/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "362.250.000",
+        "BOBOT": "1,050",
+        "DP_PKB": "380.362.500"
+      },
+      "evidence": "Rendered official PDF page 20, section A.2, source row 230; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.2",
+      "pdf_page": 20,
+      "source_row": "236",
+      "raw": {
+        "NO": "236",
+        "KODING": "102255 125449",
+        "MERK": "TOYOTA",
+        "TYPE": "FORTUNER 2.8 G 4X2 A/T (GUN266R-SDTMXD)",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "321.471.132",
+        "BOBOT": "1,050",
+        "DP_PKB": "337.544.689"
+      },
+      "evidence": "Rendered official PDF page 20, section A.2, source row 236; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.2",
+      "pdf_page": 20,
+      "source_row": "238",
+      "raw": {
+        "NO": "238",
+        "KODING": "102255 125649",
+        "MERK": "TOYOTA",
+        "TYPE": "FORTUNER 2.8 VRZ 4X2 A/T (GUN266R-SDTHXD)",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "346.679.614",
+        "BOBOT": "1,050",
+        "DP_PKB": "364.013.595"
+      },
+      "evidence": "Rendered official PDF page 20, section A.2, source row 238; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.2",
+      "pdf_page": 20,
+      "source_row": "240",
+      "raw": {
+        "NO": "240",
+        "KODING": "102255 125849",
+        "MERK": "TOYOTA",
+        "TYPE": "FORTUNER 2.8 VRZ 4X4 A/T (GUN256R-SDTHXD)",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "399.528.258",
+        "BOBOT": "1,050",
+        "DP_PKB": "419.504.671"
+      },
+      "evidence": "Rendered official PDF page 20, section A.2, source row 240; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.2",
+      "pdf_page": 20,
+      "source_row": "242",
+      "raw": {
+        "NO": "242",
+        "KODING": "102255 125749",
+        "MERK": "TOYOTA",
+        "TYPE": "FORTUNER 2.8 VRZ TSS 4X2 A/T (GUN266R-SDTHXD)",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "354.577.114",
+        "BOBOT": "1,050",
+        "DP_PKB": "372.305.970"
+      },
+      "evidence": "Rendered official PDF page 20, section A.2, source row 242; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.2",
+      "pdf_page": 20,
+      "source_row": "243",
+      "raw": {
+        "NO": "243",
+        "KODING": "102255 125949",
+        "MERK": "TOYOTA",
+        "TYPE": "FORTUNER 2.8 VRZ TSS 4X4 A/T (GUN256R-SDTHXD)",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "399.528.258",
+        "BOBOT": "1,050",
+        "DP_PKB": "419.504.671"
+      },
+      "evidence": "Rendered official PDF page 20, section A.2, source row 243; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.3",
+      "pdf_page": 26,
+      "source_row": "345",
+      "raw": {
+        "NO": "345",
+        "KODING": "103255 103532",
+        "MERK": "MERCEDES BENZ",
+        "TYPE": "EQA 250 (H243) 4X2 A/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "1.034.000.000",
+        "BOBOT": "1,050",
+        "DP_PKB": "1.085.700.000"
+      },
+      "evidence": "Rendered official PDF page 26, section A.3, source row 345; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.13",
+      "pdf_page": 61,
+      "source_row": "654",
+      "raw": {
+        "NO": "654",
+        "KODING": "701310 00125",
+        "MERK": "QINGQI",
+        "TYPE": "GSX 250",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "9.000.000",
+        "BOBOT": "1,0",
+        "DP_PKB": "9.000.000"
+      },
+      "evidence": "Rendered official PDF page 61, section A.13, source row 654; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.11",
+      "pdf_page": 41,
+      "source_row": "4",
+      "raw": {
+        "NO": "4",
+        "KODING": "351631 03525",
+        "MERK": "FOTON",
+        "TYPE": "EAUMARK BJ1045EVJA82BC",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "478.000.000",
+        "BOBOT": "1,3",
+        "DP_PKB": "621.400.000"
+      },
+      "evidence": "Rendered official PDF page 41, section A.11, source row 4; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.6",
+      "pdf_page": 33,
+      "source_row": "6",
+      "raw": {
+        "NO": "6",
+        "KODING": "201160 73449",
+        "MERK": "HINO",
+        "TYPE": "XZU349R-HRMLAD8X",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "201.000.000",
+        "BOBOT": "1,085",
+        "DP_PKB": "218.085.000"
+      },
+      "evidence": "Rendered official PDF page 33, section A.6, source row 6; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.7",
+      "pdf_page": 34,
+      "source_row": "41",
+      "raw": {
+        "NO": "41",
+        "KODING": "202332 13026",
+        "MERK": "SCANIA",
+        "TYPE": "K420CB-6X2",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "1.204.738.100",
+        "BOBOT": "1,1",
+        "DP_PKB": "1.325.211.910"
+      },
+      "evidence": "Rendered official PDF page 34, section A.7, source row 41; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.11",
+      "pdf_page": 41,
+      "source_row": "56",
+      "raw": {
+        "NO": "56",
+        "KODING": "351185 53449",
+        "MERK": "ISUZU",
+        "TYPE": "NMR81U-HAYIN46.5 (4X2) M/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "185.000.000",
+        "BOBOT": "1,3",
+        "DP_PKB": "240.500.000"
+      },
+      "evidence": "Rendered official PDF page 41, section A.11, source row 56; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.2",
+      "pdf_page": 17,
+      "source_row": "68",
+      "raw": {
+        "NO": "68",
+        "KODING": "102185 47949",
+        "MERK": "ISUZU",
+        "TYPE": "UCR6Y MU-X R4 (4X2) A/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "391.230.000",
+        "BOBOT": "1,050",
+        "DP_PKB": "410.791.500"
+      },
+      "evidence": "Rendered official PDF page 17, section A.2, source row 68; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.2",
+      "pdf_page": 18,
+      "source_row": "82",
+      "raw": {
+        "NO": "82",
+        "KODING": "102185 57149",
+        "MERK": "ISUZU",
+        "TYPE": "UCS87R-CGUID1T-1 (4X4) A/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "419.175.000",
+        "BOBOT": "1,050",
+        "DP_PKB": "440.133.750"
+      },
+      "evidence": "Rendered official PDF page 18, section A.2, source row 82; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.3",
+      "pdf_page": 22,
+      "source_row": "84",
+      "raw": {
+        "NO": "84",
+        "KODING": "103550 05825",
+        "MERK": "CHERY",
+        "TYPE": "OMODA 5 HEV PREMIUM (4X2) A/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "188.000.000",
+        "BOBOT": "1,050",
+        "DP_PKB": "197.400.000"
+      },
+      "evidence": "Rendered official PDF page 22, section A.3, source row 84; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.8",
+      "pdf_page": 37,
+      "source_row": "86",
+      "raw": {
+        "NO": "86",
+        "KODING": "301284 78549",
+        "MERK": "NISSAN",
+        "TYPE": "NAVARA VE 2.5 (4X4) M/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "428.000.000",
+        "BOBOT": "1,085",
+        "DP_PKB": "464.380.000"
+      },
+      "evidence": "Rendered official PDF page 37, section A.8, source row 86; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.8",
+      "pdf_page": 37,
+      "source_row": "98",
+      "raw": {
+        "NO": "98",
+        "KODING": "301364 44349",
+        "MERK": "SUZUKI",
+        "TYPE": "AEV415P CL TIPE 2 (4X2) M/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "105.000.000",
+        "BOBOT": "1,085",
+        "DP_PKB": "113.925.000"
+      },
+      "evidence": "Rendered official PDF page 37, section A.8, source row 98; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.11",
+      "pdf_page": 42,
+      "source_row": "109",
+      "raw": {
+        "NO": "109",
+        "KODING": "351640 12349",
+        "MERK": "UD TRUCKS",
+        "TYPE": "RKE 150 4X2R WB3350MM XHD ACT",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "212.000.000",
+        "BOBOT": "1,3",
+        "DP_PKB": "275.600.000"
+      },
+      "evidence": "Rendered official PDF page 42, section A.11, source row 109; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.12",
+      "pdf_page": 45,
+      "source_row": "147",
+      "raw": {
+        "NO": "147",
+        "KODING": "401247 04849",
+        "MERK": "MAN",
+        "TYPE": "TGS 40.480 6X4 BB",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "700.000.000",
+        "BOBOT": "1,4",
+        "DP_PKB": "980.000.000"
+      },
+      "evidence": "Rendered official PDF page 45, section A.12, source row 147; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.3",
+      "pdf_page": 23,
+      "source_row": "156",
+      "raw": {
+        "NO": "156",
+        "KODING": "103847 00125",
+        "MERK": "DENZA",
+        "TYPE": "MRE-AWD (4X4) A/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "931.000.000",
+        "BOBOT": "1,050",
+        "DP_PKB": "977.550.000"
+      },
+      "evidence": "Rendered official PDF page 23, section A.3, source row 156; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.2",
+      "pdf_page": 19,
+      "source_row": "180",
+      "raw": {
+        "NO": "180",
+        "KODING": "102255 103132",
+        "MERK": "MERCEDES BENZ",
+        "TYPE": "G 580 WITH EQ TECHNOLOGY (N465) (4X4) A/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "4.262.000.000",
+        "BOBOT": "1,050",
+        "DP_PKB": "4.475.100.000"
+      },
+      "evidence": "Rendered official PDF page 19, section A.2, source row 180; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.13",
+      "pdf_page": 55,
+      "source_row": "262",
+      "raw": {
+        "NO": "262",
+        "KODING": "701821 00199",
+        "MERK": "GOVA",
+        "TYPE": "GOVA A/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "35.100.000",
+        "BOBOT": "1,0",
+        "DP_PKB": "35.100.000"
+      },
+      "evidence": "Rendered official PDF page 55, section A.13, source row 262; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.12",
+      "pdf_page": 48,
+      "source_row": "319",
+      "raw": {
+        "NO": "319",
+        "KODING": "401804 01025",
+        "MERK": "SKYWELL",
+        "TYPE": "NJL1041H281BEV",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "750.000.000",
+        "BOBOT": "1,4",
+        "DP_PKB": "1.050.000.000"
+      },
+      "evidence": "Rendered official PDF page 48, section A.12, source row 319; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.13",
+      "pdf_page": 59,
+      "source_row": "511",
+      "raw": {
+        "NO": "511",
+        "KODING": "701729 05099",
+        "MERK": "KEEWAY",
+        "TYPE": "KP150GP M/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "21.000.000",
+        "BOBOT": "1,0",
+        "DP_PKB": "21.000.000"
+      },
+      "evidence": "Rendered official PDF page 59, section A.13, source row 511; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.3",
+      "pdf_page": 28,
+      "source_row": "517",
+      "raw": {
+        "NO": "517",
+        "KODING": "103255 112649",
+        "MERK": "TOYOTA",
+        "TYPE": "MAGA10R-BRXMBD 2.0 V CVT",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "375.000.000",
+        "BOBOT": "1,050",
+        "DP_PKB": "393.750.000"
+      },
+      "evidence": "Rendered official PDF page 28, section A.3, source row 517; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.3",
+      "pdf_page": 28,
+      "source_row": "530",
+      "raw": {
+        "NO": "530",
+        "KODING": "103255 114349",
+        "MERK": "TOYOTA",
+        "TYPE": "TRANSMOVER 1.3 M/T (W100RE-LMDFJ)",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "169.000.000",
+        "BOBOT": "1,050",
+        "DP_PKB": "177.450.000"
+      },
+      "evidence": "Rendered official PDF page 28, section A.3, source row 530; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.3",
+      "pdf_page": 29,
+      "source_row": "601",
+      "raw": {
+        "NO": "601",
+        "KODING": "103410 02225",
+        "MERK": "WULING",
+        "TYPE": "CORTEZ 1.5CT (4X2) 6 M/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "209.000.000",
+        "BOBOT": "1,050",
+        "DP_PKB": "219.450.000"
+      },
+      "evidence": "Rendered official PDF page 29, section A.3, source row 601; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.13",
+      "pdf_page": 61,
+      "source_row": "646",
+      "raw": {
+        "NO": "646",
+        "KODING": "701299 10514",
+        "MERK": "PEUGEOT",
+        "TYPE": "DJANGO CAFE RACER 150 CC A/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "39.700.000",
+        "BOBOT": "1,0",
+        "DP_PKB": "39.700.000"
+      },
+      "evidence": "Rendered official PDF page 61, section A.13, source row 646; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.13",
+      "pdf_page": 63,
+      "source_row": "792",
+      "raw": {
+        "NO": "792",
+        "KODING": "701578 03399",
+        "MERK": "SYM",
+        "TYPE": "GTS A/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "48.600.000",
+        "BOBOT": "1,0",
+        "DP_PKB": "48.600.000"
+      },
+      "evidence": "Rendered official PDF page 63, section A.13, source row 792; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.13",
+      "pdf_page": 64,
+      "source_row": "827",
+      "raw": {
+        "NO": "827",
+        "KODING": "701383 06115",
+        "MERK": "TRIUMPH",
+        "TYPE": "SCRAMBLER 900",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "395.200.000",
+        "BOBOT": "1,0",
+        "DP_PKB": "395.200.000"
+      },
+      "evidence": "Rendered official PDF page 64, section A.13, source row 827; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.13",
+      "pdf_page": 64,
+      "source_row": "829",
+      "raw": {
+        "NO": "829",
+        "KODING": "701383 07415",
+        "MERK": "TRIUMPH",
+        "TYPE": "SPEED TWIN 1200 RS",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "457.000.000",
+        "BOBOT": "1,0",
+        "DP_PKB": "457.000.000"
+      },
+      "evidence": "Rendered official PDF page 64, section A.13, source row 829; Phase 7C direct visual verification"
+    },
+    {
+      "section": "A.13",
+      "pdf_page": 55,
+      "source_row": "311",
+      "raw": {
+        "NO": "311",
+        "KODING": "701167 67749",
+        "MERK": "HONDA",
+        "TYPE": "C1M02N42L1 A/T",
+        "TAHUN_BUAT": "2026",
+        "NJKB": "12.900.000",
+        "BOBOT": "1,0",
+        "DP_PKB": "12.900.000"
+      },
+      "evidence": "Rendered official PDF page 55, section A.13, source row 311; established Phase 5-7 verified physical evidence"
+    }
+  ]
+}

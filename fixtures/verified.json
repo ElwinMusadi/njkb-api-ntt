@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "regulations": [
+    {
+      "id": "reg-a",
+      "jurisdiction": "NTT",
+      "kind": "Pergub",
+      "number": "26",
+      "regulation_year": 2025,
+      "title": "Pergub NTT No. 26 Tahun 2025",
+      "effective_from": "2025-06-13",
+      "effective_to": null
+    },
+    {
+      "id": "reg-b",
+      "jurisdiction": "ID",
+      "kind": "Permendagri",
+      "number": "11",
+      "regulation_year": 2026,
+      "title": "Permendagri No. 11 Tahun 2026",
+      "effective_from": "2026-04-01",
+      "effective_to": null
+    }
+  ],
+  "source_documents": [
+    {
+      "id": "doc-a",
+      "regulation_id": "reg-a",
+      "original_filename": "Pergub. NTT No. 26 Tahun 2025.pdf",
+      "source_url": "https://peraturan.bpk.go.id/Download/401313/Pergub.%20NTT%20No.%2026%20Tahun%202025.pdf",
+      "acquisition_method": "official_download",
+      "sha256": "94798b35378003ac2fb85c9b239327fd7e0fab91bbab2b1e89ef91cd0a100c18",
+      "page_count": 690
+    },
+    {
+      "id": "doc-b",
+      "regulation_id": "reg-b",
+      "original_filename": "Permendagri No. 11 Tahun 2026.pdf",
+      "source_url": "https://jdih.kemendagri.go.id/dokumen/view?id=2060",
+      "acquisition_method": "user_upload",
+      "sha256": "7275fd53416f1880b818dfc74b108d53eb3af3ab896fb3cffec2a333c45be638",
+      "page_count": 73
+    }
+  ],
+  "reference_editions": [
+    {
+      "id": "edition-2025",
+      "regulation_id": "reg-a",
+      "tax_year": 2025,
+      "jurisdiction": "NTT",
+      "applicability_status": "approved",
+      "applicability_note": "Approved provincial reference under Pergub NTT No. 26 Tahun 2025 for vehicle years up to 2025 (Pasal 7, Appendix A). Phase 6 regulatory decision: vehicle_year <= 2025 resolves from this edition. No cross-year fallback; no automatic code alias.",
+      "vehicle_year_min": 1900,
+      "vehicle_year_max": 2025
+    },
+    {
+      "id": "edition-2026",
+      "regulation_id": "reg-b",
+      "tax_year": 2026,
+      "jurisdiction": "ID",
+      "applicability_status": "approved",
+      "applicability_note": "Authoritative national 2026 reference under Permendagri 11/2026 Pasal 18; automatic resolution remains constrained to exact vehicle year and identity.",
+      "vehicle_year_min": 2026,
+      "vehicle_year_max": 2026
+    }
+  ],
+  "njkb_references": [
+    {
+      "id": "fixture-a2022",
+      "edition_id": "edition-2025",
+      "regulation_id": "reg-a",
+      "source_document_id": "doc-a",
+      "tax_year": 2025,
+      "vehicle_year": 2022,
+      "section": "A.13",
+      "source_code": "701167 08549",
+      "brand": "HONDA",
+      "type": "C1M02N42L1 A/T",
+      "vehicle_category": "SEPEDA MOTOR RODA DUA",
+      "njkb_rupiah": 11700000,
+      "weight_micros": 1000000,
+      "dpp_pkb_rupiah": 11700000,
+      "source_pdf_page": 503,
+      "source_row": "5308",
+      "raw_values": {
+        "KODING": "701167 08549",
+        "MERK": "HONDA",
+        "TYPE": "C1M02N42L1 A/T",
+        "TAHUN": 2022,
+        "NJKB": "11.700.000",
+        "BOBOT": "1",
+        "DP_PKB": "11.700.000"
+      },
+      "review_status": "verified",
+      "review_note": "Visually verified on PDF page 503 row 5308; Pergub NTT 26/2025 Appendix A. Phase 6 regulatory decision: vehicle_year <= 2025 uses this edition."
+    },
+    {
+      "id": "fixture-a2023",
+      "edition_id": "edition-2025",
+      "regulation_id": "reg-a",
+      "source_document_id": "doc-a",
+      "tax_year": 2025,
+      "vehicle_year": 2023,
+      "section": "A.13",
+      "source_code": "701167 08549",
+      "brand": "HONDA",
+      "type": "C1M02N42L1 A/T",
+      "vehicle_category": "SEPEDA MOTOR RODA DUA",
+      "njkb_rupiah": 11900000,
+      "weight_micros": 1000000,
+      "dpp_pkb_rupiah": 11900000,
+      "source_pdf_page": 503,
+      "source_row": "5309",
+      "raw_values": {
+        "KODING": "701167 08549",
+        "MERK": "HONDA",
+        "TYPE": "C1M02N42L1 A/T",
+        "TAHUN": 2023,
+        "NJKB": "11.900.000",
+        "BOBOT": "1",
+        "DP_PKB": "11.900.000"
+      },
+      "review_status": "verified",
+      "review_note": "Visually verified on PDF page 503 row 5309; Pergub NTT 26/2025 Appendix A. Phase 6 regulatory decision: vehicle_year <= 2025 uses this edition."
+    },
+    {
+      "id": "fixture-a",
+      "edition_id": "edition-2025",
+      "regulation_id": "reg-a",
+      "source_document_id": "doc-a",
+      "tax_year": 2025,
+      "vehicle_year": 2024,
+      "section": "A.13",
+      "source_code": "701167 08549",
+      "brand": "HONDA",
+      "type": "C1M02N42L1 A/T",
+      "vehicle_category": "SEPEDA MOTOR RODA DUA",
+      "njkb_rupiah": 12500000,
+      "weight_micros": 1000000,
+      "dpp_pkb_rupiah": 12500000,
+      "source_pdf_page": 503,
+      "source_row": "5310",
+      "raw_values": {
+        "KODING": "701167 08549",
+        "MERK": "HONDA",
+        "TYPE": "C1M02N42L1 A/T",
+        "TAHUN": 2024,
+        "NJKB": "12.500.000",
+        "BOBOT": "1",
+        "DP_PKB": "12.500.000"
+      },
+      "review_status": "verified",
+      "review_note": "Visually verified on PDF page 503 row 5310; Pergub NTT 26/2025 Appendix A. Phase 6 regulatory decision: vehicle_year <= 2025 uses this edition."
+    },
+    {
+      "id": "fixture-a2025",
+      "edition_id": "edition-2025",
+      "regulation_id": "reg-a",
+      "source_document_id": "doc-a",
+      "tax_year": 2025,
+      "vehicle_year": 2025,
+      "section": "A.13",
+      "source_code": "701167 08549",
+      "brand": "HONDA",
+      "type": "C1M02N42L1 A/T",
+      "vehicle_category": "SEPEDA MOTOR RODA DUA",
+      "njkb_rupiah": 12600000,
+      "weight_micros": 1000000,
+      "dpp_pkb_rupiah": 12600000,
+      "source_pdf_page": 503,
+      "source_row": "5311",
+      "raw_values": {
+        "KODING": "701167 08549",
+        "MERK": "HONDA",
+        "TYPE": "C1M02N42L1 A/T",
+        "TAHUN": 2025,
+        "NJKB": "12.600.000",
+        "BOBOT": "1",
+        "DP_PKB": "12.600.000"
+      },
+      "review_status": "verified",
+      "review_note": "Visually verified on PDF page 503 row 5311; Pergub NTT 26/2025 Appendix A. Phase 6 regulatory boundary: vehicle_year = 2025 is the maximum year in this edition."
+    },
+    {
+      "id": "fixture-b",
+      "edition_id": "edition-2026",
+      "regulation_id": "reg-b",
+      "source_document_id": "doc-b",
+      "tax_year": 2026,
+      "vehicle_year": 2026,
+      "section": "A.13",
+      "source_code": "701167 67749",
+      "brand": "HONDA",
+      "type": "C1M02N42L1 A/T",
+      "vehicle_category": "SEPEDA MOTOR RODA DUA",
+      "njkb_rupiah": 12900000,
+      "weight_micros": 1000000,
+      "dpp_pkb_rupiah": 12900000,
+      "source_pdf_page": 55,
+      "source_row": "311",
+      "raw_values": {
+        "KODING": "701167 67749",
+        "MERK": "HONDA",
+        "TYPE": "C1M02N42L1 A/T",
+        "TAHUN": 2026,
+        "NJKB": "12.900.000",
+        "BOBOT": "1,0",
+        "DP_PKB": "12.900.000"
+      },
+      "review_status": "verified",
+      "review_note": "Visually verified on PDF page 55 row 311; Permendagri No. 11 Tahun 2026 Appendix A. No cross-edition code alias."
+    }
+  ]
+}

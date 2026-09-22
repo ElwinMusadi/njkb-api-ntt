@@ -1,0 +1,45 @@
+{
+  "schema_version": 2,
+  "manifest": {
+    "dataset_id": "pergub-ntt-26-2025-part-a-sample-v1",
+    "created_at": "2026-09-20T00:00:00Z",
+    "regulation": {
+      "id": "reg-a",
+      "jurisdiction": "NTT",
+      "kind": "Pergub",
+      "number": "26",
+      "regulation_year": 2025,
+      "title": "Pergub NTT No. 26 Tahun 2025",
+      "effective_from": "2025-06-13",
+      "effective_to": null
+    },
+    "source_document": {
+      "id": "doc-a",
+      "regulation_id": "reg-a",
+      "original_filename": "Pergub. NTT No. 26 Tahun 2025.pdf",
+      "source_url": "https://peraturan.bpk.go.id/Download/401313/Pergub.%20NTT%20No.%2026%20Tahun%202025.pdf",
+      "acquisition_method": "official_download",
+      "sha256": "94798b35378003ac2fb85c9b239327fd7e0fab91bbab2b1e89ef91cd0a100c18",
+      "page_count": 690
+    },
+    "edition": {
+      "id": "edition-2025",
+      "regulation_id": "reg-a",
+      "tax_year": 2025,
+      "jurisdiction": "NTT",
+      "applicability_status": "approved",
+      "applicability_note": "Approved provincial reference under Pergub NTT No. 26 Tahun 2025 for vehicle years up to 2025 (Pasal 7, Appendix A). Phase 6 regulatory decision: vehicle_year <= 2025 resolves from this edition. No cross-year fallback; no automatic code alias.",
+      "vehicle_year_min": 1900,
+      "vehicle_year_max": 2025
+    },
+    "extraction": {
+      "method": "manual_transcription",
+      "tool": "visual-review",
+      "tool_version": "1"
+    },
+    "defaults": {
+      "section": "A.13",
+      "vehicle_category": "SEPEDA MOTOR RODA DUA"
+    }
+  }
+}

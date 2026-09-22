@@ -1,0 +1,1504 @@
+{
+  "status": "imported",
+  "manifest_id": "ingest:6f8cbca634c53d42027f020d617f3fd9d565b384e781549cc86400dd4e809739",
+  "dataset_id": "pergub-ntt-26-2025-part-a-full-v1",
+  "dataset_sha256": "770da203636658720e8fa060f650295804d21e29f71d3c421369791777dc4218",
+  "document_sha256": "94798b35378003ac2fb85c9b239327fd7e0fab91bbab2b1e89ef91cd0a100c18",
+  "source_format": "json",
+  "summary": {
+    "total_records": 62091,
+    "valid_records": 62091,
+    "rejected_records": 0,
+    "errors": 0,
+    "warnings": 78,
+    "duplicates": 78,
+    "inserted_records": 62091,
+    "unchanged_records": 0,
+    "persisted_issues": 78
+  },
+  "issues": [
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 1309,
+      "field": "raw.KODING",
+      "source_pdf_page": 25,
+      "source_row": "1410",
+      "details": {
+        "record_indexes": [
+          1309,
+          9430
+        ],
+        "source_codes": [
+          "101079 02512",
+          "102079 02512"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 9430,
+      "field": "raw.KODING",
+      "source_pdf_page": 106,
+      "source_row": "324",
+      "details": {
+        "record_indexes": [
+          1309,
+          9430
+        ],
+        "source_codes": [
+          "101079 02512",
+          "102079 02512"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 1310,
+      "field": "raw.KODING",
+      "source_pdf_page": 25,
+      "source_row": "1411",
+      "details": {
+        "record_indexes": [
+          1310,
+          9431
+        ],
+        "source_codes": [
+          "101079 02512",
+          "102079 02512"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 9431,
+      "field": "raw.KODING",
+      "source_pdf_page": 106,
+      "source_row": "325",
+      "details": {
+        "record_indexes": [
+          1310,
+          9431
+        ],
+        "source_codes": [
+          "101079 02512",
+          "102079 02512"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 1680,
+      "field": "raw.KODING",
+      "source_pdf_page": 28,
+      "source_row": "1781",
+      "details": {
+        "record_indexes": [
+          1680,
+          16329
+        ],
+        "source_codes": [
+          "101091 12849",
+          "103091 12849"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 16329,
+      "field": "raw.KODING",
+      "source_pdf_page": 171,
+      "source_row": "1499",
+      "details": {
+        "record_indexes": [
+          1680,
+          16329
+        ],
+        "source_codes": [
+          "101091 12849",
+          "103091 12849"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 2002,
+      "field": "raw.KODING",
+      "source_pdf_page": 32,
+      "source_row": "2103",
+      "details": {
+        "record_indexes": [
+          2002,
+          10296
+        ],
+        "source_codes": [
+          "101118 02212",
+          "102118 02212"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 10296,
+      "field": "raw.KODING",
+      "source_pdf_page": 114,
+      "source_row": "1190",
+      "details": {
+        "record_indexes": [
+          2002,
+          10296
+        ],
+        "source_codes": [
+          "101118 02212",
+          "102118 02212"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 2003,
+      "field": "raw.KODING",
+      "source_pdf_page": 32,
+      "source_row": "2104",
+      "details": {
+        "record_indexes": [
+          2003,
+          10297
+        ],
+        "source_codes": [
+          "101118 02412",
+          "102118 02412"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 10297,
+      "field": "raw.KODING",
+      "source_pdf_page": 114,
+      "source_row": "1191",
+      "details": {
+        "record_indexes": [
+          2003,
+          10297
+        ],
+        "source_codes": [
+          "101118 02412",
+          "102118 02412"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 3105,
+      "field": "raw.KODING",
+      "source_pdf_page": 43,
+      "source_row": "3206",
+      "details": {
+        "record_indexes": [
+          3105,
+          18044
+        ],
+        "source_codes": [
+          "101177 12575",
+          "103177 00275"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 18044,
+      "field": "raw.KODING",
+      "source_pdf_page": 187,
+      "source_row": "3216",
+      "details": {
+        "record_indexes": [
+          3105,
+          18044
+        ],
+        "source_codes": [
+          "101177 12575",
+          "103177 00275"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 3723,
+      "field": "raw.KODING",
+      "source_pdf_page": 49,
+      "source_row": "3824",
+      "details": {
+        "record_indexes": [
+          3723,
+          12422
+        ],
+        "source_codes": [
+          "101249 02230",
+          "102249 00130"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 12422,
+      "field": "raw.KODING",
+      "source_pdf_page": 134,
+      "source_row": "3316",
+      "details": {
+        "record_indexes": [
+          3723,
+          12422
+        ],
+        "source_codes": [
+          "101249 02230",
+          "102249 00130"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 6364,
+      "field": "raw.KODING",
+      "source_pdf_page": 75,
+      "source_row": "6465",
+      "details": {
+        "record_indexes": [
+          6364,
+          21323
+        ],
+        "source_codes": [
+          "101299 00914",
+          "103299 08714"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 21323,
+      "field": "raw.KODING",
+      "source_pdf_page": 217,
+      "source_row": "6505",
+      "details": {
+        "record_indexes": [
+          6364,
+          21323
+        ],
+        "source_codes": [
+          "101299 00914",
+          "103299 08714"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 6373,
+      "field": "raw.KODING",
+      "source_pdf_page": 75,
+      "source_row": "6474",
+      "details": {
+        "record_indexes": [
+          6373,
+          21324
+        ],
+        "source_codes": [
+          "101299 01114",
+          "103299 01114"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 21324,
+      "field": "raw.KODING",
+      "source_pdf_page": 217,
+      "source_row": "6506",
+      "details": {
+        "record_indexes": [
+          6373,
+          21324
+        ],
+        "source_codes": [
+          "101299 01114",
+          "103299 01114"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 6374,
+      "field": "raw.KODING",
+      "source_pdf_page": 75,
+      "source_row": "6475",
+      "details": {
+        "record_indexes": [
+          6374,
+          21325
+        ],
+        "source_codes": [
+          "101299 01114",
+          "103299 01114"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 21325,
+      "field": "raw.KODING",
+      "source_pdf_page": 217,
+      "source_row": "6507",
+      "details": {
+        "record_indexes": [
+          6374,
+          21325
+        ],
+        "source_codes": [
+          "101299 01114",
+          "103299 01114"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 6380,
+      "field": "raw.KODING",
+      "source_pdf_page": 75,
+      "source_row": "6481",
+      "details": {
+        "record_indexes": [
+          6380,
+          21326
+        ],
+        "source_codes": [
+          "101299 01214",
+          "103299 01214"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 21326,
+      "field": "raw.KODING",
+      "source_pdf_page": 217,
+      "source_row": "6508",
+      "details": {
+        "record_indexes": [
+          6380,
+          21326
+        ],
+        "source_codes": [
+          "101299 01214",
+          "103299 01214"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 6381,
+      "field": "raw.KODING",
+      "source_pdf_page": 75,
+      "source_row": "6482",
+      "details": {
+        "record_indexes": [
+          6381,
+          21327
+        ],
+        "source_codes": [
+          "101299 01214",
+          "103299 01214"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 21327,
+      "field": "raw.KODING",
+      "source_pdf_page": 217,
+      "source_row": "6509",
+      "details": {
+        "record_indexes": [
+          6381,
+          21327
+        ],
+        "source_codes": [
+          "101299 01214",
+          "103299 01214"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 6432,
+      "field": "raw.KODING",
+      "source_pdf_page": 76,
+      "source_row": "6533",
+      "details": {
+        "record_indexes": [
+          6432,
+          21340
+        ],
+        "source_codes": [
+          "101299 02214",
+          "103299 02214"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 21340,
+      "field": "raw.KODING",
+      "source_pdf_page": 217,
+      "source_row": "6522",
+      "details": {
+        "record_indexes": [
+          6432,
+          21340
+        ],
+        "source_codes": [
+          "101299 02214",
+          "103299 02214"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 6433,
+      "field": "raw.KODING",
+      "source_pdf_page": 76,
+      "source_row": "6534",
+      "details": {
+        "record_indexes": [
+          6433,
+          21341
+        ],
+        "source_codes": [
+          "101299 02214",
+          "103299 02214"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 21341,
+      "field": "raw.KODING",
+      "source_pdf_page": 217,
+      "source_row": "6523",
+      "details": {
+        "record_indexes": [
+          6433,
+          21341
+        ],
+        "source_codes": [
+          "101299 02214",
+          "103299 02214"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 6437,
+      "field": "raw.KODING",
+      "source_pdf_page": 76,
+      "source_row": "6538",
+      "details": {
+        "record_indexes": [
+          6437,
+          21343
+        ],
+        "source_codes": [
+          "101299 02314",
+          "103299 02314"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 21343,
+      "field": "raw.KODING",
+      "source_pdf_page": 217,
+      "source_row": "6525",
+      "details": {
+        "record_indexes": [
+          6437,
+          21343
+        ],
+        "source_codes": [
+          "101299 02314",
+          "103299 02314"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 8459,
+      "field": "raw.KODING",
+      "source_pdf_page": 96,
+      "source_row": "8560",
+      "details": {
+        "record_indexes": [
+          8459,
+          24184
+        ],
+        "source_codes": [
+          "101381 00549",
+          "103381 07549"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 24184,
+      "field": "raw.KODING",
+      "source_pdf_page": 244,
+      "source_row": "9368",
+      "details": {
+        "record_indexes": [
+          8459,
+          24184
+        ],
+        "source_codes": [
+          "101381 00549",
+          "103381 07549"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 9427,
+      "field": "raw.KODING",
+      "source_pdf_page": 106,
+      "source_row": "321",
+      "details": {
+        "record_indexes": [
+          9427,
+          15120
+        ],
+        "source_codes": [
+          "102079 12612",
+          "103079 12612"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 15120,
+      "field": "raw.KODING",
+      "source_pdf_page": 159,
+      "source_row": "288",
+      "details": {
+        "record_indexes": [
+          9427,
+          15120
+        ],
+        "source_codes": [
+          "102079 12612",
+          "103079 12612"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 9428,
+      "field": "raw.KODING",
+      "source_pdf_page": 106,
+      "source_row": "322",
+      "details": {
+        "record_indexes": [
+          9428,
+          15121
+        ],
+        "source_codes": [
+          "102079 12612",
+          "103079 12612"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 15121,
+      "field": "raw.KODING",
+      "source_pdf_page": 159,
+      "source_row": "289",
+      "details": {
+        "record_indexes": [
+          9428,
+          15121
+        ],
+        "source_codes": [
+          "102079 12612",
+          "103079 12612"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 9429,
+      "field": "raw.KODING",
+      "source_pdf_page": 106,
+      "source_row": "323",
+      "details": {
+        "record_indexes": [
+          9429,
+          15122
+        ],
+        "source_codes": [
+          "102079 12612",
+          "103079 12612"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 15122,
+      "field": "raw.KODING",
+      "source_pdf_page": 159,
+      "source_row": "290",
+      "details": {
+        "record_indexes": [
+          9429,
+          15122
+        ],
+        "source_codes": [
+          "102079 12612",
+          "103079 12612"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 9466,
+      "field": "raw.KODING",
+      "source_pdf_page": 107,
+      "source_row": "360",
+      "details": {
+        "record_indexes": [
+          9466,
+          15389
+        ],
+        "source_codes": [
+          "102079 14412",
+          "103079 14412"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 15389,
+      "field": "raw.KODING",
+      "source_pdf_page": 162,
+      "source_row": "557",
+      "details": {
+        "record_indexes": [
+          9466,
+          15389
+        ],
+        "source_codes": [
+          "102079 14412",
+          "103079 14412"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 12428,
+      "field": "raw.KODING",
+      "source_pdf_page": 134,
+      "source_row": "3322",
+      "details": {
+        "record_indexes": [
+          12428,
+          19435
+        ],
+        "source_codes": [
+          "102253 10249",
+          "103253 10249"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 19435,
+      "field": "raw.KODING",
+      "source_pdf_page": 200,
+      "source_row": "4613",
+      "details": {
+        "record_indexes": [
+          12428,
+          19435
+        ],
+        "source_codes": [
+          "102253 10249",
+          "103253 10249"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 12429,
+      "field": "raw.KODING",
+      "source_pdf_page": 134,
+      "source_row": "3323",
+      "details": {
+        "record_indexes": [
+          12429,
+          19436
+        ],
+        "source_codes": [
+          "102253 10249",
+          "103253 10249"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 19436,
+      "field": "raw.KODING",
+      "source_pdf_page": 200,
+      "source_row": "4614",
+      "details": {
+        "record_indexes": [
+          12429,
+          19436
+        ],
+        "source_codes": [
+          "102253 10249",
+          "103253 10249"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 12430,
+      "field": "raw.KODING",
+      "source_pdf_page": 134,
+      "source_row": "3324",
+      "details": {
+        "record_indexes": [
+          12430,
+          19437
+        ],
+        "source_codes": [
+          "102253 10249",
+          "103253 10249"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 19437,
+      "field": "raw.KODING",
+      "source_pdf_page": 200,
+      "source_row": "4615",
+      "details": {
+        "record_indexes": [
+          12430,
+          19437
+        ],
+        "source_codes": [
+          "102253 10249",
+          "103253 10249"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 12431,
+      "field": "raw.KODING",
+      "source_pdf_page": 134,
+      "source_row": "3325",
+      "details": {
+        "record_indexes": [
+          12431,
+          19438
+        ],
+        "source_codes": [
+          "102253 10249",
+          "103253 10249"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 19438,
+      "field": "raw.KODING",
+      "source_pdf_page": 200,
+      "source_row": "4616",
+      "details": {
+        "record_indexes": [
+          12431,
+          19438
+        ],
+        "source_codes": [
+          "102253 10249",
+          "103253 10249"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 12432,
+      "field": "raw.KODING",
+      "source_pdf_page": 134,
+      "source_row": "3326",
+      "details": {
+        "record_indexes": [
+          12432,
+          19439
+        ],
+        "source_codes": [
+          "102253 10249",
+          "103253 10249"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 19439,
+      "field": "raw.KODING",
+      "source_pdf_page": 200,
+      "source_row": "4617",
+      "details": {
+        "record_indexes": [
+          12432,
+          19439
+        ],
+        "source_codes": [
+          "102253 10249",
+          "103253 10249"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 13858,
+      "field": "raw.KODING",
+      "source_pdf_page": 147,
+      "source_row": "4752",
+      "details": {
+        "record_indexes": [
+          13858,
+          23066
+        ],
+        "source_codes": [
+          "102381 11149",
+          "103381 11149"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 23066,
+      "field": "raw.KODING",
+      "source_pdf_page": 234,
+      "source_row": "8250",
+      "details": {
+        "record_indexes": [
+          13858,
+          23066
+        ],
+        "source_codes": [
+          "102381 11149",
+          "103381 11149"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 13859,
+      "field": "raw.KODING",
+      "source_pdf_page": 147,
+      "source_row": "4753",
+      "details": {
+        "record_indexes": [
+          13859,
+          23067
+        ],
+        "source_codes": [
+          "102381 11149",
+          "103381 11149"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 23067,
+      "field": "raw.KODING",
+      "source_pdf_page": 234,
+      "source_row": "8251",
+      "details": {
+        "record_indexes": [
+          13859,
+          23067
+        ],
+        "source_codes": [
+          "102381 11149",
+          "103381 11149"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 14121,
+      "field": "raw.KODING",
+      "source_pdf_page": 149,
+      "source_row": "5015",
+      "details": {
+        "record_indexes": [
+          14121,
+          23133
+        ],
+        "source_codes": [
+          "102381 27249",
+          "103381 27249"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 23133,
+      "field": "raw.KODING",
+      "source_pdf_page": 234,
+      "source_row": "8317",
+      "details": {
+        "record_indexes": [
+          14121,
+          23133
+        ],
+        "source_codes": [
+          "102381 27249",
+          "103381 27249"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 14122,
+      "field": "raw.KODING",
+      "source_pdf_page": 149,
+      "source_row": "5016",
+      "details": {
+        "record_indexes": [
+          14122,
+          23134
+        ],
+        "source_codes": [
+          "102381 27249",
+          "103381 27249"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 23134,
+      "field": "raw.KODING",
+      "source_pdf_page": 234,
+      "source_row": "8318",
+      "details": {
+        "record_indexes": [
+          14122,
+          23134
+        ],
+        "source_codes": [
+          "102381 27249",
+          "103381 27249"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 19208,
+      "field": "raw.KODING",
+      "source_pdf_page": 197,
+      "source_row": "4386",
+      "details": {
+        "record_indexes": [
+          19208,
+          19209
+        ],
+        "source_codes": [
+          "103253 01149",
+          "103253 04749"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 19209,
+      "field": "raw.KODING",
+      "source_pdf_page": 198,
+      "source_row": "4387",
+      "details": {
+        "record_indexes": [
+          19208,
+          19209
+        ],
+        "source_codes": [
+          "103253 01149",
+          "103253 04749"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 25166,
+      "field": "raw.KODING",
+      "source_pdf_page": 256,
+      "source_row": "93",
+      "details": {
+        "record_indexes": [
+          25166,
+          25167
+        ],
+        "source_codes": [
+          "703682 00115",
+          "703682 01235"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 25167,
+      "field": "raw.KODING",
+      "source_pdf_page": 256,
+      "source_row": "94",
+      "details": {
+        "record_indexes": [
+          25166,
+          25167
+        ],
+        "source_codes": [
+          "703682 00115",
+          "703682 01235"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 32693,
+      "field": "raw.KODING",
+      "source_pdf_page": 343,
+      "source_row": "1234",
+      "details": {
+        "record_indexes": [
+          32693,
+          37247
+        ],
+        "source_codes": [
+          "351185 36349",
+          "401185 18700"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 37247,
+      "field": "raw.KODING",
+      "source_pdf_page": 391,
+      "source_row": "3121",
+      "details": {
+        "record_indexes": [
+          32693,
+          37247
+        ],
+        "source_codes": [
+          "351185 36349",
+          "401185 18700"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 33583,
+      "field": "raw.KODING",
+      "source_pdf_page": 352,
+      "source_row": "2125",
+      "details": {
+        "record_indexes": [
+          33583,
+          41830
+        ],
+        "source_codes": [
+          "351656 00513",
+          "401656 00213"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 41830,
+      "field": "raw.KODING",
+      "source_pdf_page": 440,
+      "source_row": "7704",
+      "details": {
+        "record_indexes": [
+          33583,
+          41830
+        ],
+        "source_codes": [
+          "351656 00513",
+          "401656 00213"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 34075,
+      "field": "raw.KODING",
+      "source_pdf_page": 357,
+      "source_row": "2617",
+      "details": {
+        "record_indexes": [
+          34075,
+          42790
+        ],
+        "source_codes": [
+          "351640 12449",
+          "401640 07749"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 42790,
+      "field": "raw.KODING",
+      "source_pdf_page": 451,
+      "source_row": "8664",
+      "details": {
+        "record_indexes": [
+          34075,
+          42790
+        ],
+        "source_codes": [
+          "351640 12449",
+          "401640 07749"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 34076,
+      "field": "raw.KODING",
+      "source_pdf_page": 357,
+      "source_row": "2618",
+      "details": {
+        "record_indexes": [
+          34076,
+          42791
+        ],
+        "source_codes": [
+          "351640 12449",
+          "401640 07749"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 42791,
+      "field": "raw.KODING",
+      "source_pdf_page": 451,
+      "source_row": "8665",
+      "details": {
+        "record_indexes": [
+          34076,
+          42791
+        ],
+        "source_codes": [
+          "351640 12449",
+          "401640 07749"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 34078,
+      "field": "raw.KODING",
+      "source_pdf_page": 357,
+      "source_row": "2620",
+      "details": {
+        "record_indexes": [
+          34078,
+          42792
+        ],
+        "source_codes": [
+          "351640 12449",
+          "401640 07749"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 42792,
+      "field": "raw.KODING",
+      "source_pdf_page": 451,
+      "source_row": "8666",
+      "details": {
+        "record_indexes": [
+          34078,
+          42792
+        ],
+        "source_codes": [
+          "351640 12449",
+          "401640 07749"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 44239,
+      "field": "raw.KODING",
+      "source_pdf_page": 465,
+      "source_row": "1022",
+      "details": {
+        "record_indexes": [
+          44239,
+          44240
+        ],
+        "source_codes": [
+          "701652 03730",
+          "701652 04530"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 44240,
+      "field": "raw.KODING",
+      "source_pdf_page": 465,
+      "source_row": "1023",
+      "details": {
+        "record_indexes": [
+          44239,
+          44240
+        ],
+        "source_codes": [
+          "701652 03730",
+          "701652 04530"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 56392,
+      "field": "raw.KODING",
+      "source_pdf_page": 574,
+      "source_row": "13215",
+      "details": {
+        "record_indexes": [
+          56392,
+          56393
+        ],
+        "source_codes": [
+          "701364 32349",
+          "701364 40149"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 56393,
+      "field": "raw.KODING",
+      "source_pdf_page": 574,
+      "source_row": "13216",
+      "details": {
+        "record_indexes": [
+          56392,
+          56393
+        ],
+        "source_codes": [
+          "701364 32349",
+          "701364 40149"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 56394,
+      "field": "raw.KODING",
+      "source_pdf_page": 574,
+      "source_row": "13217",
+      "details": {
+        "record_indexes": [
+          56394,
+          56395
+        ],
+        "source_codes": [
+          "701364 32349",
+          "701364 40149"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "code": "duplicate_identity",
+      "message": "Different source codes share the same normalized vehicle identity",
+      "record_index": 56395,
+      "field": "raw.KODING",
+      "source_pdf_page": 574,
+      "source_row": "13218",
+      "details": {
+        "record_indexes": [
+          56394,
+          56395
+        ],
+        "source_codes": [
+          "701364 32349",
+          "701364 40149"
+        ]
+      }
+    }
+  ],
+  "rejected_records": []
+}

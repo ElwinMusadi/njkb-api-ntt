@@ -1,0 +1,54 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "njkb-api-ntt",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-06-11",
+  "workers_dev": false,
+  "preview_urls": false,
+  "vars": {
+    "BPAD_TIMEOUT_MS": "5000",
+    "NJKB_RESOLUTION_AS_OF": "2026-09-20"
+  },
+  "d1_databases": [
+    {
+      "binding": "NJKB_DB",
+      "database_name": "njkb-ntt-local",
+      "database_id": "00000000-0000-0000-0000-000000000001",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "env": {
+    "production": {
+      "name": "njkb-api-ntt",
+      "workers_dev": true,
+      "vars": {
+        "BPAD_TIMEOUT_MS": "5000",
+        "NJKB_RESOLUTION_AS_OF": "2026-09-20"
+      },
+      "d1_databases": [
+        {
+          "binding": "NJKB_DB",
+          "database_name": "njkb-api-production",
+          "database_id": "ae3097b9-d76d-430f-b5c5-7653c8242b52",
+          "migrations_dir": "migrations"
+        }
+      ]
+    },
+    "preview": {
+      "name": "njkb-api-ntt-preview",
+      "workers_dev": true,
+      "vars": {
+        "BPAD_TIMEOUT_MS": "5000",
+        "NJKB_RESOLUTION_AS_OF": "2026-09-20"
+      },
+      "d1_databases": [
+        {
+          "binding": "NJKB_DB",
+          "database_name": "njkb-ntt-local",
+          "database_id": "00000000-0000-0000-0000-000000000001",
+          "migrations_dir": "migrations"
+        }
+      ]
+    }
+  }
+}

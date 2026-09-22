@@ -1,0 +1,21 @@
+{
+  "status": "imported",
+  "manifest_id": "ingest:8fdd1d795665809788559f3b53a34df06d687a1ceae5fa0f7780106c4eeb5a0f",
+  "dataset_id": "permendagri-11-2026-part-a-full-v1",
+  "dataset_sha256": "22c5e2e4bcc03fc952b3ce46d2848615e8e4ed281d54a96ee636d47c93c797a4",
+  "document_sha256": "7275fd53416f1880b818dfc74b108d53eb3af3ab896fb3cffec2a333c45be638",
+  "source_format": "json",
+  "summary": {
+    "total_records": 2864,
+    "valid_records": 2864,
+    "rejected_records": 0,
+    "errors": 0,
+    "warnings": 0,
+    "duplicates": 0,
+    "inserted_records": 2864,
+    "unchanged_records": 0,
+    "persisted_issues": 0
+  },
+  "issues": [],
+  "rejected_records": []
+}

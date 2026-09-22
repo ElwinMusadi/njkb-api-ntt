@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "research_date": "2026-09-20",
+  "resolution_as_of": "2026-09-20",
+  "sources": [
+    {
+      "regulation": "Pergub NTT No. 26 Tahun 2025",
+      "official_catalog_url": "https://peraturan.bpk.go.id/Details/338242/pergub-prov-nusa-tenggara-timur-no-26-tahun-2",
+      "official_pdf_url": "https://peraturan.bpk.go.id/Download/401313/Pergub.%20NTT%20No.%2026%20Tahun%202025.pdf",
+      "sha256": "94798b35378003ac2fb85c9b239327fd7e0fab91bbab2b1e89ef91cd0a100c18",
+      "page_count": 690,
+      "effective_from": "2025-06-13",
+      "table": {
+        "physical_pdf_pages_observed": "11-629",
+        "columns": ["NO", "KODING", "MERK", "TYPE", "TAHUN BUAT", "NJKB", "BOBOT", "DP PKB"],
+        "observed_min_vehicle_year": 1940,
+        "observed_max_vehicle_year": 2025,
+        "observed_2025_rows": true,
+        "observed_2026_rows": false,
+        "method_note": "Text extraction and visual spot checks across the table range; observed bounds describe the inspected PDF, not a claim that every row was imported."
+      },
+      "legal_evidence": [
+        {"article": "Pasal 7", "finding": "DPP PKB is calculated from NJKB multiplied by weight."},
+        {"article": "Pasal 17", "finding": "A vehicle type/year not listed may be established by Governor decision after proposal."},
+        {"article": "Pasal 20", "finding": "The appendix is described as covering vehicles made before 2025."},
+        {"pdf_page": 11, "finding": "Appendix A heading says vehicles made before 2025."},
+        {"pdf_page": 629, "finding": "The physical table nevertheless visibly contains 2025 rows; this is recorded as a source inconsistency."}
+      ],
+      "verified_rows": [
+        {"pdf_page": 503, "source_row": "5308", "source_code": "701167 08549", "brand": "HONDA", "type": "C1M02N42L1 A/T", "vehicle_year": 2022, "njkb_rupiah": 11700000, "weight_micros": 1000000, "dpp_pkb_rupiah": 11700000},
+        {"pdf_page": 503, "source_row": "5309", "source_code": "701167 08549", "brand": "HONDA", "type": "C1M02N42L1 A/T", "vehicle_year": 2023, "njkb_rupiah": 11900000, "weight_micros": 1000000, "dpp_pkb_rupiah": 11900000},
+        {"pdf_page": 503, "source_row": "5310", "source_code": "701167 08549", "brand": "HONDA", "type": "C1M02N42L1 A/T", "vehicle_year": 2024, "njkb_rupiah": 12500000, "weight_micros": 1000000, "dpp_pkb_rupiah": 12500000},
+        {"pdf_page": 503, "source_row": "5311", "source_code": "701167 08549", "brand": "HONDA", "type": "C1M02N42L1 A/T", "vehicle_year": 2025, "njkb_rupiah": 12600000, "weight_micros": 1000000, "dpp_pkb_rupiah": 12600000}
+      ]
+    },
+    {
+      "regulation": "Permendagri No. 11 Tahun 2026",
+      "official_catalog_url": "https://jdih.kemendagri.go.id/dokumen/view?id=2060",
+      "official_year_catalog_url": "https://keuda.kemendagri.go.id/produkhukum/bytahun/3/2026",
+      "document_acquisition": "user_upload",
+      "sha256": "7275fd53416f1880b818dfc74b108d53eb3af3ab896fb3cffec2a333c45be638",
+      "page_count": 73,
+      "effective_from": "2026-04-01",
+      "table": {
+        "physical_pdf_pages_observed": "14-71",
+        "columns": ["NO", "KODING", "MEREK", "TYPE", "TH BUAT", "NJKB", "BOBOT", "DP PKB"],
+        "observed_vehicle_years": [2026],
+        "method_note": "OCR scan plus visual checks of the first, middle, test-case, and final pages. One OCR token read 2096 on page 24; the rendered page visibly says 2026."
+      },
+      "legal_evidence": [
+        {"article": "Pasal 14", "finding": "DPP PKB is NJKB multiplied by weight."},
+        {"article": "Pasal 15", "finding": "NJKB is the basis for BBNKB."},
+        {"article": "Pasal 16", "finding": "Modified-vehicle basis includes NJKB plus NJMKB."},
+        {"article": "Pasal 18", "finding": "NJKB and NJMKB for 2026 are in the appendix."},
+        {"article": "Pasal 23", "finding": "The Minister may update missing brand/type/value entries until the next year's basis."},
+        {"article": "Pasal 27", "finding": "For vehicles made before 2026, NJKB/NJMKB/NJAB must be set by Governor Regulation after Minister/Director-General approval."},
+        {"article": "Pasal 28", "finding": "Earlier governor-set bases cease to apply and must be adjusted within 15 working days."},
+        {"article": "Pasal 29", "finding": "Permendagri 7/2025 is revoked."},
+        {"article": "Pasal 30", "finding": "The regulation takes effect on promulgation, 1 April 2026."}
+      ],
+      "verified_rows": [
+        {"pdf_page": 55, "source_row": "311", "source_code": "701167 67749", "brand": "HONDA", "type": "C1M02N42L1 A/T", "vehicle_year": 2026, "njkb_rupiah": 12900000, "weight_micros": 1000000, "dpp_pkb_rupiah": 12900000}
+      ]
+    }
+  ],
+  "official_catalog_gap_check": {
+    "url": "https://jdih.nttprov.go.id/dokumen/pergub?DokumenSearch%5Btahun_terbit%5D=2026",
+    "pages_reviewed": 3,
+    "titles_reviewed": 28,
+    "finding": "NOT_FOUND: no 2026 NTT Governor Regulation setting/adjusting the NJKB/DPP PKB reference was found in the official catalog as of 2026-09-20.",
+    "limitation": "A catalog absence is evidence of a current retrieval gap, not proof that no unpublished or differently indexed instrument exists."
+  },
+  "code_identity_decision": {
+    "source_code_2025": "701167 08549",
+    "source_code_2026": "701167 67749",
+    "automatic_crosswalk": false,
+    "reason": "No official mapping evidence was found; exact normalized brand/type does not establish code equivalence."
+  }
+}

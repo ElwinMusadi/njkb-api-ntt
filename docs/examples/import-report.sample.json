@@ -1,0 +1,21 @@
+{
+  "status": "imported",
+  "manifest_id": "ingest:d7ef8699e43047f566c0985da7b36961617f9105e8c3fc1caf57a210d1de47eb",
+  "dataset_id": "pergub-ntt-26-2025-part-a-sample-v1",
+  "dataset_sha256": "a999bb9dbf7d626d9a22c32e43d35343043798c8ca00aac3542ecf8a153de2d1",
+  "document_sha256": "94798b35378003ac2fb85c9b239327fd7e0fab91bbab2b1e89ef91cd0a100c18",
+  "source_format": "json",
+  "summary": {
+    "total_records": 1,
+    "valid_records": 1,
+    "rejected_records": 0,
+    "errors": 0,
+    "warnings": 0,
+    "duplicates": 0,
+    "inserted_records": 0,
+    "unchanged_records": 1,
+    "persisted_issues": 0
+  },
+  "issues": [],
+  "rejected_records": []
+}

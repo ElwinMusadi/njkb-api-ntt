@@ -1,0 +1,39 @@
+{
+  "name": "njkb-api-ntt",
+  "version": "0.5.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "dev": "wrangler dev --local",
+    "dev:mock-bpad": "node --import tsx scripts/mock-bpad.ts",
+    "dev:fixture": "npm run build && node --import tsx scripts/local-worker.ts",
+    "db:migrate": "wrangler d1 migrations apply NJKB_DB --local",
+    "db:seed": "node --import tsx scripts/seed.ts",
+    "import:njkb": "node --import tsx scripts/import-njkb.ts",
+    "phase7:verify:local": "node --import tsx scripts/verify-phase7-local.ts",
+    "phase7b:verify:samples": "node --import tsx scripts/verify-phase7b-samples.ts",
+    "phase7b:reconcile": "node --import tsx scripts/reconcile-phase7b.ts",
+    "export:production:sql": "node --max-old-space-size=4096 --import tsx scripts/export-production-sql.ts",
+    "deploy:production:d1": "node --import tsx scripts/deploy-production-d1.ts",
+    "db:inspect": "wrangler d1 execute NJKB_DB --local --command \"SELECT id,tax_year,vehicle_year,source_code,njkb_rupiah FROM njkb_references ORDER BY tax_year\"",
+    "build": "wrangler deploy --dry-run --env=\"\" --outdir dist"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "hono": "4.13.8",
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "4.20260702.1",
+    "@types/node": "26.6.2",
+    "miniflare": "4.20260730.0",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2",
+    "vitest": "3.2.4",
+    "wrangler": "4.100.0"
+  }
+}
