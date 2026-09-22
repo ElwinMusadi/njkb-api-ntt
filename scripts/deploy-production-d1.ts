@@ -9,6 +9,8 @@ const isRemote = args.includes('--remote');
 const isLocal = args.includes('--local') || !isRemote;
 const dbName = args.find((a, i) => args[i - 1] === '--database') ?? (isRemote ? 'njkb-api-production' : 'NJKB_DB');
 const manifestPath = resolve(args.find((a, i) => args[i - 1] === '--manifest') ?? 'artifacts/production/manifest.json');
+const startAt = args.find((a, i) => args[i - 1] === '--start-at') ?? null;
+const maxNetworkAttempts=3;
 
 function sha256(value:Buffer|string):string {return createHash('sha256').update(value).digest('hex');}
 function hasUnsupportedTransaction(sql:string):boolean {
@@ -16,7 +18,11 @@ function hasUnsupportedTransaction(sql:string):boolean {
   return /\b(?:BEGIN\s+TRANSACTION|COMMIT|SAVEPOINT|RELEASE\s+SAVEPOINT|ROLLBACK\s+TO)\b/i.test(withoutComments);
 }
 
-async function runWranglerExecute(sqlFilePath: string): Promise<void> {
+export function isTransientNetworkFailure(message:string):boolean {
+  return /fetch failed|connectivity issue|network|ECONNRESET|ETIMEDOUT|socket hang up/i.test(message);
+}
+function wait(ms:number):Promise<void> {return new Promise(resolvePromise=>setTimeout(resolvePromise,ms));}
+async function runWranglerExecuteOnce(sqlFilePath: string): Promise<void> {
   const cmdArgs = [
     'd1',
     'execute',
@@ -46,6 +52,19 @@ async function runWranglerExecute(sqlFilePath: string): Promise<void> {
     });
   });
 }
+async function runWranglerExecute(sqlFilePath:string):Promise<number> {
+  for(let attempt=1;attempt<=maxNetworkAttempts;attempt++) {
+   try {await runWranglerExecuteOnce(sqlFilePath);return attempt;}
+   catch(error) {
+    const message=error instanceof Error?error.message:String(error);
+    if(!isTransientNetworkFailure(message)||attempt>=maxNetworkAttempts) throw error;
+    const delayMs=attempt*1_000;
+    console.warn(`Transient network failure (attempt ${attempt}/${maxNetworkAttempts}); retrying in ${delayMs}ms...`);
+    await wait(delayMs);
+   }
+  }
+  throw new Error('Unreachable retry state');
+}
 
 export async function deployProductionD1(): Promise<void> {
   console.log(`Loading deployment manifest from ${manifestPath}...`);
@@ -70,14 +89,17 @@ export async function deployProductionD1(): Promise<void> {
   }
 
   console.log('Artifact hash and SQL compatibility preflight: PASS');
-  for (let i = 0; i < manifest.execution_order.length; i++) {
+  const startIndex=startAt===null?0:manifest.execution_order.indexOf(startAt);
+  if(startAt!==null&&startIndex<0) throw new Error(`Resume chunk not found in manifest: ${startAt}`);
+  if(startIndex>0) console.log(`Resume mode: starting at chunk ${startIndex+1}/${manifest.total_chunks} (${startAt})`);
+  for (let i = startIndex; i < manifest.execution_order.length; i++) {
     const filename = manifest.execution_order[i];
     const chunkPath = join(artifactsDir, filename);
     const chunkStart = Date.now();
 
     process.stdout.write(`[${i + 1}/${manifest.total_chunks}] Executing ${filename}... `);
-    await runWranglerExecute(chunkPath);
-    console.log(`OK (${Date.now() - chunkStart}ms)`);
+    const attempts=await runWranglerExecute(chunkPath);
+    console.log(`OK (${Date.now() - chunkStart}ms, attempts=${attempts})`);
   }
 
   console.log(`\nAll ${manifest.total_chunks} chunks deployed successfully in ${((Date.now() - startTime) / 1000).toFixed(1)}s.`);

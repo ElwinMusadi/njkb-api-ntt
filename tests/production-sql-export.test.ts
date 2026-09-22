@@ -9,6 +9,7 @@ import {
   EXPECTED_PERMENDAGRI_SHA256,
   type ProductionExportManifest
 } from '../scripts/export-production-sql';
+import { isTransientNetworkFailure } from '../scripts/deploy-production-d1';
 
 function splitSqlStatements(sql: string): string[] {
   const statements: string[] = [];
@@ -80,6 +81,14 @@ describe('Production SQL Export and Deployment Pipeline', () => {
 
   afterAll(async () => {
     await mf?.dispose();
+  });
+
+  it('classifies only network/connectivity failures as retryable',()=>{
+    expect(isTransientNetworkFailure('fetch failed')).toBe(true);
+    expect(isTransientNetworkFailure('A fetch request failed, likely due to a connectivity issue')).toBe(true);
+    expect(isTransientNetworkFailure('ECONNRESET')).toBe(true);
+    expect(isTransientNetworkFailure('SQLITE_CONSTRAINT: FOREIGN KEY constraint failed')).toBe(false);
+    expect(isTransientNetworkFailure('D1_ERROR: syntax error')).toBe(false);
   });
 
   it('generates a valid, deterministic production export manifest', () => {

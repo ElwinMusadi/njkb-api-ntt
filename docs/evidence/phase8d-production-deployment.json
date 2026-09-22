@@ -1,79 +1,74 @@
 {
-  "schema_version": 2,
-  "phase": "8D_RETRY",
-  "status": "BLOCKED_DURING_DATA_DEPLOYMENT",
-  "timestamp_utc": "2026-09-22T13:44:58.131Z",
+  "schema_version": 3,
+  "phase": "8D_RESUME",
+  "status": "PARTIAL_DATA_DEPLOYMENT_STOPPED",
+  "timestamp_utc": "2026-09-22T19:15:52.191Z",
   "git": {
     "branch": "main",
-    "commit_sha": "cb5e4b6ca54f63d905f119bc9be7eb6fa6c3196f",
-    "commit_message": "Phase 8D",
-    "working_tree_clean": true
+    "commit_sha": "dc94d0ce07b934e5466e0eeb1f4ef200f6bb8dd0",
+    "working_tree_clean": true,
+    "origin_synchronized": true
   },
   "cloudflare": {
     "account_name": "Elwinmusadi@gmail.com's Account",
     "account_id": "04b8b2073be2f1aa21fc6489e0db36f6",
     "worker_name": "njkb-api-ntt",
-    "worker_exists": false,
+    "worker_deployed": false,
     "production_url": null,
     "database": {
       "name": "njkb-api-production",
       "id": "ae3097b9-d76d-430f-b5c5-7653c8242b52",
-      "region": "APAC"
+      "region": "APAC",
+      "migrations_0001_0005": "APPLIED"
     }
   },
-  "preflight": {
+  "resume_preflight": {
     "status": "PASS",
-    "typecheck": "PASS",
-    "tests": {"status": "PASS", "files": 7, "tests": 114},
-    "build": "PASS",
-    "local_d1": {"status": "PASS", "references": 64874, "mappings": 0},
-    "deterministic_samples": {"status": "PASS", "samples": 40},
-    "canonical": {
-      "pergub": {"records": 62091, "sha256": "c9218eb8df0e0a01e1f73dc528f99618daa8c8d069107726bf39c58f891b2a7c"},
-      "permendagri": {"records": 2783, "sha256": "fcc332ff3e5758791d55f1b08864fd25f0b939ce36ef1f288c8c9b937e33f17e"}
-    },
-    "artifacts": {"records": 64874, "chunks": 188, "hash_failures": 0},
-    "target_d1_identity": "PASS",
-    "initial_remote_state": "PASS_EMPTY",
-    "worker_initial_state": "NOT_DEPLOYED"
+    "production_data_initially_empty": true,
+    "artifact_records": 64874,
+    "artifact_chunks": 188,
+    "manifest_sha256": "f58d944060c4017536c714c274d2207b7e7b22373f73065766421ed6b6c19098",
+    "aggregate_sql_sha256": "a3201641ca67193a63c50aabaf8a9cb7fb2e5e60ebf48821b488d76cd73d8c80",
+    "artifact_hash_failures": 0,
+    "unsupported_transaction_statements": 0
   },
-  "migrations": {
-    "status": "PASS",
-    "applied": [
-      "0001_reference_database.sql",
-      "0002_additional_provenance_checks.sql",
-      "0003_ingestion_pipeline.sql",
-      "0004_vehicle_year_resolution.sql",
-      "0005_phase7_edition_scope.sql"
-    ],
-    "schema_verification": "PASS"
+  "canonical": {
+    "pergub": {"records":62091,"sha256":"c9218eb8df0e0a01e1f73dc528f99618daa8c8d069107726bf39c58f891b2a7c"},
+    "permendagri": {"records":2783,"sha256":"fcc332ff3e5758791d55f1b08864fd25f0b939ce36ef1f288c8c9b937e33f17e"}
   },
   "data_deployment": {
-    "status": "FAIL_FIRST_CHUNK",
-    "last_successful_chunk": null,
-    "failed_chunk": "00_metadata.sql",
-    "failed_chunk_number": 1,
-    "total_chunks": 188,
-    "error_category": "D1_SQL_TRANSACTION_NOT_SUPPORTED",
-    "error": "Remote D1 rejects SQL BEGIN TRANSACTION/SAVEPOINT and requires storage transaction APIs.",
     "command": "npm run deploy:production:d1 -- --remote",
-    "partial_data_written": false,
-    "remote_counts_after_failure": {
-      "regulations": 0,
-      "source_documents": 0,
-      "reference_editions": 0,
-      "njkb_references": 0,
-      "ingestion_manifests": 0,
-      "ingestion_records": 0,
-      "ingestion_issues": 0,
-      "vehicle_code_mappings": 0
-    }
+    "status": "STOPPED_ON_NETWORK_FAILURE",
+    "successful_chunks": 110,
+    "failed_chunk_number": 111,
+    "failed_chunk": "pergub_chunk_111.sql",
+    "total_chunks": 188,
+    "error_category": "CLOUDFLARE_FETCH_CONNECTIVITY_FAILURE",
+    "error": "wrangler reported fetch failed / likely connectivity issue",
+    "failed_chunk_rows_written": 0,
+    "last_committed_record_index": 38499,
+    "retry_attempted": false,
+    "chunks_skipped": 0
   },
-  "production_mutations": {
-    "migrations_applied": true,
-    "dataset_rows_written": 0,
+  "remote_state_after_stop": {
+    "regulations": 2,
+    "source_documents": 2,
+    "reference_editions": 2,
+    "njkb_references": 38500,
+    "pergub_references": 38500,
+    "permendagri_references": 0,
+    "ingestion_records": 38500,
+    "ingestion_manifests": 2,
+    "manifest_statuses": ["importing","importing"],
+    "ingestion_issues": 0,
+    "vehicle_code_mappings": 0,
     "worker_deployed": false,
-    "route_activated": false
+    "traffic_active": false
+  },
+  "gates": {
+    "resume_data_deployment_gate": "PASS",
+    "production_data_deployment_gate": "FAIL_INCOMPLETE",
+    "worker_deployment_gate": "NOT_EVALUATED"
   },
   "live_verification": {
     "health": "NOT_RUN",
@@ -86,9 +81,7 @@
   },
   "rollback": {
     "worker": "NOT_REQUIRED_NOT_DEPLOYED",
-    "d1_data": "NOT_REQUIRED_ZERO_DATA_ROWS",
-    "d1_schema": "MIGRATIONS_APPLIED_EMPTY_SCHEMA",
-    "manual_recovery_required": false
-  },
-  "required_action": "Perbaiki generator/runner production agar tidak menggunakan BEGIN TRANSACTION/COMMIT SQL pada remote D1. Regenerate dan review artifacts, commit perubahan, ulangi Phase 8D preflight, lalu resume data deployment dari chunk pertama."
+    "d1": "NO_DESTRUCTIVE_ROLLBACK_PERFORMED",
+    "recovery_strategy": "Resume the idempotent manifest from pergub_chunk_111.sql after a fresh read-only state verification; do not delete committed rows."
+  }
 }
