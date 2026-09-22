@@ -52,9 +52,7 @@ function splitSqlStatements(sql: string): string[] {
 
     if (char === ';') {
       const trimmed = current.trim();
-      if (trimmed.length > 0 && trimmed !== 'BEGIN TRANSACTION' && trimmed !== 'COMMIT') {
-        statements.push(trimmed);
-      }
+      if (trimmed.length > 0) statements.push(trimmed);
       current = '';
       continue;
     }
@@ -63,9 +61,7 @@ function splitSqlStatements(sql: string): string[] {
   }
 
   const finalTrimmed = current.trim();
-  if (finalTrimmed.length > 0 && finalTrimmed !== 'BEGIN TRANSACTION' && finalTrimmed !== 'COMMIT') {
-    statements.push(finalTrimmed);
-  }
+  if (finalTrimmed.length > 0) statements.push(finalTrimmed);
 
   return statements;
 }
@@ -100,11 +96,21 @@ describe('Production SQL Export and Deployment Pipeline', () => {
     expect(manifest.total_chunks).toBe(manifest.chunks.length);
     expect(manifest.execution_order.length).toBe(manifest.chunks.length);
 
-    // Every chunk has size bounded under 1MB (Cloudflare API limit)
+    // Every exact generated chunk is bounded and remote-D1 compatible.
     for (const chunk of manifest.chunks) {
       expect(chunk.bytes).toBeLessThan(1024 * 1024);
       expect(chunk.sha256).toMatch(/^[a-f0-9]{64}$/);
       expect(chunk.statement_count).toBeGreaterThan(0);
+    }
+  });
+
+  it('emits no explicit transaction statements in any exact artifact',async()=>{
+    for(const chunk of manifest.chunks) {
+      const sql=await readFile(join('artifacts/production',chunk.filename),'utf8');
+      const withoutComments=sql.replace(/^\s*--.*$/gm,'');
+      expect(withoutComments).not.toMatch(/\bBEGIN\s+TRANSACTION\b/i);
+      expect(withoutComments).not.toMatch(/\bCOMMIT\b/i);
+      expect(withoutComments).not.toMatch(/\bSAVEPOINT\b/i);
     }
   });
 

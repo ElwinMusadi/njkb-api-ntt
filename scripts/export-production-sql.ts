@@ -135,7 +135,7 @@ export async function exportProductionSql(options: {
     '-- Production D1 Data Deployment - Chunk 00 (Metadata)',
     '-- Schema Version: 2',
     '-- Target: regulations, source_documents, reference_editions, ingestion_manifests',
-    'BEGIN TRANSACTION;'
+    '-- Remote D1 compatible: no explicit transaction statements.'
   ];
 
   let metadataStatements = 0;
@@ -166,7 +166,6 @@ export async function exportProductionSql(options: {
     metadataStatements++;
   }
 
-  metadataLines.push('COMMIT;');
   await writeChunk('00_metadata.sql', 'metadata', null, 0, metadataStatements, metadataLines.join('\n') + '\n');
 
   // 4. Data Chunks Helper
@@ -189,7 +188,7 @@ export async function exportProductionSql(options: {
         `-- Production D1 Data Deployment - ${prefix.toUpperCase()} Chunk ${chunkNum}/${String(totalChunks).padStart(2, '0')}`,
         `-- Dataset: ${datasetId}`,
         `-- Records: ${chunkRecords.length} (Index ${start} to ${end - 1})`,
-        'BEGIN TRANSACTION;'
+        '-- Remote D1 compatible: idempotent statements without explicit transaction wrapper.'
       ];
 
       let stmtCount = 0;
@@ -209,7 +208,6 @@ export async function exportProductionSql(options: {
         stmtCount++;
       }
 
-      lines.push('COMMIT;');
       await writeChunk(filename, 'data', datasetId, chunkRecords.length, stmtCount, lines.join('\n') + '\n');
     }
   }
@@ -236,7 +234,7 @@ export async function exportProductionSql(options: {
   const postLines: string[] = [
     '-- Production D1 Data Deployment - Chunk 99 (Post-Ingestion Finalization)',
     '-- Target: ingestion_issues, ingestion_manifests (status -> completed)',
-    'BEGIN TRANSACTION;'
+    '-- Remote D1 compatible: no explicit transaction statements.'
   ];
 
   let postStatements = 0;
@@ -295,7 +293,6 @@ export async function exportProductionSql(options: {
   );
   postStatements++;
 
-  postLines.push('COMMIT;');
   await writeChunk('99_post_ingestion.sql', 'post_ingestion', null, 0, postStatements, postLines.join('\n') + '\n');
 
   // 8. Generate and save manifest.json

@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
 import { spawn } from 'node:child_process';
@@ -9,6 +10,12 @@ const isLocal = args.includes('--local') || !isRemote;
 const dbName = args.find((a, i) => args[i - 1] === '--database') ?? (isRemote ? 'njkb-api-production' : 'NJKB_DB');
 const manifestPath = resolve(args.find((a, i) => args[i - 1] === '--manifest') ?? 'artifacts/production/manifest.json');
 
+function sha256(value:Buffer|string):string {return createHash('sha256').update(value).digest('hex');}
+function hasUnsupportedTransaction(sql:string):boolean {
+  const withoutComments=sql.replace(/^\s*--.*$/gm,'');
+  return /\b(?:BEGIN\s+TRANSACTION|COMMIT|SAVEPOINT|RELEASE\s+SAVEPOINT|ROLLBACK\s+TO)\b/i.test(withoutComments);
+}
+
 async function runWranglerExecute(sqlFilePath: string): Promise<void> {
   const cmdArgs = [
     'd1',
@@ -19,9 +26,9 @@ async function runWranglerExecute(sqlFilePath: string): Promise<void> {
   ];
 
   return new Promise((res, rej) => {
-    const proc = spawn('npx', ['wrangler', ...cmdArgs], {
+    const proc = spawn(process.execPath, [resolve('node_modules/wrangler/bin/wrangler.js'), ...cmdArgs], {
       stdio: ['ignore', 'pipe', 'pipe'],
-      shell: true
+      shell: false
     });
 
     let stdout = '';
@@ -51,7 +58,18 @@ export async function deployProductionD1(): Promise<void> {
 
   const startTime = Date.now();
   const artifactsDir = resolve('artifacts/production');
+  if(manifest.execution_order.length!==manifest.total_chunks) throw new Error('Manifest chunk count mismatch');
+  const chunkByName=new Map(manifest.chunks.map(chunk=>[chunk.filename,chunk]));
 
+  for (const filename of manifest.execution_order) {
+    const chunk=chunkByName.get(filename);if(!chunk) throw new Error(`Manifest missing chunk metadata: ${filename}`);
+    const content=await readFile(join(artifactsDir,filename));
+    if(content.length!==chunk.bytes) throw new Error(`Chunk byte length mismatch: ${filename}`);
+    if(sha256(content)!==chunk.sha256) throw new Error(`Chunk SHA-256 mismatch: ${filename}`);
+    if(hasUnsupportedTransaction(content.toString('utf8'))) throw new Error(`Unsupported explicit transaction found: ${filename}`);
+  }
+
+  console.log('Artifact hash and SQL compatibility preflight: PASS');
   for (let i = 0; i < manifest.execution_order.length; i++) {
     const filename = manifest.execution_order[i];
     const chunkPath = join(artifactsDir, filename);
