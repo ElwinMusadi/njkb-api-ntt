@@ -4,7 +4,7 @@
   "status": "COMPLETE_READY_TO_RESUME",
   "timestamp_utc": "2026-09-22T16:55:00Z",
   "previous_blocked_commit_sha": "cb5e4b6ca54f63d905f119bc9be7eb6fa6c3196f",
-  "remediation_commit_sha": null,
+  "remediation_commit_sha": "338792b5352f0c94adff3444fe514cd98ea3fbb0",
   "root_cause": "Generated SQL chunks contained BEGIN TRANSACTION and COMMIT. Cloudflare remote D1 rejects explicit SQL transaction statements through wrangler d1 execute --remote --file.",
   "old_artifacts": {
     "chunks": 188,
@@ -23,16 +23,40 @@
     "chunk_hash_failures": 0
   },
   "canonical": {
-    "pergub": {"records": 62091,"sha256": "c9218eb8df0e0a01e1f73dc528f99618daa8c8d069107726bf39c58f891b2a7c"},
-    "permendagri": {"records": 2783,"sha256": "fcc332ff3e5758791d55f1b08864fd25f0b939ce36ef1f288c8c9b937e33f17e"}
+    "pergub": {
+      "records": 62091,
+      "sha256": "c9218eb8df0e0a01e1f73dc528f99618daa8c8d069107726bf39c58f891b2a7c"
+    },
+    "permendagri": {
+      "records": 2783,
+      "sha256": "fcc332ff3e5758791d55f1b08864fd25f0b939ce36ef1f288c8c9b937e33f17e"
+    }
   },
   "verification": {
     "exact_artifact_test": "PASS",
-    "full_local_pass_1": {"status":"PASS","references":64874,"ingestion_records":64874,"manifests":2,"issues":78,"mappings":0},
-    "full_local_pass_2": {"status":"PASS","references":64874,"ingestion_records":64874,"manifests":2,"issues":78,"mappings":0},
+    "full_local_pass_1": {
+      "status": "PASS",
+      "references": 64874,
+      "ingestion_records": 64874,
+      "manifests": 2,
+      "issues": 78,
+      "mappings": 0
+    },
+    "full_local_pass_2": {
+      "status": "PASS",
+      "references": 64874,
+      "ingestion_records": 64874,
+      "manifests": 2,
+      "issues": 78,
+      "mappings": 0
+    },
     "idempotency": "PASS",
     "typecheck": "PASS",
-    "tests": {"status":"PASS","files":7,"tests":115},
+    "tests": {
+      "status": "PASS",
+      "files": 7,
+      "tests": 115
+    },
     "build": "PASS",
     "local_d1": "PASS",
     "deterministic_samples": "PASS_40_OF_40"
