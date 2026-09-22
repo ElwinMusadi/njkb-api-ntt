@@ -4,7 +4,7 @@
   "status": "COMPLETE_READY_TO_RESUME",
   "timestamp_utc": "2026-09-22T16:55:00Z",
   "previous_blocked_commit_sha": "cb5e4b6ca54f63d905f119bc9be7eb6fa6c3196f",
-  "remediation_commit_sha": "338792b5352f0c94adff3444fe514cd98ea3fbb0",
+  "remediation_commit_sha": "338792bf97e2614f09da332dc81167a47960ca0d",
   "root_cause": "Generated SQL chunks contained BEGIN TRANSACTION and COMMIT. Cloudflare remote D1 rejects explicit SQL transaction statements through wrangler d1 execute --remote --file.",
   "old_artifacts": {
     "chunks": 188,
