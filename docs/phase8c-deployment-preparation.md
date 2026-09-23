@@ -18,7 +18,7 @@ Laporan ini merinci persiapan infrastruktur, pemisahan environment Wrangler, pem
   - Konfigurasi `wrangler.jsonc` diperbarui dengan pemisahan eksplisit antara top-level (local/dev), `env.preview`, dan `env.production`.
   - Local/Dev tetap menggunakan database sentinel lokal (`00000000-0000-0000-0000-000000000001` / `njkb-ntt-local`) sehingga command development lokal tidak akan pernah memodifikasi database production.
 - **Pipeline Export SQL Production:**
-  - Dibuat script `scripts/export-production-sql.ts` untuk mengekspor 64.874 data kanonikal menjadi chunk SQL transaksional terverifikasi.
+  - Dibuat script `scripts/export-production-sql.ts` untuk mengekspor 64.874 data kanonikal menjadi ordered idempotent SQL chunks yang kompatibel dengan remote D1. Explicit SQL transaction wrapper telah dihapus pada remediation Phase 8D karena tidak didukung `wrangler d1 execute --remote --file`.
   - Dibuat runner script `scripts/deploy-production-d1.ts` untuk mengeksekusi chunk SQL secara berurutan dan aman.
 - **Batasan Penting:**
   - **TIDAK ADA** live deployment Worker yang dilakukan pada fase ini (`wrangler deploy` tidak dijalankan).
@@ -258,7 +258,7 @@ npm run build
 ```
 
 ### Tahap 2: Generate Production SQL Artifacts
-Ekspor data kanonikal ke chunk SQL transaksional:
+Ekspor data kanonikal ke ordered idempotent SQL chunks tanpa explicit transaction wrapper:
 ```sh
 npm run export:production:sql
 ```
@@ -318,12 +318,23 @@ curl -i "https://<worker-url>/api/njkb/DH4786PD?tax_year=2025"
    ```sh
    npx wrangler rollback --env production
    ```
-2. **Rollback Database D1:**
-   Karena seluruh operasi data deployment menggunakan `ON CONFLICT DO NOTHING` dan tabel referensi bersifat read-only bagi publik, data tidak akan terkorupsi oleh traffic read. Jika diperlukan reset total data:
+2. **Recovery Database D1:**
+   Worker rollback tidak me-rollback D1. Jangan menjalankan bulk `DELETE` sebagai
+   rollback. Sebelum mutation production, ambil bookmark:
    ```sh
-   npx wrangler d1 execute njkb-api-production --remote --command "DELETE FROM match_audits; DELETE FROM ingestion_issues; DELETE FROM ingestion_records; DELETE FROM ingestion_manifests; DELETE FROM njkb_references; DELETE FROM reference_editions; DELETE FROM source_documents; DELETE FROM regulations;"
+   npx wrangler d1 time-travel info njkb-api-production
    ```
-   Lalu ulangi eksekusi `npm run deploy:production:d1 -- --remote`.
+   Jika terjadi corruption, hentikan traffic/mutation, simpan evidence dan current
+   bookmark, lalu gunakan Time Travel restore hanya setelah explicit approval:
+   ```sh
+   npx wrangler d1 time-travel restore njkb-api-production --bookmark=<approved-bookmark>
+   ```
+   Restore bersifat destructive dan membatalkan in-flight query. Setelah restore,
+   verifikasi migration state, counts, canonical semantic hashes, samples, `/ready`,
+   dan real 2024/2025/2026 fixtures. Jika restore point tidak tersedia, rebuild database
+   baru dari migration 0001–0005 dan canonical artifacts, verifikasi penuh, kemudian
+   switch binding melalui deployment terkontrol. Jangan overwrite production secara
+   improvisasi.
 
 ---
 
@@ -400,7 +411,7 @@ curl -i "https://<worker-url>/api/njkb/DH4786PD?tax_year=2025"
 Semua kriteria penerimaan Phase 8C telah terpenuhi secara penuh:
 - Database D1 production telah dibuat dan diidentifikasi dengan UUID aktual.
 - Konfigurasi Wrangler terisolasi dan bebas error.
-- Pipeline ekspor SQL transaksional dan idempoten telah teruji secara menyeluruh.
+- Pipeline ordered/idempotent SQL remote-compatible, bounded retry, dan resume telah teruji secara menyeluruh.
 - 114/114 tests PASS.
 - Deployment runbook dan release manifest telah terdokumentasi lengkap.
 

@@ -101,8 +101,9 @@ similar code. `701167 08549` and `701167 67749` remain independent.
 
 See `docs/phase5-regulatory-resolution-report.md` for the regulatory evidence,
 `docs/phase6-regulatory-resolution.md` for the final authority boundary,
-`docs/phase7-extraction.md` for the Phase 7A baseline, and
-`docs/phase7b-exception-resolution.md` for final exception reconciliation.
+`docs/phase7-extraction.md` for the Phase 7A baseline,
+`docs/phase7c-final-resolution.md` for final data reconciliation, and
+`docs/production-operations.md` for production operations, recovery, and smoke tests.
 
 ## Full dataset status
 
@@ -200,7 +201,18 @@ njkb-api-ntt/
 `701167 08549` (Pergub) and `701167 67749` (Permendagri) are independent codes.
 No automatic crosswalk exists between them.
 
-## Deployment boundary
+## Production deployment
 
-`database_id` is a local sentinel. No remote database was provisioned and no
-production deployment was performed. Phase 7 has not started.
+Production deployment is active at:
+
+```text
+https://njkb-api-ntt.elwinmusadi.workers.dev
+```
+
+Top-level Wrangler configuration remains local-only via a sentinel database ID;
+`env.production` explicitly binds `njkb-api-production`. Do not run remote mutation
+without `--env production --remote` and the operational preflight in
+`docs/production-operations.md`.
+
+Production baseline: 64,874 active references, zero vehicle mappings, health/ready
+HTTP 200, and real BPAD-backed 2024/2025/2026 smoke tests verified.
