@@ -6,7 +6,7 @@ import {importDataset} from '../src/db/import';
 import {NjkbRepository} from '../src/db/repository';
 import {createApp,type Bindings,type SafeLogger} from '../src/index';
 import {NjkbMatchingEngine} from '../src/matching/engine';
-import {bpadPayload,createEmptyTestDatabase,createTestDatabase,jsonResponse} from './support';
+import {bpadMobilio2019,bpadPayload,createEmptyTestDatabase,createTestDatabase,jsonResponse,seedMobilio2019} from './support';
 
 const bpad2025={...bpadPayload,NOPOL:'DH2025AA',TahunPembuatan:2025};
 const bpad2026={...bpadPayload,NOPOL:'DH2026ZZ',KD_TIPE:'701167 67749',TahunPembuatan:2026};
@@ -24,6 +24,14 @@ beforeEach(async()=>{({mf,db}=await createTestDatabase());vi.clearAllMocks();});
 afterEach(async()=>{await mf.dispose();});
 
 describe('Phase 9 public contract — success and regulatory boundaries',()=>{
+ it('keeps the public response contract stable for remediated DH1823HJ',async()=>{
+  await seedMobilio2019(db);
+  const {response,body}=await call(bpadMobilio2019,'http://local/api/njkb/DH1823HJ');
+  expect(response.status).toBe(200);expect(sortedKeys(body)).toEqual(['match','njkb','nopol','source','status','vehicle']);
+  expect(body).toMatchObject({status:'matched',nopol:'DH1823HJ',vehicle:{brand:'HONDA',type:'HONDA MOBILIO DD4 1.5 S MT CKD',year:2019},
+   njkb:{value:'150000000.00',weight:'1.050000',dpp_pkb:'157500000.00'},match:{method:'exact_code_year_and_brand_type',source_code:'103167 40649'},
+   source:{regulation:'Pergub NTT No. 26 Tahun 2025',pdf_page:181,source_row:'2587'}});
+ });
  it.each([
   {label:'2024',payload:bpadPayload,url:'http://local/api/njkb/DH4786PD',year:2024,value:'12500000.00',regulation:'Pergub NTT No. 26 Tahun 2025'},
   {label:'2025',payload:bpad2025,url:'http://local/api/njkb/DH2025AA',year:2025,value:'12600000.00',regulation:'Pergub NTT No. 26 Tahun 2025'},

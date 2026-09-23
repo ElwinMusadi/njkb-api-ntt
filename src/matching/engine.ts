@@ -68,9 +68,6 @@ export class NjkbMatchingEngine {
   const review:Candidate[]=[];
   for(const tier of tiers) {
    const editionIds=tier.map(edition=>edition.id);
-   if(!await this.references.hasYearCoverage(editionIds,vehicle.vehicleYear,vehicle.vehicleCategory)) continue;
-   hasCoverage=true;
-
    const code=await this.references.byCodeAcrossEditions(editionIds,vehicle.typeCode,vehicle.vehicleYear);
    if(code.length>1) return this.finish(vehicle,resolutionAsOf,{status:'ambiguous',vehicle_year:vehicle.vehicleYear,method:'exact_code',candidates:code.map(row=>candidate(row))},'exact_code',code.map(row=>row.id));
    if(code.length===1) {
@@ -78,6 +75,9 @@ export class NjkbMatchingEngine {
     if(conflicts.length) return this.finish(vehicle,resolutionAsOf,{status:'conflict',vehicle_year:vehicle.vehicleYear,method:'exact_code',conflicts,candidate:candidate(code[0])},'exact_code',conflicts);
     return this.matched(vehicle,resolutionAsOf,code[0],'exact_code');
    }
+
+   if(!await this.references.hasYearCoverage(editionIds,vehicle.vehicleYear,vehicle.vehicleCategory)) continue;
+   hasCoverage=true;
 
    const identity=await this.references.byIdentityAcrossEditions(editionIds,vehicle.brand,vehicle.type,vehicle.vehicleYear,vehicle.vehicleCategory);
    if(identity.length>1) return this.finish(vehicle,resolutionAsOf,{status:'ambiguous',vehicle_year:vehicle.vehicleYear,method:'exact_identity',candidates:identity.map(row=>candidate(row))},'exact_identity',identity.map(row=>row.id));

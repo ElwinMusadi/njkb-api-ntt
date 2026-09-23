@@ -5,7 +5,7 @@ import { importDataset } from '../src/db/import';
 import { NjkbRepository } from '../src/db/repository';
 import { createApp, type Bindings, type SafeLogger } from '../src/index';
 import { NjkbMatchingEngine } from '../src/matching/engine';
-import { bpadPayload, createTestDatabase, jsonResponse } from './support';
+import { bpadMobilio2019, bpadPayload, createTestDatabase, jsonResponse, seedMobilio2019 } from './support';
 
 const bpad2026={...bpadPayload,NOPOL:'DH2026ZZ',KD_TIPE:'701167 67749',TahunPembuatan:2026};
 const bpad2025={...bpadPayload,NOPOL:'DH2025AA',TahunPembuatan:2025};
@@ -82,6 +82,17 @@ describe('Phase 8B operational endpoints and middleware',()=>{
 });
 
 describe('GET /api/njkb/:nopol',()=>{
+ it('matches DH1823HJ through MINIBUS category normalization and exact code',async()=>{
+  await seedMobilio2019(db);
+  const {response,json}=await request(bpadMobilio2019,'http://local/api/njkb/DH1823HJ');
+  expect(response.status).toBe(200);
+  expect(json).toEqual({status:'matched',nopol:'DH1823HJ',vehicle:{brand:'HONDA',type:'HONDA MOBILIO DD4 1.5 S MT CKD',year:2019},
+   njkb:{value:'150000000.00',weight:'1.050000',dpp_pkb:'157500000.00'},
+   match:{method:'exact_code_year_and_brand_type',source_code:'103167 40649'},
+   source:{regulation:'Pergub NTT No. 26 Tahun 2025',pdf_page:181,source_row:'2587'}});
+  expect(JSON.stringify(json)).not.toMatch(/edition_id|reference_id|PRIVATE|tax_year/);
+ });
+
  // Test 1 — Historical exact code (vehicle_year 2024 → Pergub NTT 26/2025)
  it('Test 1 — returns matched for vehicle_year 2024 using Pergub NTT 26/2025',async()=>{
   const {response,json}=await request(bpadPayload,'http://local/api/njkb/DH4786PD');

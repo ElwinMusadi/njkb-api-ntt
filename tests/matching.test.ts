@@ -6,7 +6,7 @@ import { importDataset } from '../src/db/import';
 import { MatchAuditRepository, NjkbRepository } from '../src/db/repository';
 import { NjkbMatchingEngine } from '../src/matching/engine';
 import { NjkbLookupService } from '../src/matching/service';
-import { bpadPayload, createTestDatabase, jsonResponse } from './support';
+import { bpadMobilio2019, bpadPayload, createTestDatabase, jsonResponse, seedMobilio2019 } from './support';
 
 const resolutionAsOf='2026-09-20';
 // DH4786PD → HONDA C1M02N42L1 A/T, vehicle_year 2024, code 701167 08549
@@ -21,6 +21,37 @@ const service=(payload:unknown=bpadPayload,status=200)=>new NjkbLookupService(
 
 beforeEach(async()=>({mf,db}=await createTestDatabase()));
 afterEach(async()=>{await mf.dispose();});
+
+describe('vehicle category remediation regressions',()=>{
+ it('resolves BPAD MINIBUS through canonical MOBIL PENUMPANG by exact code and year',async()=>{
+  await seedMobilio2019(db);
+  const result=await service(bpadMobilio2019).lookup('DH1823HJ',resolutionAsOf);
+  expect(result).toEqual({status:'matched',match_method:'exact_code',njkb:150000000,weight_micros:1050000,dpp_pkb:157500000,
+   source:{regulation:'Pergub NTT No. 26 Tahun 2025',document_sha256:'94798b35378003ac2fb85c9b239327fd7e0fab91bbab2b1e89ef91cd0a100c18',pdf_page:181,row:'2587',source_code:'103167 40649',reference_id:'fixture-mobilio-2019'}});
+  expect((await db.prepare('SELECT count(*) AS n FROM vehicle_code_mappings').first<{n:number}>())?.n).toBe(0);
+ });
+
+ it('performs exact-code lookup before category coverage and preserves genuine category conflict',async()=>{
+  await seedMobilio2019(db);
+  const result=await service({...bpadMobilio2019,JenisKendaraan:'DOUBLE CABIN'}).lookup('DH1823HJ',resolutionAsOf);
+  expect(result).toMatchObject({status:'conflict',method:'exact_code',conflicts:['vehicle_category']});
+  expect(result.status).not.toBe('reference_unavailable');
+ });
+
+ it('does not use a wrong-year exact code and never falls back across vehicle years',async()=>{
+  await seedMobilio2019(db);
+  const result=await service({...bpadMobilio2019,TahunPembuatan:2020}).lookup('DH1823HJ',resolutionAsOf);
+  expect(result).toMatchObject({status:'reference_unavailable',vehicle_year:2020});
+  expect(result).not.toHaveProperty('njkb');
+ });
+
+ it('does not convert canonical category normalization into code aliasing',async()=>{
+  await seedMobilio2019(db);
+  const result=await service({...bpadMobilio2019,KD_TIPE:'UNKNOWN',Type:'UNKNOWN MOBILIO'}).lookup('DH1823HJ',resolutionAsOf);
+  expect(result.status).toBe('not_found');
+  expect(result).not.toHaveProperty('njkb');
+ });
+});
 
 describe('NJKB vehicle-year resolution engine — Phase 6',()=>{
  // Test 1: Historical exact code (vehicle_year 2024 → Pergub NTT 26/2025)
