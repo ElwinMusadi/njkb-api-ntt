@@ -1,8 +1,8 @@
 {
   "schema_version": 4,
   "phase": "8D",
-  "status": "PRODUCTION_DEPLOYMENT_PARTIAL",
-  "timestamp_utc": "2026-09-23T01:20:55.811Z",
+  "status": "PRODUCTION_DEPLOYMENT_VERIFIED",
+  "timestamp_utc": "2026-09-23T02:26:26.923Z",
   "git": {
     "branch": "main",
     "commit_sha": "fd5a12c00ab9a43b9593d903cfad9102e4c78589",
@@ -49,20 +49,99 @@
     "stored_manifest_hashes_match_local": true
   },
   "samples": [
-    {"vehicle_year":2022,"code":"701167 08549","edition":"edition-2025","njkb":11700000,"status":"PASS_D1"},
-    {"vehicle_year":2023,"code":"701167 08549","edition":"edition-2025","njkb":11900000,"status":"PASS_D1"},
-    {"vehicle_year":2024,"code":"701167 08549","edition":"edition-2025","njkb":12500000,"status":"PASS_D1_AND_LIVE_API"},
-    {"vehicle_year":2025,"code":"701167 08549","edition":"edition-2025","njkb":12600000,"status":"PASS_D1_ONLY_SYNTHETIC_NOPOL_REJECTED_BY_BPAD"},
-    {"vehicle_year":2026,"code":"701167 67749","edition":"edition-2026","njkb":12900000,"status":"PASS_D1_ONLY_SYNTHETIC_NOPOL_REJECTED_BY_BPAD"}
+    {
+      "vehicle_year": 2022,
+      "code": "701167 08549",
+      "edition": "edition-2025",
+      "njkb": 11700000,
+      "status": "PASS_D1"
+    },
+    {
+      "vehicle_year": 2023,
+      "code": "701167 08549",
+      "edition": "edition-2025",
+      "njkb": 11900000,
+      "status": "PASS_D1"
+    },
+    {
+      "vehicle_year": 2024,
+      "code": "701167 08549",
+      "edition": "edition-2025",
+      "njkb": 12500000,
+      "status": "PASS_D1_AND_LIVE_API"
+    },
+    {
+      "vehicle_year": 2025,
+      "code": "701167 08549",
+      "edition": "edition-2025",
+      "njkb": 12600000,
+      "status": "PASS_D1_ONLY_SYNTHETIC_NOPOL_REJECTED_BY_BPAD"
+    },
+    {
+      "vehicle_year": 2026,
+      "code": "701167 67749",
+      "edition": "edition-2026",
+      "njkb": 12900000,
+      "status": "PASS_D1_ONLY_SYNTHETIC_NOPOL_REJECTED_BY_BPAD"
+    }
   ],
   "live": {
-    "health": {"http_status":200,"body":{"status":"ok"},"duration_seconds":0.641946,"status":"PASS"},
-    "ready": {"http_status":200,"body":{"status":"ready"},"duration_seconds":0.529201,"status":"PASS"},
-    "lookup_2024": {"http_status":200,"nopol":"DH4786PD","vehicle_year":2024,"njkb":"12500000.00","method":"exact_code_year_and_brand_type","regulation":"Pergub NTT No. 26 Tahun 2025","status":"PASS"},
-    "lookup_2025": {"http_status":502,"error":"invalid_payload","status":"NOT_PROVABLE_LIVE_SYNTHETIC_NOPOL_NOT_IN_BPAD"},
-    "lookup_2026": {"http_status":502,"error":"invalid_payload","status":"NOT_PROVABLE_LIVE_SYNTHETIC_NOPOL_NOT_IN_BPAD"},
-    "invalid_nopol": {"http_status":400,"error":"invalid_nopol","status":"PASS"},
-    "unsupported_tax_year": {"http_status":400,"error":"unsupported_query_parameter","status":"PASS"},
+    "health": {
+      "http_status": 200,
+      "body": {
+        "status": "ok"
+      },
+      "duration_seconds": 0.641946,
+      "status": "PASS"
+    },
+    "ready": {
+      "http_status": 200,
+      "body": {
+        "status": "ready"
+      },
+      "duration_seconds": 0.529201,
+      "status": "PASS"
+    },
+    "lookup_2024": {
+      "http_status": 200,
+      "nopol": "DH4786PD",
+      "vehicle_year": 2024,
+      "njkb": "12500000.00",
+      "method": "exact_code_year_and_brand_type",
+      "regulation": "Pergub NTT No. 26 Tahun 2025",
+      "status": "PASS"
+    },
+    "lookup_2025": {
+      "status": "PASS_REAL_FIXTURES",
+      "matched_nopols": [
+        "DH4874PF",
+        "DH5122PF",
+        "DH5548PF",
+        "DH5580PF"
+      ],
+      "edition": "edition-2025",
+      "regulation": "Pergub NTT No. 26 Tahun 2025"
+    },
+    "lookup_2026": {
+      "status": "PASS_REAL_FIXTURES",
+      "matched_nopols": [
+        "DH2630PI",
+        "DH2634PI",
+        "DH2642PI"
+      ],
+      "edition": "edition-2026",
+      "regulation": "Permendagri No. 11 Tahun 2026"
+    },
+    "invalid_nopol": {
+      "http_status": 400,
+      "error": "invalid_nopol",
+      "status": "PASS"
+    },
+    "unsupported_tax_year": {
+      "http_status": 400,
+      "error": "unsupported_query_parameter",
+      "status": "PASS"
+    },
     "pii_leaks": [],
     "cors_header_present": false,
     "security_headers": "PASS",
@@ -72,7 +151,7 @@
     "local_deterministic_tests": "PASS",
     "live_controlled_requests": 65,
     "live_429_observed": false,
-    "status": "INCONCLUSIVE_PER_ISOLATE_DISTRIBUTION",
+    "status": "INCONCLUSIVE_PER_ISOLATE_DISTRIBUTION_NON_BLOCKING",
     "waf_global_configured": false
   },
   "query_plans": {
@@ -81,7 +160,7 @@
     "status": "PASS"
   },
   "match_audits": {
-    "count": 2,
+    "count": 15,
     "live_lookup_audit_created": true,
     "invalid_and_rate_test_audits_created": false,
     "status": "PASS"
@@ -93,9 +172,8 @@
     "status": "PASS_LIMITED_OBSERVATION"
   },
   "acceptance_gaps": [
-    "No real BPAD-recognized existing 2025 NOPOL fixture was available for live end-to-end validation.",
-    "No real BPAD-recognized existing 2026 NOPOL fixture was available for live end-to-end validation.",
-    "Per-isolate in-memory limiter did not produce a live 429 during 65 controlled invalid requests because requests may be distributed across isolates; global WAF rate limiting is not configured."
+    "Global Cloudflare WAF rate limiting is not configured; application limiter remains per isolate."
   ],
-  "final_verdict": "PRODUCTION_DEPLOYMENT_PARTIAL"
+  "final_verdict": "PRODUCTION_DEPLOYMENT_VERIFIED",
+  "closure_evidence": "docs/evidence/phase8d-final-closure.json"
 }

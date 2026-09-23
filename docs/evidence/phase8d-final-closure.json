@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "phase": "8D_FINAL_CLOSURE",
+  "timestamp_utc": "2026-09-23T02:26:26.923Z",
+  "classification": "PRODUCTION_DEPLOYMENT_VERIFIED",
+  "spreadsheet": {
+    "path": "docs/Data Potensi September.xlsx",
+    "committed": false,
+    "pii_columns_used": false,
+    "total_rows": 27627,
+    "year_2025_rows": 909,
+    "year_2026_rows": 56,
+    "valid_identity_candidates_2025": 909,
+    "valid_identity_candidates_2026": 56
+  },
+  "bpad_validation": [
+    {"nopol":"DH4874PF","spreadsheet_year":2025,"spreadsheet_brand":"HONDA","spreadsheet_type":"F1C02N46L2 A/T","http":200,"recognized":true,"bpad_year":2025,"bpad_brand":"HONDA","bpad_type":"F1C02N46L2 A/T","bpad_code":"701167 17549"},
+    {"nopol":"DH5548PF","spreadsheet_year":2025,"spreadsheet_brand":"HONDA","spreadsheet_type":"F1C02N46L2 A/T","http":200,"recognized":true,"bpad_year":2025,"bpad_brand":"HONDA","bpad_type":"F1C02N46L2 A/T","bpad_code":"701167 17549"},
+    {"nopol":"DH5122PF","spreadsheet_year":2025,"spreadsheet_brand":"HONDA","spreadsheet_type":"H1B02N41L1 AT","http":200,"recognized":true,"bpad_year":2025,"bpad_brand":"HONDA","bpad_type":"H1B02N41L1 AT","bpad_code":"701167 17049"},
+    {"nopol":"DH5580PF","spreadsheet_year":2025,"spreadsheet_brand":"HONDA","spreadsheet_type":"L1F02N37L1 A/T","http":200,"recognized":true,"bpad_year":2025,"bpad_brand":"HONDA","bpad_type":"L1F02N37L1 A/T","bpad_code":"701167 70049"},
+    {"nopol":"DH2582PI","spreadsheet_year":2026,"spreadsheet_brand":"HONDA","spreadsheet_type":"L1F02N36L2 A/T","http":200,"recognized":true,"bpad_year":2026,"bpad_brand":"HONDA","bpad_type":"L1F02N36L2 A/T","bpad_code":"701167 88849"},
+    {"nopol":"DH2630PI","spreadsheet_year":2026,"spreadsheet_brand":"HONDA","spreadsheet_type":"F1C02N46L2 A/T","http":200,"recognized":true,"bpad_year":2026,"bpad_brand":"HONDA","bpad_type":"F1C02N46L2 A/T","bpad_code":"701167 17549"},
+    {"nopol":"DH2569PI","spreadsheet_year":2026,"spreadsheet_brand":"HONDA","spreadsheet_type":"H1B02N41L1 AT","http":200,"recognized":true,"bpad_year":2026,"bpad_brand":"HONDA","bpad_type":"H1B02N41L1 AT","bpad_code":"701167 17049"},
+    {"nopol":"DH2212ET","spreadsheet_year":2026,"spreadsheet_brand":"VESPA","spreadsheet_type":"SPRINT S 180","http":200,"recognized":true,"bpad_year":2026,"bpad_brand":"VESPA","bpad_type":"SPRINT S 180","bpad_code":"701395 06430"}
+  ],
+  "successful_e2e": [
+    {"nopol":"DH4874PF","year":2025,"http":200,"method":"exact_code_year_and_brand_type","edition":"edition-2025","regulation":"Pergub NTT No. 26 Tahun 2025","source_code":"701167 17549","njkb":16600000,"d1_match":true},
+    {"nopol":"DH5122PF","year":2025,"http":200,"method":"exact_code_year_and_brand_type","edition":"edition-2025","regulation":"Pergub NTT No. 26 Tahun 2025","source_code":"701167 17049","njkb":11300000,"d1_match":true},
+    {"nopol":"DH5548PF","year":2025,"http":200,"method":"exact_code_year_and_brand_type","edition":"edition-2025","regulation":"Pergub NTT No. 26 Tahun 2025","source_code":"701167 17549","njkb":16600000,"d1_match":true},
+    {"nopol":"DH5580PF","year":2025,"http":200,"method":"exact_code_year_and_brand_type","edition":"edition-2025","regulation":"Pergub NTT No. 26 Tahun 2025","source_code":"701167 70049","njkb":15000000,"d1_match":true},
+    {"nopol":"DH2630PI","year":2026,"http":200,"method":"exact_brand_type_year_and_category","edition":"edition-2026","regulation":"Permendagri No. 11 Tahun 2026","source_code":"701167 75349","njkb":16900000,"d1_match":true},
+    {"nopol":"DH2634PI","year":2026,"http":200,"method":"exact_brand_type_year_and_category","edition":"edition-2026","regulation":"Permendagri No. 11 Tahun 2026","source_code":"701167 75349","njkb":16900000,"d1_match":true},
+    {"nopol":"DH2642PI","year":2026,"http":200,"method":"exact_brand_type_year_and_category","edition":"edition-2026","regulation":"Permendagri No. 11 Tahun 2026","source_code":"701167 75349","njkb":16900000,"d1_match":true}
+  ],
+  "safe_negative_e2e": [
+    {"nopol":"DH2582PI","year":2026,"http":404,"status":"not_found","interpretation":"approved 2026 coverage exists but exact code/identity is absent; no cross-year fallback"},
+    {"nopol":"DH2569PI","year":2026,"http":404,"status":"not_found","interpretation":"approved 2026 coverage exists but exact code/identity is absent; no cross-year fallback"},
+    {"nopol":"DH2212ET","year":2026,"http":409,"status":"conflict","conflicts":["type"],"interpretation":"exact code identity conflict exposed; no automatic correction or fallback"}
+  ],
+  "production_d1": {
+    "database_id":"ae3097b9-d76d-430f-b5c5-7653c8242b52",
+    "regulations":2,"source_documents":2,"reference_editions":2,"njkb_references":64874,"pergub":62091,"permendagri":2783,"ingestion_records":64874,"completed_manifests":2,"ingestion_issues":78,"vehicle_code_mappings":0,"duplicate_positions":0,"orphan_records":0,"match_audits":15,
+    "pergub_file_sha256":"c9218eb8df0e0a01e1f73dc528f99618daa8c8d069107726bf39c58f891b2a7c",
+    "permendagri_file_sha256":"fcc332ff3e5758791d55f1b08864fd25f0b939ce36ef1f288c8c9b937e33f17e"
+  },
+  "security": {"headers":"PASS","cors_disabled":true,"pii_leaks":[],"internal_leaks":[]},
+  "error_contract":{"invalid_nopol":"PASS_HTTP_400","unsupported_tax_year":"PASS_HTTP_400"},
+  "rate_limiting":{"local_deterministic":"PASS","production_429":"INCONCLUSIVE_PER_ISOLATE_LIMITER","global_waf":"NOT_CONFIGURED","blocking":false},
+  "quota_incident":{"classification":"OPERATIONAL_QUOTA_CONSIDERATION","recovered":true,"post_reset_ready":"PASS","post_reset_lookup":"PASS","post_reset_audit_write":"PASS","data_corruption":false},
+  "remaining_limitations":["Global Cloudflare WAF rate limiting is not configured; application limiter remains per isolate."],
+  "phase_decision":{"phase8d_close":true,"remediation_required":false,"phase8e_may_start":true}
+}
