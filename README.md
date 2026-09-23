@@ -68,7 +68,8 @@ result to a stable public contract. Money and weight are decimal strings.
 
 Responses use `Cache-Control: no-store`; CORS remains disabled. Owner, address,
 identity, chassis, engine, and contact data are not persisted, exposed, or logged.
-See `docs/api.md`.
+See `docs/api.md`, `docs/openapi.json`, `docs/integration-guide.md`, and
+`docs/api-change-policy.md`.
 
 ## Resolution model
 

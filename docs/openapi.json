@@ -1,0 +1,102 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "NJKB API NTT",
+    "version": "1.0.0",
+    "description": "API lookup NJKB kendaraan Nusa Tenggara Timur berdasarkan identitas kendaraan BPAD dan sumber regulasi yang disetujui. Tahun kendaraan berasal dari BPAD; API tidak menerima tax_year dan tidak melakukan cross-year fallback."
+  },
+  "servers": [
+    {"url": "https://njkb-api-ntt.elwinmusadi.workers.dev", "description": "Production"}
+  ],
+  "security": [],
+  "tags": [
+    {"name": "NJKB", "description": "Public NJKB lookup"},
+    {"name": "Operations", "description": "Liveness and readiness probes"}
+  ],
+  "paths": {
+    "/api/njkb/{nopol}": {
+      "get": {
+        "tags": ["NJKB"],
+        "operationId": "getNjkbByNopol",
+        "summary": "Lookup NJKB berdasarkan NOPOL",
+        "description": "NOPOL dinormalisasi ke uppercase, Unicode NFKC, dan whitespace/hyphen dihapus. Semua query parameter ditolak. Regulatory reference dipilih internal dari vehicle year BPAD.",
+        "parameters": [
+          {
+            "name": "nopol",
+            "in": "path",
+            "required": true,
+            "description": "Nomor polisi. Bentuk hasil normalisasi harus cocok dengan ^[A-Z]{1,2}[0-9]{1,4}[A-Z]{0,3}$.",
+            "schema": {"type": "string", "examples": ["DH4786PD", "dh 4786 pd"]}
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Matched atau reference applicable tidak tersedia.",
+            "headers": {"X-Request-ID": {"$ref": "#/components/headers/RequestId"}, "Cache-Control": {"$ref": "#/components/headers/NoStore"}},
+            "content": {
+              "application/json": {
+                "schema": {"oneOf": [{"$ref": "#/components/schemas/MatchedResponse"}, {"$ref": "#/components/schemas/ReferenceUnavailableResponse"}]},
+                "examples": {
+                  "matched2024": {"summary": "Pergub 2024 exact code", "value": {"status":"matched","nopol":"DH4786PD","vehicle":{"brand":"HONDA","type":"C1M02N42L1 A/T","year":2024},"njkb":{"value":"12500000.00","weight":"1.000000","dpp_pkb":"12500000.00"},"match":{"method":"exact_code_year_and_brand_type","source_code":"701167 08549"},"source":{"regulation":"Pergub NTT No. 26 Tahun 2025","pdf_page":503,"source_row":"5310"}}},
+                  "matched2025": {"summary": "Pergub 2025 exact code", "value": {"status":"matched","nopol":"DH4874PF","vehicle":{"brand":"HONDA","type":"F1C02N46L2 A/T","year":2025},"njkb":{"value":"16600000.00","weight":"1.000000","dpp_pkb":"16600000.00"},"match":{"method":"exact_code_year_and_brand_type","source_code":"701167 17549"},"source":{"regulation":"Pergub NTT No. 26 Tahun 2025","pdf_page":508,"source_row":"5880"}}},
+                  "matched2026": {"summary": "Permendagri 2026 exact identity", "value": {"status":"matched","nopol":"DH2630PI","vehicle":{"brand":"HONDA","type":"F1C02N46L2 A/T","year":2026},"njkb":{"value":"16900000.00","weight":"1.000000","dpp_pkb":"16900000.00"},"match":{"method":"exact_brand_type_year_and_category","source_code":"701167 75349"},"source":{"regulation":"Permendagri No. 11 Tahun 2026","pdf_page":56,"source_row":"335"}}}
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "NOPOL invalid atau query parameter tidak didukung.",
+            "headers": {"X-Request-ID": {"$ref": "#/components/headers/RequestId"}},
+            "content": {"application/json": {"schema": {"$ref": "#/components/schemas/InvalidRequestResponse"}, "examples": {"invalidNopol": {"value": {"status":"invalid_request","error":{"code":"invalid_nopol","message":"Format NOPOL tidak valid","request_id":"00000000-0000-4000-8000-000000000000"}}}, "unsupportedQuery": {"value": {"status":"invalid_request","error":{"code":"unsupported_query_parameter","message":"Endpoint ini tidak menerima parameter lookup; NJKB diresolusi berdasarkan tahun pembuatan kendaraan","request_id":"00000000-0000-4000-8000-000000000000"}}}}}}
+          },
+          "404": {"description": "Approved coverage tersedia, tetapi identity tidak ditemukan.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/NotFoundResponse"}, "example": {"status":"not_found","nopol":"DH2582PI","vehicle":{"brand":"HONDA","type":"L1F02N36L2 A/T","year":2026}}}}},
+          "409": {"description": "Exact candidate ambigu atau berkonflik.", "content": {"application/json": {"schema": {"oneOf": [{"$ref": "#/components/schemas/AmbiguousResponse"},{"$ref": "#/components/schemas/ConflictResponse"}]}, "example": {"status":"conflict","nopol":"DH2212ET","vehicle":{"brand":"VESPA","type":"SPRINT S 180","year":2026},"match":{"method":"exact_code_year_and_brand_type","conflicts":["type"]}}}}},
+          "429": {"description": "Application per-isolate rate limit terlampaui.", "headers": {"Retry-After": {"description": "Detik menuju reset fixed window.", "schema": {"type":"integer","minimum":1}}}, "content": {"application/json": {"schema": {"$ref": "#/components/schemas/RateLimitResponse"}}}},
+          "500": {"description": "Matching atau internal application failure.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/InternalErrorResponse"}}}},
+          "502": {"description": "BPAD network, HTTP, JSON, atau payload failure.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UpstreamErrorResponse"}}}},
+          "503": {"description": "Production D1 tidak tersedia.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/InternalErrorResponse"}}}},
+          "504": {"description": "BPAD melewati total timeout budget.", "content": {"application/json": {"schema": {"$ref": "#/components/schemas/UpstreamErrorResponse"}}}}
+        }
+      }
+    },
+    "/health": {
+      "get": {"tags":["Operations"],"operationId":"health","summary":"Worker liveness","responses":{"200":{"description":"Worker process hidup; tidak memanggil BPAD atau D1.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/HealthResponse"},"example":{"status":"ok"}}}}}}
+    },
+    "/ready": {
+      "get": {"tags":["Operations"],"operationId":"ready","summary":"D1 readiness","responses":{"200":{"description":"D1 dapat di-query.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ReadyResponse"},"example":{"status":"ready"}}}},"503":{"description":"D1 tidak dapat di-query; detail internal disanitasi.","content":{"application/json":{"schema":{"$ref":"#/components/schemas/ReadinessErrorResponse"}}}}}}
+    }
+  },
+  "components": {
+    "headers": {
+      "RequestId": {"description":"Server-generated UUID untuk correlation log.","schema":{"type":"string","format":"uuid"}},
+      "NoStore": {"description":"Response tidak boleh disimpan cache.","schema":{"type":"string","const":"no-store"}}
+    },
+    "schemas": {
+      "Vehicle": {"type":"object","additionalProperties":false,"required":["brand","type","year"],"properties":{"brand":{"type":"string","minLength":1},"type":{"type":"string","minLength":1},"year":{"type":"integer","minimum":1900,"maximum":2200}}},
+      "Njkb": {"type":"object","additionalProperties":false,"required":["value","weight","dpp_pkb"],"properties":{"value":{"type":["string","null"],"pattern":"^[0-9]+\\.00$"},"weight":{"type":["string","null"],"pattern":"^[0-9]+\\.[0-9]{6}$"},"dpp_pkb":{"type":["string","null"],"pattern":"^[0-9]+\\.00$"}}},
+      "Match": {"type":"object","additionalProperties":false,"required":["method","source_code"],"properties":{"method":{"type":"string","enum":["exact_code_year_and_brand_type","exact_brand_type_year_and_category","verified_code_mapping"]},"source_code":{"type":"string","minLength":1}}},
+      "Source": {"type":"object","additionalProperties":false,"required":["regulation","pdf_page","source_row"],"properties":{"regulation":{"type":"string","minLength":1},"pdf_page":{"type":"integer","minimum":1},"source_row":{"type":"string","minLength":1}}},
+      "MatchedResponse": {"type":"object","additionalProperties":false,"required":["status","nopol","vehicle","njkb","match","source"],"properties":{"status":{"const":"matched"},"nopol":{"type":"string"},"vehicle":{"$ref":"#/components/schemas/Vehicle"},"njkb":{"$ref":"#/components/schemas/Njkb"},"match":{"$ref":"#/components/schemas/Match"},"source":{"$ref":"#/components/schemas/Source"}}},
+      "ReferenceUnavailableResponse": {"type":"object","additionalProperties":false,"required":["status","nopol","vehicle"],"properties":{"status":{"const":"reference_unavailable"},"nopol":{"type":"string"},"vehicle":{"$ref":"#/components/schemas/Vehicle"}}},
+      "NotFoundResponse": {"type":"object","additionalProperties":false,"required":["status","nopol","vehicle"],"properties":{"status":{"const":"not_found"},"nopol":{"type":"string"},"vehicle":{"$ref":"#/components/schemas/Vehicle"}}},
+      "AmbiguousResponse": {"type":"object","additionalProperties":false,"required":["status","nopol","vehicle","match"],"properties":{"status":{"const":"ambiguous"},"nopol":{"type":"string"},"vehicle":{"$ref":"#/components/schemas/Vehicle"},"match":{"type":"object","additionalProperties":false,"required":["method"],"properties":{"method":{"type":"string"}}}}},
+      "ConflictResponse": {"type":"object","additionalProperties":false,"required":["status","nopol","vehicle","match"],"properties":{"status":{"const":"conflict"},"nopol":{"type":"string"},"vehicle":{"$ref":"#/components/schemas/Vehicle"},"match":{"type":"object","additionalProperties":false,"required":["method","conflicts"],"properties":{"method":{"type":"string"},"conflicts":{"type":"array","items":{"type":"string"}}}}}},
+      "PublicError": {"type":"object","additionalProperties":false,"required":["code","message","request_id"],"properties":{"code":{"type":"string"},"message":{"type":"string"},"request_id":{"type":"string","format":"uuid"}}},
+      "InvalidRequestResponse": {"type":"object","additionalProperties":false,"required":["status","error"],"properties":{"status":{"const":"invalid_request"},"error":{"allOf":[{"$ref":"#/components/schemas/PublicError"},{"type":"object","properties":{"code":{"enum":["invalid_nopol","unsupported_query_parameter"]}}}]}}},
+      "RateLimitResponse": {"type":"object","additionalProperties":false,"required":["status","error"],"properties":{"status":{"const":"invalid_request"},"error":{"allOf":[{"$ref":"#/components/schemas/PublicError"},{"type":"object","properties":{"code":{"const":"rate_limit_exceeded"}}}]}}},
+      "UpstreamErrorResponse": {"type":"object","additionalProperties":false,"required":["status","nopol","error"],"properties":{"status":{"const":"upstream_error"},"nopol":{"type":"string"},"error":{"allOf":[{"$ref":"#/components/schemas/PublicError"},{"type":"object","properties":{"code":{"enum":["timeout","network_error","http_error","malformed_json","invalid_payload"]}}}]}}},
+      "InternalErrorResponse": {"type":"object","additionalProperties":false,"required":["status","error"],"properties":{"status":{"const":"error"},"error":{"allOf":[{"$ref":"#/components/schemas/PublicError"},{"type":"object","properties":{"code":{"enum":["database_error","matching_error","internal_error"]}}}]}}},
+      "HealthResponse": {"type":"object","additionalProperties":false,"required":["status"],"properties":{"status":{"const":"ok"}}},
+      "ReadyResponse": {"type":"object","additionalProperties":false,"required":["status"],"properties":{"status":{"const":"ready"}}},
+      "ReadinessErrorResponse": {"type":"object","additionalProperties":false,"required":["status","error"],"properties":{"status":{"const":"unhealthy"},"error":{"allOf":[{"$ref":"#/components/schemas/PublicError"},{"type":"object","properties":{"code":{"const":"database_unavailable"}}}]}}}
+    }
+  },
+  "x-contract-notes": {
+    "authentication": "Tidak ada application authentication saat ini.",
+    "cors": "Disabled; Access-Control-Allow-Origin tidak dikirim.",
+    "cache": "Semua response memakai Cache-Control: no-store.",
+    "rateLimit": "60 request/60 detik per client key per Worker isolate; bukan global exact limit.",
+    "requestId": "X-Request-ID selalu dibuat server; client-supplied request ID tidak diterima sebagai correlation ID.",
+    "pii": "Owner/contact/chassis/engine/raw BPAD fields tidak termasuk public contract."
+  }
+}
