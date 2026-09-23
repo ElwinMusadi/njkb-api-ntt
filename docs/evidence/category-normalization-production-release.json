@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "phase": "CATEGORY_NORMALIZATION_CONTROLLED_RELEASE",
+  "status": "PRODUCTION_RELEASE_VERIFIED",
+  "deployment_timestamp_utc": "2026-09-23T10:51:03.980Z",
+  "verification_timestamp_utc": "2026-09-23T10:53:07.759Z",
+  "release_commit_sha": "e7ca04c5220072341571e02f335ea4f1099b3daf",
+  "previous_worker_version": "20caad97-94f7-442e-a7a6-67a80592d73b",
+  "new_worker_version": "45f16da5-a1d7-46ef-9f1a-8d21679fde7e",
+  "worker_url": "https://njkb-api-ntt.elwinmusadi.workers.dev",
+  "environment": "production",
+  "d1": {
+    "name": "njkb-api-production",
+    "id": "ae3097b9-d76d-430f-b5c5-7653c8242b52",
+    "binding": "NJKB_DB",
+    "migration_executed": false,
+    "data_deployment_executed": false,
+    "before": {"regulations":2,"source_documents":2,"reference_editions":2,"njkb_references":64874,"ingestion_records":64874,"completed_manifests":2,"ingestion_issues":78,"vehicle_code_mappings":0},
+    "after": {"regulations":2,"source_documents":2,"reference_editions":2,"njkb_references":64874,"ingestion_records":64874,"completed_manifests":2,"ingestion_issues":78,"vehicle_code_mappings":0,"match_audits":45},
+    "pergub_file_sha256": "c9218eb8df0e0a01e1f73dc528f99618daa8c8d069107726bf39c58f891b2a7c",
+    "permendagri_file_sha256": "fcc332ff3e5758791d55f1b08864fd25f0b939ce36ef1f288c8c9b937e33f17e",
+    "pergub_semantic_sha256": "d0c78817c0c7c93dbecb9cebd5f224424af6f863d8250abdc8693fead004ecbf",
+    "permendagri_semantic_sha256": "b01730ec515f25c4bfe3bb326cd0ddb829ce3befb961e1833626434bf080e663"
+  },
+  "local_validation": {
+    "tests": {"status":"PASS","files":9,"tests":155},
+    "typecheck": "PASS",
+    "build": "PASS",
+    "openapi": {"errors":0,"warnings":3},
+    "diff_check": "PASS",
+    "local_d1": "PASS",
+    "deterministic_samples": "PASS_40_OF_40"
+  },
+  "production_smoke": {
+    "health": {"http":200,"status":"ok"},
+    "ready": {"http":200,"status":"ready"},
+    "dh1823hj": {"http":200,"status":"matched","year":2019,"method":"exact_code_year_and_brand_type","source_code":"103167 40649","njkb":"150000000.00","weight":"1.050000","dpp_pkb":"157500000.00","regulation":"Pergub NTT No. 26 Tahun 2025","pdf_page":181,"source_row":"2587"},
+    "dh4786pd": {"http":200,"status":"matched","year":2024,"source_code":"701167 08549","njkb":"12500000.00","regulation":"Pergub NTT No. 26 Tahun 2025"},
+    "dh4874pf": {"http":200,"status":"matched","year":2025,"source_code":"701167 17549","njkb":"16600000.00","regulation":"Pergub NTT No. 26 Tahun 2025"},
+    "dh2630pi": {"http":200,"status":"matched","year":2026,"source_code":"701167 75349","njkb":"16900000.00","regulation":"Permendagri No. 11 Tahun 2026"},
+    "dh2582pi": {"http":404,"status":"not_found"},
+    "dh2212et": {"http":409,"status":"conflict","conflicts":["type"]},
+    "invalid": {"http":400,"error":"invalid_nopol"},
+    "unsupported_query": {"http":400,"error":"unsupported_query_parameter"}
+  },
+  "security": {"pii_leakage":"PASS","cors_disabled":true,"headers":"PASS","api_contract_unchanged":true},
+  "regulatory_boundary": {"2024":"Pergub NTT No. 26 Tahun 2025","2025":"Pergub NTT No. 26 Tahun 2025","2026":"Permendagri No. 11 Tahun 2026"},
+  "rollback": {"target_worker_version":"20caad97-94f7-442e-a7a6-67a80592d73b","executed":false,"d1_rollback_required":false},
+  "final_classification": "PRODUCTION_RELEASE_VERIFIED"
+}
