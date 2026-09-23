@@ -1,20 +1,21 @@
 {
-  "schema_version": 3,
-  "phase": "8D_RESUME",
-  "status": "PARTIAL_DATA_DEPLOYMENT_STOPPED",
-  "timestamp_utc": "2026-09-22T19:15:52.191Z",
+  "schema_version": 4,
+  "phase": "8D",
+  "status": "PRODUCTION_DEPLOYMENT_PARTIAL",
+  "timestamp_utc": "2026-09-23T01:20:55.811Z",
   "git": {
     "branch": "main",
-    "commit_sha": "dc94d0ce07b934e5466e0eeb1f4ef200f6bb8dd0",
-    "working_tree_clean": true,
-    "origin_synchronized": true
+    "commit_sha": "fd5a12c00ab9a43b9593d903cfad9102e4c78589",
+    "working_tree_clean_before_deployment": true,
+    "origin_synchronized_before_deployment": true
   },
   "cloudflare": {
-    "account_name": "Elwinmusadi@gmail.com's Account",
     "account_id": "04b8b2073be2f1aa21fc6489e0db36f6",
     "worker_name": "njkb-api-ntt",
-    "worker_deployed": false,
-    "production_url": null,
+    "environment": "production",
+    "production_url": "https://njkb-api-ntt.elwinmusadi.workers.dev",
+    "current_version_id": "20caad97-94f7-442e-a7a6-67a80592d73b",
+    "rollback_candidate_version_id": "de12e2dd-3622-4235-929c-84a7b2c6161a",
     "database": {
       "name": "njkb-api-production",
       "id": "ae3097b9-d76d-430f-b5c5-7653c8242b52",
@@ -22,66 +23,79 @@
       "migrations_0001_0005": "APPLIED"
     }
   },
-  "resume_preflight": {
-    "status": "PASS",
-    "production_data_initially_empty": true,
-    "artifact_records": 64874,
-    "artifact_chunks": 188,
-    "manifest_sha256": "f58d944060c4017536c714c274d2207b7e7b22373f73065766421ed6b6c19098",
-    "aggregate_sql_sha256": "a3201641ca67193a63c50aabaf8a9cb7fb2e5e60ebf48821b488d76cd73d8c80",
-    "artifact_hash_failures": 0,
-    "unsupported_transaction_statements": 0
+  "data_deployment": {
+    "status": "PASS_AFTER_RESUME",
+    "total_chunks": 188,
+    "initial_successful_chunks": 110,
+    "network_failed_chunk": "pergub_chunk_111.sql",
+    "resume_start_chunk": "pergub_chunk_111.sql",
+    "resume_completed_chunks": 77,
+    "artifact_preflight": "PASS",
+    "references": 64874,
+    "pergub": 62091,
+    "permendagri": 2783,
+    "ingestion_records": 64874,
+    "completed_manifests": 2,
+    "ingestion_issues": 78,
+    "vehicle_code_mappings": 0,
+    "duplicate_positions": 0,
+    "orphan_ingestion_records": 0
   },
   "canonical": {
-    "pergub": {"records":62091,"sha256":"c9218eb8df0e0a01e1f73dc528f99618daa8c8d069107726bf39c58f891b2a7c"},
-    "permendagri": {"records":2783,"sha256":"fcc332ff3e5758791d55f1b08864fd25f0b939ce36ef1f288c8c9b937e33f17e"}
+    "pergub_file_sha256": "c9218eb8df0e0a01e1f73dc528f99618daa8c8d069107726bf39c58f891b2a7c",
+    "permendagri_file_sha256": "fcc332ff3e5758791d55f1b08864fd25f0b939ce36ef1f288c8c9b937e33f17e",
+    "pergub_semantic_sha256": "d0c78817c0c7c93dbecb9cebd5f224424af6f863d8250abdc8693fead004ecbf",
+    "permendagri_semantic_sha256": "b01730ec515f25c4bfe3bb326cd0ddb829ce3befb961e1833626434bf080e663",
+    "stored_manifest_hashes_match_local": true
   },
-  "data_deployment": {
-    "command": "npm run deploy:production:d1 -- --remote",
-    "status": "STOPPED_ON_NETWORK_FAILURE",
-    "successful_chunks": 110,
-    "failed_chunk_number": 111,
-    "failed_chunk": "pergub_chunk_111.sql",
-    "total_chunks": 188,
-    "error_category": "CLOUDFLARE_FETCH_CONNECTIVITY_FAILURE",
-    "error": "wrangler reported fetch failed / likely connectivity issue",
-    "failed_chunk_rows_written": 0,
-    "last_committed_record_index": 38499,
-    "retry_attempted": false,
-    "chunks_skipped": 0
+  "samples": [
+    {"vehicle_year":2022,"code":"701167 08549","edition":"edition-2025","njkb":11700000,"status":"PASS_D1"},
+    {"vehicle_year":2023,"code":"701167 08549","edition":"edition-2025","njkb":11900000,"status":"PASS_D1"},
+    {"vehicle_year":2024,"code":"701167 08549","edition":"edition-2025","njkb":12500000,"status":"PASS_D1_AND_LIVE_API"},
+    {"vehicle_year":2025,"code":"701167 08549","edition":"edition-2025","njkb":12600000,"status":"PASS_D1_ONLY_SYNTHETIC_NOPOL_REJECTED_BY_BPAD"},
+    {"vehicle_year":2026,"code":"701167 67749","edition":"edition-2026","njkb":12900000,"status":"PASS_D1_ONLY_SYNTHETIC_NOPOL_REJECTED_BY_BPAD"}
+  ],
+  "live": {
+    "health": {"http_status":200,"body":{"status":"ok"},"duration_seconds":0.641946,"status":"PASS"},
+    "ready": {"http_status":200,"body":{"status":"ready"},"duration_seconds":0.529201,"status":"PASS"},
+    "lookup_2024": {"http_status":200,"nopol":"DH4786PD","vehicle_year":2024,"njkb":"12500000.00","method":"exact_code_year_and_brand_type","regulation":"Pergub NTT No. 26 Tahun 2025","status":"PASS"},
+    "lookup_2025": {"http_status":502,"error":"invalid_payload","status":"NOT_PROVABLE_LIVE_SYNTHETIC_NOPOL_NOT_IN_BPAD"},
+    "lookup_2026": {"http_status":502,"error":"invalid_payload","status":"NOT_PROVABLE_LIVE_SYNTHETIC_NOPOL_NOT_IN_BPAD"},
+    "invalid_nopol": {"http_status":400,"error":"invalid_nopol","status":"PASS"},
+    "unsupported_tax_year": {"http_status":400,"error":"unsupported_query_parameter","status":"PASS"},
+    "pii_leaks": [],
+    "cors_header_present": false,
+    "security_headers": "PASS",
+    "request_id": "PASS"
   },
-  "remote_state_after_stop": {
-    "regulations": 2,
-    "source_documents": 2,
-    "reference_editions": 2,
-    "njkb_references": 38500,
-    "pergub_references": 38500,
-    "permendagri_references": 0,
-    "ingestion_records": 38500,
-    "ingestion_manifests": 2,
-    "manifest_statuses": ["importing","importing"],
-    "ingestion_issues": 0,
-    "vehicle_code_mappings": 0,
-    "worker_deployed": false,
-    "traffic_active": false
+  "rate_limit": {
+    "local_deterministic_tests": "PASS",
+    "live_controlled_requests": 65,
+    "live_429_observed": false,
+    "status": "INCONCLUSIVE_PER_ISOLATE_DISTRIBUTION",
+    "waf_global_configured": false
   },
-  "gates": {
-    "resume_data_deployment_gate": "PASS",
-    "production_data_deployment_gate": "FAIL_INCOMPLETE",
-    "worker_deployment_gate": "NOT_EVALUATED"
+  "query_plans": {
+    "exact_code": "idx_njkb_code",
+    "exact_identity": "idx_njkb_identity",
+    "status": "PASS"
   },
-  "live_verification": {
-    "health": "NOT_RUN",
-    "ready": "NOT_RUN",
-    "api_smoke": "NOT_RUN",
-    "security_headers": "NOT_RUN",
-    "rate_limit": "NOT_RUN",
-    "query_plan": "NOT_RUN",
-    "match_audits": "NOT_RUN"
+  "match_audits": {
+    "count": 2,
+    "live_lookup_audit_created": true,
+    "invalid_and_rate_test_audits_created": false,
+    "status": "PASS"
   },
-  "rollback": {
-    "worker": "NOT_REQUIRED_NOT_DEPLOYED",
-    "d1": "NO_DESTRUCTIVE_ROLLBACK_PERFORMED",
-    "recovery_strategy": "Resume the idempotent manifest from pergub_chunk_111.sql after a fresh read-only state verification; do not delete committed rows."
-  }
+  "observation": {
+    "initial_503_root_cause": "D1 free tier daily row write quota exhausted during bulk import; reset at midnight UTC",
+    "post_reset_known_lookup": "PASS",
+    "unexpected_post_reset_5xx": 0,
+    "status": "PASS_LIMITED_OBSERVATION"
+  },
+  "acceptance_gaps": [
+    "No real BPAD-recognized existing 2025 NOPOL fixture was available for live end-to-end validation.",
+    "No real BPAD-recognized existing 2026 NOPOL fixture was available for live end-to-end validation.",
+    "Per-isolate in-memory limiter did not produce a live 429 during 65 controlled invalid requests because requests may be distributed across isolates; global WAF rate limiting is not configured."
+  ],
+  "final_verdict": "PRODUCTION_DEPLOYMENT_PARTIAL"
 }

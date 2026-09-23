@@ -1,176 +1,209 @@
 # Phase 8D — Production Deployment Report
 
-Tanggal resume: 22 September 2026.
+Tanggal final verification: 23 September 2026.
 
 ## Status
 
 **PARTIAL**
 
-Resume preflight lulus. Production data upload berhenti pada chunk 111/188 karena
-transient Cloudflare fetch/connectivity failure. Chunk 1–110 sudah committed secara
-konsisten; failed chunk menulis 0 row. Sesuai stop condition, tidak ada retry otomatis,
-chunk skip, Worker deployment, atau live traffic activation.
+Production D1 terisi lengkap dan Worker production aktif. Health, readiness, known 2024
+lookup, data counts/hashes, headers, error contract, query plans, dan match audit lulus.
+Status tidak dinaikkan menjadi `VERIFIED` karena live end-to-end 2025/2026 tidak dapat
+dibuktikan dengan synthetic NOPOL yang tidak dikenali BPAD, dan live 429 tidak teramati
+pada limiter per-isolate.
 
 ## 1. Deployment Target
 
 - Worker: `njkb-api-ntt`
 - Environment: `production`
-- Account ID: `04b8b2073be2f1aa21fc6489e0db36f6`
+- Commit deployment: `fd5a12c00ab9a43b9593d903cfad9102e4c78589`
 - D1: `njkb-api-production`
 - D1 UUID: `ae3097b9-d76d-430f-b5c5-7653c8242b52`
 - Region: APAC
-- Worker deployed: tidak
-- Production URL: belum ada
+- URL: `https://njkb-api-ntt.elwinmusadi.workers.dev`
+- Current Worker version: `20caad97-94f7-442e-a7a6-67a80592d73b`
 
 ## 2. Deployment Timeline
 
-1. Git baseline dan origin synchronization diverifikasi.
-2. Artifact/canonical/account/D1/Worker preflight lulus.
-3. `RESUME DATA DEPLOYMENT GATE: PASS`.
-4. Runner memvalidasi 188 chunk hash, size, manifest, dan transaction syntax.
-5. Metadata serta `pergub_chunk_01`–`pergub_chunk_110` berhasil.
-6. `pergub_chunk_111.sql` gagal karena fetch connectivity failure.
-7. Runner berhenti. Tidak ada retry atau skip.
-8. Remote state diukur read-only.
-9. Worker deployment dibatalkan.
+1. Resume gate lulus pada commit `dc94d0c`.
+2. Data upload mulai dari empty schema.
+3. Network failure terjadi pada chunk 111 setelah 38.500 rows committed.
+4. Bounded network retry dan explicit `--start-at` support ditambahkan, diuji, committed,
+   dan dipush sebagai commit `fd5a12c`.
+5. State 38.500/max index 38.499 diverifikasi.
+6. Upload dilanjutkan dari `pergub_chunk_111.sql` hingga 188/188.
+7. Counts, manifests, samples, duplicates, semantic hashes, dan query plans lulus.
+8. Worker production dideploy.
+9. Health dan readiness lulus.
+10. Known 2024 lookup awal gagal karena D1 free-tier write quota habis oleh bulk import.
+11. Setelah reset midnight UTC, known 2024 lookup lulus dan match audit tercatat.
+12. Error/security/rate-limit checks dijalankan secara terkendali.
 
 ## 3. Git Release Baseline
 
 - Branch: `main`
-- Commit: `dc94d0ce07b934e5466e0eeb1f4ef200f6bb8dd0`
-- Working tree sebelum mutation: bersih
-- origin/main: synchronized
+- Deployment commit: `fd5a12c00ab9a43b9593d903cfad9102e4c78589`
+- Git status sebelum deployment: clean
+- origin/main sebelum deployment: synchronized
 
 ## 4. Migration Result
 
-Migration 0001–0005 sebelumnya applied dan tidak diulang.
-
-```text
-No migrations to apply
-```
+Migration 0001–0005 applied. Schema, FK, triggers, dan indexes terverifikasi.
 
 ## 5. Data Deployment Result
 
-Command:
-
-```sh
-npm run deploy:production:d1 -- --remote
-```
-
-Result:
-
-- Artifact preflight: PASS
-- Successful chunks: 110
-- Failed chunk: 111 (`pergub_chunk_111.sql`)
-- Total chunks: 188
-- Failure category: transient Wrangler/Cloudflare fetch connectivity failure
-- Failed chunk rows written: 0
-- Last committed `record_index`: 38.499
-- Retry: tidak dilakukan
-- Skipped chunk: 0
-
-Remote D1 setelah stop:
-
-| Table / dataset | Count |
-|---|---:|
-| regulations | 2 |
-| source_documents | 2 |
-| reference_editions | 2 |
-| njkb_references | 38.500 |
-| edition-2025 | 38.500 |
-| edition-2026 | 0 |
-| ingestion_records | 38.500 |
-| ingestion_manifests | 2 |
-| ingestion_issues | 0 |
-| vehicle_code_mappings | 0 |
-
-Kedua manifest masih berstatus `importing`, sesuai partial deployment.
+| Metric | Actual | Status |
+|---|---:|---|
+| SQL chunks | 188/188 | PASS |
+| Regulations | 2 | PASS |
+| Source documents | 2 | PASS |
+| Reference editions | 2 | PASS |
+| NJKB references | 64.874 | PASS |
+| Pergub edition | 62.091 | PASS |
+| Permendagri edition | 2.783 | PASS |
+| Ingestion records | 64.874 | PASS |
+| Completed manifests | 2 | PASS |
+| Ingestion issues | 78 | PASS |
+| Vehicle mappings | 0 | PASS |
+| Duplicate source positions | 0 | PASS |
+| Orphan ingestion records | 0 | PASS |
 
 ## 6. Data Hash Verification
 
-Canonical dan artifacts sebelum deployment:
+File hashes:
 
-- Pergub: 62.091 / `c9218eb8df0e0a01e1f73dc528f99618daa8c8d069107726bf39c58f891b2a7c`
-- Permendagri: 2.783 / `fcc332ff3e5758791d55f1b08864fd25f0b939ce36ef1f288c8c9b937e33f17e`
-- Manifest: `f58d944060c4017536c714c274d2207b7e7b22373f73065766421ed6b6c19098`
-- Aggregate SQL: `a3201641ca67193a63c50aabaf8a9cb7fb2e5e60ebf48821b488d76cd73d8c80`
+- Pergub: `c9218eb8df0e0a01e1f73dc528f99618daa8c8d069107726bf39c58f891b2a7c`
+- Permendagri: `fcc332ff3e5758791d55f1b08864fd25f0b939ce36ef1f288c8c9b937e33f17e`
 
-Production hash verification belum dapat dilakukan karena upload belum lengkap.
+Stored semantic hashes cocok dengan local canonical validation:
+
+- Pergub: `d0c78817c0c7c93dbecb9cebd5f224424af6f863d8250abdc8693fead004ecbf`
+- Permendagri: `b01730ec515f25c4bfe3bb326cd0ddb829ce3befb961e1833626434bf080e663`
 
 ## 7. Worker Deployment
 
-Tidak dijalankan karena production data deployment gate gagal.
+- URL: `https://njkb-api-ntt.elwinmusadi.workers.dev`
+- Initial release version: `de12e2dd-3622-4235-929c-84a7b2c6161a`
+- Diagnostic version sementara: `42f85b44-01e6-4e5b-b7f5-598de73545e4`
+- Current clean version: `20caad97-94f7-442e-a7a6-67a80592d73b`
+- Startup time: 15 ms
+- D1 binding: `njkb-api-production`
 
 ## 8. Health & Readiness
 
-Tidak dijalankan karena Worker belum dideploy.
+| Endpoint | HTTP | Body | Duration | Status |
+|---|---:|---|---:|---|
+| `/health` | 200 | `{"status":"ok"}` | 0,642s | PASS |
+| `/ready` | 200 | `{"status":"ready"}` | 0,529s | PASS |
 
 ## 9. Live API Smoke Tests
 
-Tidak dijalankan.
+| Test | Expected | Actual | Status |
+|---|---|---|---|
+| 2024 `DH4786PD` | Pergub, 12.500.000, exact code | HTTP 200, Pergub, 12.500.000, exact code | PASS |
+| 2025 `DH2025AA` | Pergub, 12.600.000 | BPAD `invalid_payload` | NOT PROVABLE LIVE |
+| 2026 `DH2026ZZ` | Permendagri, 12.900.000 | BPAD `invalid_payload` | NOT PROVABLE LIVE |
+| Invalid NOPOL | HTTP 400 `invalid_nopol` | HTTP 400 | PASS |
+| `?tax_year=2025` | HTTP 400 `unsupported_query_parameter` | HTTP 400 | PASS |
+
+Production D1 samples untuk 2022–2026 seluruhnya PASS, tetapi 2025/2026 live end-to-end
+memerlukan NOPOL nyata yang dikenali upstream BPAD. Synthetic fixtures tidak cukup.
 
 ## 10. Security Verification
 
-Live verification tidak dijalankan. Local regression tetap PASS.
+Live response 2024 memuat seluruh header wajib:
+
+- `Cache-Control: no-store`
+- `X-Request-ID`
+- `X-Content-Type-Options: nosniff`
+- `X-Frame-Options: DENY`
+- `Referrer-Policy: no-referrer`
+- `Strict-Transport-Security: max-age=31536000; includeSubDomains`
+- `Content-Security-Policy: default-src 'none'; frame-ancestors 'none'`
+
+`Access-Control-Allow-Origin` tidak ada. PII/internal leakage scan menghasilkan 0 finding.
 
 ## 11. Rate Limit Verification
 
-Live verification tidak dijalankan. Cloudflare WAF global tidak diklaim aktif.
+- Local deterministic limiter tests: PASS.
+- Controlled live invalid requests: 65.
+- Live HTTP 429 observed: tidak.
+
+Limiter bersifat per-isolate; Cloudflare mendistribusikan request dan tidak menjamin
+counter global. Karena itu live result inconclusive, bukan failure deterministik. WAF
+global rate limiting belum dikonfigurasi dan tidak diklaim aktif.
 
 ## 12. Query Performance
 
-Production query plans belum dievaluasi karena data belum lengkap.
+Production query plans:
+
+- exact code: `idx_njkb_code`
+- exact identity: `idx_njkb_identity`
+
+Status: PASS.
 
 ## 13. Match Audit
 
-Tidak ada Worker/live lookup; `match_audits` tidak diverifikasi.
+`match_audits` count: 2:
+
+- 1 controlled database probe
+- 1 live exact-code 2024 lookup
+
+Invalid NOPOL, query-parameter, dan rate-limit test tidak menambah match audit.
 
 ## 14. Observability
 
-Tidak ada Worker traffic. Data upload menunjukkan beberapa chunk latency spike, tetapi
-failure aktual adalah fetch connectivity error pada Wrangler request.
+Initial production anomaly:
+
+```text
+D1 free tier daily row write limit exceeded
+```
+
+Bulk deployment menghasilkan lebih dari 130.000 row writes. Read queries tetap aktif,
+tetapi match audit writes gagal sampai reset midnight UTC. Setelah reset, known lookup
+dan audit write lulus. Observation window terbatas tidak menunjukkan unexpected 5xx lain.
 
 ## 15. Rollback Readiness
 
-- Worker rollback tidak diperlukan; Worker belum dideploy.
-- Tidak dilakukan destructive D1 rollback.
-- Partial rows valid dan berasal dari artifact idempoten.
-- Safe recovery adalah melanjutkan dari `pergub_chunk_111.sql` setelah state read-only
-  diverifikasi lagi. Metadata/chunk sebelumnya tidak perlu dihapus.
+- Current version: `20caad97-94f7-442e-a7a6-67a80592d73b`
+- Previous clean version: `de12e2dd-3622-4235-929c-84a7b2c6161a`
+- Worker rollback tersedia melalui Cloudflare version mechanism.
+- D1 data tidak memiliki automatic rollback. Data telah diverifikasi lengkap dan tidak
+  memerlukan recovery.
 
 ## 16. Evidence Files
 
 - `docs/evidence/phase8d-production-deployment.json`
 - `docs/phase8d-production-deployment.md`
+- `docs/evidence/phase8d-sql-remediation.json`
 
 ## 17. Problems Encountered
 
-```text
-A fetch request failed, likely due to a connectivity issue.
-fetch failed
-```
-
-Failure bukan SQL/data/constraint error. Namun sesuai aturan “satu chunk gagal → STOP”,
-deployment tidak dilanjutkan otomatis.
+1. Remote explicit transaction incompatibility — diremediasi.
+2. Transient network failure pada chunk 111 — resumed idempotently.
+3. D1 free-tier daily row-write quota habis — pulih setelah reset UTC.
+4. Synthetic 2025/2026 NOPOL tidak tersedia pada BPAD production.
+5. Per-isolate limiter tidak menghasilkan observable live 429 pada 65 request.
 
 ## 18. Production State
 
 ```text
-Migrations:                  applied
-Schema:                      present
-References:                  38.500 / 64.874
-Pergub:                      38.500 / 62.091
-Permendagri:                 0 / 2.783
-Manifests:                   2 (importing)
-Mappings:                    0
-Worker:                      not deployed
-Traffic:                     inactive
+Migrations:              applied
+References:              64.874
+Pergub:                  62.091
+Permendagri:             2.783
+Mappings:                0
+Worker:                  deployed
+Health:                  ready
+Known 2024 lookup:       passing
+Traffic URL:             active workers.dev
 ```
 
 ## 19. Final Verdict
 
 **PRODUCTION DEPLOYMENT PARTIAL**
 
-Data deployment harus di-resume secara idempoten dari failed chunk 111 setelah
-preflight state berikutnya. Worker deployment tetap blocked sampai 188/188 chunks,
-final counts, samples, dan production query plans lulus.
+Deployment infrastructure, database, Worker, health/readiness, known 2024 lookup,
+security, data integrity, hashes, samples, query plans, dan audit writes terverifikasi.
+Dua critical acceptance items belum dapat dibuktikan live: real BPAD-backed 2025/2026
+lookups dan observable live HTTP 429. Tidak ada data corruption atau regulatory mismatch.
