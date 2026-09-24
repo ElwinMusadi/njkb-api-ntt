@@ -23,7 +23,12 @@
       "workers_dev": true,
       "vars": {
         "BPAD_TIMEOUT_MS": "5000",
-        "NJKB_RESOLUTION_AS_OF": "2026-09-20"
+        "NJKB_RESOLUTION_AS_OF": "2026-09-20",
+        "AUTH_ISSUER": "https://shy-thunder-ffc9.cloudflareaccess.com",
+        "AUTH_AUDIENCE": "927c4e26c78226a08ecf0a50ed91e74f88587dac5f87ac3a91d1e24eb337e4fa",
+        "AUTH_JWKS_URL": "https://shy-thunder-ffc9.cloudflareaccess.com/cdn-cgi/access/certs",
+        "AUTH_CLOCK_TOLERANCE_SECONDS": "30",
+        "AUTH_ACCESS_GRANTS_JSON": "[{\"access_common_name\":\"d6bb9db60e9cd5ee91327eed387cf2fb.access\",\"principal\":\"njkb-api-canary\",\"scopes\":[\"vehicle:read\",\"njkb:read\"]}]"
       },
       "d1_databases": [
         {

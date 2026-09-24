@@ -1,3 +1,4 @@
+export const DEFAULT_RATE_LIMIT_POLICY={limit:60,windowMs:60_000,maxEntries:10_000} as const;
 export interface RateLimitDecision {
  allowed:boolean;
  retryAfterSeconds:number;

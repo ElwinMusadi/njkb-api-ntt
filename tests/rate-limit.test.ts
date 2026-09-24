@@ -1,7 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { FixedWindowRateLimiter } from '../src/http/rate-limit';
+import { DEFAULT_RATE_LIMIT_POLICY,FixedWindowRateLimiter } from '../src/http/rate-limit';
 
 describe('fixed-window request rate limiter',()=>{
+ it('enforces the approved production policy of 60 requests per 60 seconds per principal key',()=>{
+  let now=100;const limiter=new FixedWindowRateLimiter({...DEFAULT_RATE_LIMIT_POLICY,now:()=>now});for(let request=1;request<=60;request++)expect(limiter.check('principal:canary').allowed).toBe(true);
+  expect(limiter.check('principal:canary')).toEqual({allowed:false,retryAfterSeconds:60});expect(limiter.check('principal:other').allowed).toBe(true);
+  now=60_101;expect(limiter.check('principal:canary').allowed).toBe(true);
+ });
  it('allows requests below the threshold and blocks the next request',()=>{
   const limiter=new FixedWindowRateLimiter({limit:2,windowMs:1_000,maxEntries:10,now:()=>100});
   expect(limiter.check('a').allowed).toBe(true);

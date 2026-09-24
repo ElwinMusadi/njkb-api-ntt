@@ -1,0 +1,14 @@
+import type {BpadRawRecord} from '../../src/bpad/types';
+
+export const syntheticFullBpadRecord={
+ Alamat:'TEST ADDRESS 123',BBM:'PERTALITE',DEALER:'016',GUNA:'PENUMPANG',IsiCylinder:'1496',JENIS:'103',J_USAHA:'',
+ JenisKendaraan:'MINIBUS',KD_BBM:'01',KD_DUMP:'10',KD_GUNA:'2',KD_JR:'D4',KD_LOKASI_ASAL:'010',KD_MERK:'167',
+ KD_MILIK:'02',KD_POS:'',KD_TIPE:'103167 40649',KE:'1',K_GUNA:'PRIBADI',K_JR:'MOBIL PENUMPANG BUKAN ANGKUTAN UMUM',
+ Kecamatan:'TEST DISTRICT',Kelurahan:'TEST VILLAGE',KodeKec:'99.99.99',KodeKel:'99.99.99.9999',Kohir:'000123',
+ MILIK:'PEMBELIAN BARU',Merk:'HONDA',NM_DEALER:'TEST DEALER',NM_USAHA:'',NOPOL:'ZZ0001ZZ',NOPOL_EKS:'ZZ0000ZZ',
+ NO_SIUP:'',NO_USAHA:'',NamaPemilik:'TEST OWNER',NoBPKB:'TEST-BPKB-0001',NoKTP:'9999999999999999',
+ NoMesin:'TEST-ENGINE-0001',NoRangka:'TEST-CHASSIS-0001',Rt:'001',RubahBentuk:'[ --- TIDAK ADA PERUBAHAN --- ]',Rw:'002',
+ SD_NOTICE:'2030-12-31',SD_STNK:'2031-12-31',Skum:'',TG_FAKTUR:'1900-01-01',TNKB:'PUTIH',T_GUNA:'1',TahunPembuatan:'2019',
+ TglPKBLalu:'2029-12-31',TglSTNKLalu:'2030-12-31',Type:'HONDA MOBILIO DD4 1.5 S MT CKD',UPT_ASAL:'TEST UPT',Warna:'PUTIH',
+ kode:'1',pesan:'SYNTHETIC TEST RESPONSE',status:'success',FutureBpadFieldExample:'synthetic-value'
+} as const satisfies BpadRawRecord;

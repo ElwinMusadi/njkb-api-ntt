@@ -1,14 +1,20 @@
 import { Hono, type Context } from 'hono';
 import type { ContentfulStatusCode } from 'hono/utils/http-status';
 import { BpadError, BpadVehicleAdapter, normalizeNopol, type Fetcher } from './bpad/adapter';
+import {authenticateRequest,authorizeRequest} from './auth/http';
+import type {RequestAuthenticator} from './auth/request';
+import {createAccessAuthenticatorFromBindings,type AccessRuntimeBindings} from './auth/runtime';
 import { MatchAuditRepository, NjkbRepository } from './db/repository';
 import { DatabaseError, MatchingError } from './errors';
 import { formatLookupResponse } from './http/response';
-import { FixedWindowRateLimiter, type RateLimitDecision } from './http/rate-limit';
+import { DEFAULT_RATE_LIMIT_POLICY, FixedWindowRateLimiter, type RateLimitDecision } from './http/rate-limit';
 import { NjkbMatchingEngine } from './matching/engine';
 import { NjkbLookupService } from './matching/service';
+import {privateError} from './private-api/contracts';
+import {privateRouteResult,privateUnexpectedError} from './private-api/http';
+import {UnifiedVehicleCompositionService} from './vehicle/composition';
 
-export type Bindings={
+export type Bindings=AccessRuntimeBindings&{
  NJKB_DB:D1Database;
  BPAD_TIMEOUT_MS?:string;
  NJKB_RESOLUTION_AS_OF?:string;
@@ -25,8 +31,9 @@ export interface RequestRateLimiter {check(key:string):RateLimitDecision}
 export interface AppOptions {
  fetch?:Fetcher;
  logger?:SafeLogger;
- matcherFactory?:(db:D1Database)=>NjkbMatchingEngine;
- rateLimiter?:RequestRateLimiter;
+  matcherFactory?:(db:D1Database)=>NjkbMatchingEngine;
+  rateLimiter?:RequestRateLimiter;
+  privateAuthenticator?:RequestAuthenticator;
 }
 
 const consoleLogger:SafeLogger={
@@ -45,7 +52,8 @@ function resolutionAsOf(value:string|undefined):string {
 }
 function sanitizedPath(path:string):string {
  if(path.startsWith('/api/njkb/')) return '/api/njkb/:nopol';
- if(path==='/health'||path==='/ready') return path;
+  if(path.startsWith('/api/v1/vehicle/')) return '/api/v1/vehicle/:nopol';
+  if(path==='/health'||path==='/ready') return path;
  return 'unmatched_route';
 }
 function clientKey(c:Context<AppEnv>):string {
@@ -56,7 +64,14 @@ function clientKey(c:Context<AppEnv>):string {
 export function createApp(options:AppOptions={}) {
  const app=new Hono<AppEnv>();
  const logger=options.logger??consoleLogger;
- const rateLimiter=options.rateLimiter??new FixedWindowRateLimiter({limit:60,windowMs:60_000,maxEntries:10_000});
+ const rateLimiter=options.rateLimiter??new FixedWindowRateLimiter(DEFAULT_RATE_LIMIT_POLICY);
+ let cachedPrivateAuth:{fingerprint:string;authenticator:RequestAuthenticator}|null=null;
+ const privateAuthenticator=(env:Bindings):RequestAuthenticator|null=>{
+  if(options.privateAuthenticator)return options.privateAuthenticator;
+  const fingerprint=[env.AUTH_ISSUER,env.AUTH_AUDIENCE,env.AUTH_JWKS_URL,env.AUTH_ACCESS_GRANTS_JSON,env.AUTH_CLOCK_TOLERANCE_SECONDS].join('\n');
+  if(cachedPrivateAuth?.fingerprint===fingerprint)return cachedPrivateAuth.authenticator;
+  const authenticator=createAccessAuthenticatorFromBindings(env,options.fetch);if(authenticator!==null)cachedPrivateAuth={fingerprint,authenticator};return authenticator;
+ };
 
  app.use('*',async(c,next)=>{
   c.set('requestId',crypto.randomUUID());c.set('startedAt',Date.now());
@@ -82,6 +97,31 @@ export function createApp(options:AppOptions={}) {
    return respond(c,{status:'ready'},200,'ready');
   } catch {
    return respond(c,{status:'unhealthy',error:{code:'database_unavailable',message:'Layanan belum siap',request_id:c.get('requestId')}},503,'database_unavailable');
+  }
+ });
+
+ app.get('/api/v1/vehicle/:nopol',async c=>{
+  let authenticator:RequestAuthenticator|null;try{authenticator=privateAuthenticator(c.env);}catch{return respond(c,privateError('internal_error','Layanan autentikasi belum dikonfigurasi',c.get('requestId')) as unknown as Record<string,unknown>,503,'authentication_unavailable');}
+  if(authenticator===null)return respond(c,privateError('internal_error','Layanan autentikasi belum dikonfigurasi',c.get('requestId')) as unknown as Record<string,unknown>,503,'authentication_unavailable');
+  const authentication=await authenticateRequest(c.req.raw,authenticator,c.get('requestId'));
+  if(!authentication.authenticated) return respond(c,authentication.body as unknown as Record<string,unknown>,authentication.httpStatus,authentication.httpStatus===401?'unauthorized':'authentication_unavailable');
+  const authorization=authorizeRequest(authentication.principal,['vehicle:read'],c.get('requestId'));
+  if(!authorization.authorized) return respond(c,authorization.body as unknown as Record<string,unknown>,403,'forbidden');
+  const limit=rateLimiter.check(`principal:${authentication.principal.subject}`);
+  if(!limit.allowed) {
+   c.header('Retry-After',String(limit.retryAfterSeconds));
+   return respond(c,privateError('rate_limit_exceeded','Terlalu banyak permintaan',c.get('requestId')) as unknown as Record<string,unknown>,429,'rate_limit_exceeded');
+  }
+  if(new URL(c.req.url).searchParams.size>0) return respond(c,privateError('unsupported_query_parameter','Endpoint ini tidak menerima parameter query',c.get('requestId')) as unknown as Record<string,unknown>,400,'unsupported_query_parameter');
+  const adapter=new BpadVehicleAdapter({fetch:options.fetch,timeoutMs:timeoutMs(c.env.BPAD_TIMEOUT_MS),endpoint:c.env.BPAD_ENDPOINT});
+  const matcher=options.matcherFactory?.(c.env.NJKB_DB)??new NjkbMatchingEngine(new NjkbRepository(c.env.NJKB_DB),new MatchAuditRepository(c.env.NJKB_DB));
+  try {
+   const result=await new UnifiedVehicleCompositionService(adapter,matcher).lookup(c.req.param('nopol'),resolutionAsOf(c.env.NJKB_RESOLUTION_AS_OF));
+   const formatted=privateRouteResult(result,authorization.effectiveScopes,c.get('requestId'));
+   return respond(c,formatted.body as unknown as Record<string,unknown>,formatted.httpStatus,result.status==='vehicle_found'?result.njkbStatus:result.status);
+  } catch(error) {
+   const formatted=privateUnexpectedError(error,c.get('requestId'));
+   return respond(c,formatted.body as unknown as Record<string,unknown>,formatted.httpStatus,'private_api_error');
   }
  });
 
