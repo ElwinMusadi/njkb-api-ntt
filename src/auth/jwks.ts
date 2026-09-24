@@ -29,7 +29,7 @@ export class HttpsJwksKeyResolver implements JwtKeyResolver {
  private readonly fetcher:JwksFetcher;private readonly ttl:number;private readonly minRefreshInterval:number;private readonly timeout:number;private readonly maxBytes:number;private readonly maxKeys:number;private readonly now:()=>number;
  constructor(private readonly options:JwksResolverOptions) {
   const url=new URL(options.jwksUrl);if(url.protocol!=='https:')throw new Error('JWKS URL must use HTTPS');
-  this.fetcher=options.fetch??fetch;this.ttl=options.cacheTtlMs??5*60_000;this.minRefreshInterval=options.minRefreshIntervalMs??30_000;this.timeout=options.timeoutMs??2_000;this.maxBytes=options.maxResponseBytes??64*1024;this.maxKeys=options.maxKeys??16;this.now=options.now??Date.now;
+  this.fetcher=(input,init)=>(options.fetch??fetch)(input,init);this.ttl=options.cacheTtlMs??5*60_000;this.minRefreshInterval=options.minRefreshIntervalMs??30_000;this.timeout=options.timeoutMs??2_000;this.maxBytes=options.maxResponseBytes??64*1024;this.maxKeys=options.maxKeys??16;this.now=options.now??Date.now;
   if(!Number.isInteger(this.ttl)||this.ttl<1_000||this.ttl>60*60_000||!Number.isInteger(this.minRefreshInterval)||this.minRefreshInterval<1_000||this.minRefreshInterval>this.ttl||!Number.isInteger(this.timeout)||this.timeout<100||this.timeout>10_000||!Number.isInteger(this.maxBytes)||this.maxBytes<1_024||this.maxBytes>1024*1024||!Number.isInteger(this.maxKeys)||this.maxKeys<1||this.maxKeys>64)throw new Error('Invalid JWKS resolver configuration');
  }
  async resolve(kid:string,forceRefresh=false):Promise<CryptoKey> {
@@ -47,8 +47,8 @@ export class HttpsJwksKeyResolver implements JwtKeyResolver {
  private async fetchKeys():Promise<void> {
   const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),this.timeout);
   try {
-   let response:Response;try{response=await this.fetcher(this.options.jwksUrl,{headers:{accept:'application/json'},redirect:'error',signal:controller.signal});}catch{throw new AuthenticationError('auth_unavailable');}
-   if(!response.ok)throw new AuthenticationError('auth_unavailable');const text=await boundedText(response,this.maxBytes,controller.signal);
+   let response:Response;try{response=await this.fetcher(this.options.jwksUrl,{headers:{accept:'application/json'},redirect:'manual',signal:controller.signal});}catch{throw new AuthenticationError('auth_unavailable');}
+   if(!response.ok||response.status>=300&&response.status<400)throw new AuthenticationError('auth_unavailable');const text=await boundedText(response,this.maxBytes,controller.signal);
    let json:unknown;try{json=JSON.parse(text);}catch{throw new AuthenticationError('auth_unavailable');}
    const parsed=jwksSchema(this.maxKeys).safeParse(json);if(!parsed.success)throw new AuthenticationError('auth_unavailable');
    const next=new Map<string,{key:CryptoKey;expiresAt:number}>(),expiresAt=this.now()+this.ttl;
