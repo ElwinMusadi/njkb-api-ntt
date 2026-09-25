@@ -18,6 +18,9 @@ Client
 ```
 
 - Worker URL: `https://njkb-api-ntt.elwinmusadi.workers.dev`
+- Custom Domain Produksi: `https://api.uptdpenda-kupang.web.id`
+- Private Endpoint: `GET /api/v1/vehicle/{nopol}` (dilindungi Cloudflare Access Service Auth)
+- Public Endpoint: `GET /api/njkb/{nopol}` (publik, tanpa PII)
 - D1 name: `njkb-api-production`
 - D1 UUID: `ae3097b9-d76d-430f-b5c5-7653c8242b52`
 - D1 region: APAC

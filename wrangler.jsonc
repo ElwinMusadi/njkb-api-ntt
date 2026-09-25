@@ -28,7 +28,7 @@
         "AUTH_AUDIENCE": "927c4e26c78226a08ecf0a50ed91e74f88587dac5f87ac3a91d1e24eb337e4fa",
         "AUTH_JWKS_URL": "https://shy-thunder-ffc9.cloudflareaccess.com/cdn-cgi/access/certs",
         "AUTH_CLOCK_TOLERANCE_SECONDS": "30",
-        "AUTH_ACCESS_GRANTS_JSON": "[{\"access_common_name\":\"d6bb9db60e9cd5ee91327eed387cf2fb.access\",\"principal\":\"njkb-api-canary\",\"scopes\":[\"vehicle:read\",\"njkb:read\"]}]"
+        "AUTH_ACCESS_GRANTS_JSON": "[{\"access_common_name\":\"d6bb9db60e9cd5ee91327eed387cf2fb.access\",\"principal\":\"njkb-api-canary\",\"scopes\":[\"vehicle:read\",\"njkb:read\"]},{\"access_common_name\":\"258c62aadaa1dad3ca33f871d8439a88.access\",\"principal\":\"kalkulator-pajak-kendaraan\",\"scopes\":[\"vehicle:read\",\"registration:read\",\"owner:read\",\"tax:read\",\"njkb:read\"]}]"
       },
       "d1_databases": [
         {

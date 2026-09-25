@@ -207,7 +207,10 @@ No automatic crosswalk exists between them.
 Production deployment is active at:
 
 ```text
-https://njkb-api-ntt.elwinmusadi.workers.dev
+Worker URL:    https://njkb-api-ntt.elwinmusadi.workers.dev
+Custom Domain: https://api.uptdpenda-kupang.web.id
+Public Route:  GET /api/njkb/{nopol}
+Private Route: GET /api/v1/vehicle/{nopol} (protected by Cloudflare Access Service Auth)
 ```
 
 Top-level Wrangler configuration remains local-only via a sentinel database ID;
@@ -216,4 +219,10 @@ without `--env production --remote` and the operational preflight in
 `docs/production-operations.md`.
 
 Production baseline: 64,874 active references, zero vehicle mappings, health/ready
-HTTP 200, and real BPAD-backed 2024/2025/2026 smoke tests verified.
+HTTP 200, real BPAD-backed 2019/2024/2025/2026 smoke tests verified, and private
+API canary verified.
+
+For private API operational governance and onboarding:
+- Consumer onboarding runbook: `docs/security/private-api-consumer-onboarding.md`
+- Security monitoring and audit event model: `docs/security/private-api-monitoring.md`
+- Operational governance and drift verification: `docs/security/private-api-operations.md`

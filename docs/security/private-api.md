@@ -1,7 +1,6 @@
 # Private API Security and Access Lifecycle
 
-Status: Cloudflare Access architecture selected and implementation-compatible; production
-Access resources and identifiers are not provisioned.
+Status: **Active in production with Cloudflare Access Service-to-Service authentication; Canary verified**.
 
 ## Trust boundary
 
@@ -22,17 +21,16 @@ is not the selected Access route input.
 
 ## Production configuration contract
 
-Approved non-secret Worker configuration for the next deployment phase:
+Active production Worker configuration:
 
 ```text
 AUTH_ISSUER=https://shy-thunder-ffc9.cloudflareaccess.com
 AUTH_AUDIENCE=927c4e26c78226a08ecf0a50ed91e74f88587dac5f87ac3a91d1e24eb337e4fa
 AUTH_JWKS_URL=https://shy-thunder-ffc9.cloudflareaccess.com/cdn-cgi/access/certs
 AUTH_CLOCK_TOLERANCE_SECONDS=30
-AUTH_ACCESS_GRANTS_JSON=[{"access_common_name":"d6bb9db60e9cd5ee91327eed387cf2fb.access","principal":"njkb-api-canary","scopes":["vehicle:read","njkb:read"]}]
+AUTH_ACCESS_GRANTS_JSON=[{"access_common_name":"d6bb9db60e9cd5ee91327eed387cf2fb.access","principal":"njkb-api-canary","scopes":["vehicle:read","njkb:read"]},{"access_common_name":"258c62aadaa1dad3ca33f871d8439a88.access","principal":"kalkulator-pajak-kendaraan","scopes":["vehicle:read","registration:read","owner:read","tax:read","njkb:read"]}]
 ```
 
-These values are documented/prepared but not configured or deployed in this phase.
 Grant JSON is authorization policy, not client-controlled input. The Client Secret is
 consumer-side and never a Worker variable.
 
@@ -101,16 +99,12 @@ Approved initial policy: 60 requests per 60 seconds per stable project principal
 Worker isolate. Limiter runs after authentication/base authorization and before BPAD.
 It is a bounded application safeguard, not a global distributed quota or WAF rule.
 
-## Production activation prerequisites
+## Production operational governance
 
-- actual team domain/issuer;
-- Access Application/AUD/domain;
-- JWKS endpoint verified;
-- Service Auth policy;
-- canary service token;
-- exact grant registry;
-- session/token duration and clock tolerance;
-- role assignments;
-- persistent audit/alerts;
-- rate limit policy;
-- reviewed Worker-only deployment and rollback plan.
+- Active Worker version: `69cb7cf7-db68-42e2-92f9-e26aef880462` on `api.uptdpenda-kupang.web.id`;
+- Rollback target checkpoint: `45f16da5-a1d7-46ef-9f1a-8d21679fde7e`;
+- Canary principal: `njkb-api-canary` (system test / smoke verification only);
+- Production consumer principal: `kalkulator-pajak-kendaraan` (Kalkulator Pajak Kendaraan);
+- Consumer onboarding runbook: `docs/security/private-api-consumer-onboarding.md`;
+- Monitoring, observability, and audit event model: `docs/security/private-api-monitoring.md`;
+- Drift verification and operational governance: `docs/security/private-api-operations.md`.

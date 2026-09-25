@@ -1,7 +1,6 @@
 # Private Unified Vehicle API
 
-Status: implemented for local/integration testing; Cloudflare Access selected;
-production Access resources/configuration unavailable; not deployed.
+Status: **Active in production with Cloudflare Access Service Auth; Canary verified**.
 
 Target endpoint:
 
@@ -9,15 +8,15 @@ Target endpoint:
 GET /api/v1/vehicle/{nopol}
 ```
 
-Route registration is conditional on injecting a `RequestAuthenticator` into
-`createApp()`. Default production construction has no authenticator, so the route remains
-404 until Access resources, verified configuration, grants, and monitoring are supplied.
+Host: `https://api.uptdpenda-kupang.web.id`
 
-Existing `GET /api/njkb/{nopol}` remains unchanged.
+Route registration is active in production Worker version `69cb7cf7-db68-42e2-92f9-e26aef880462` protected by Cloudflare Access. The endpoint is accessible only via valid Cloudflare Access Service Token credentials and approved grant mapping.
 
-## Production authentication target
+Existing public endpoint `GET /api/njkb/{nopol}` remains unchanged.
 
-Consumers authenticate to Cloudflare Access using Service Token headers:
+## Production authentication
+
+Consumers authenticate to Cloudflare Access at the edge using Service Token headers:
 
 ```text
 CF-Access-Client-Id
@@ -33,9 +32,13 @@ Cf-Access-Jwt-Assertion
 The Worker independently validates assertion signature, exact issuer/audience, exp/nbf,
 and configured common_name grant. Client credentials never reach business logic.
 
-Exact issuer, audience, JWKS URL, canary grant, 30-second clock tolerance, and 60/60
-per-principal/isolate safeguard are approved and prepared for the next deployment phase.
-They are not yet configured on the production Worker.
+Active production values:
+- `AUTH_ISSUER`: `https://shy-thunder-ffc9.cloudflareaccess.com`
+- `AUTH_AUDIENCE`: `927c4e26c78226a08ecf0a50ed91e74f88587dac5f87ac3a91d1e24eb337e4fa`
+- `AUTH_JWKS_URL`: `https://shy-thunder-ffc9.cloudflareaccess.com/cdn-cgi/access/certs`
+- `AUTH_CLOCK_TOLERANCE_SECONDS`: `30`
+- `AUTH_ACCESS_GRANTS_JSON`: Registered for `njkb-api-canary` (`vehicle:read`, `njkb:read`) and `kalkulator-pajak-kendaraan` (`vehicle:read`, `registration:read`, `owner:read`, `tax:read`, `njkb:read`).
+- Rate limit: 60 requests / 60 seconds / principal / isolate.
 
 ## Execution order
 
@@ -78,15 +81,17 @@ uses 401/403; provider outage uses 503; rate limit uses 429.
 Raw values are returned only with `bpad:raw`; normalized sections do not mutate raw.
 Phone is not established and absent.
 
-## Safety and activation
+## Safety and governance
 
-- no-store and current security headers;
+- `Cache-Control: no-store` and current security headers;
 - CORS disabled;
 - no raw/PII/JWT/service-secret logging;
 - no BPAD PII persistence;
 - current NJKB matcher remains authoritative;
-- production route not active/deployed;
-- production Access Application/service tokens not created in repository workflow.
+- Canary consumer `njkb-api-canary` verified end-to-end;
+- Future consumer onboarding governed by `docs/security/private-api-consumer-onboarding.md`;
+- Operational governance and drift verification: `docs/security/private-api-operations.md`;
+- Security monitoring and audit event model: `docs/security/private-api-monitoring.md`.
 
 Provider decision/lifecycle: `docs/security/private-api-provider-decision.md`.
 Machine-readable contract: `docs/openapi-private.json`.
