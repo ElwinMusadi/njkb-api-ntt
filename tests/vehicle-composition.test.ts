@@ -42,6 +42,12 @@ describe('unified vehicle composition service',()=>{
   else expect(result).toMatchObject({njkb:null,match:null,source:null});
  });
 
+ it('reports a plate BPAD does not know as vehicle_not_found and never calls matcher',async()=>{
+  const failure=new BpadError('vehicle_not_found','Kendaraan tidak ditemukan di BPAD');const vehicles:FullVehicleProvider={getVehicleRecord:vi.fn(async()=>{throw failure;})};const matches=matcher(matched);
+  const result=await new UnifiedVehicleCompositionService(vehicles,matches).lookup('ZZ0001ZZ','2026-09-20');
+  expect(result).toEqual({status:'vehicle_not_found',vehicleStatus:'not_found',njkbStatus:null,error:failure});expect(matches.match).not.toHaveBeenCalled();
+ });
+
  it('preserves typed BPAD failure, does not create raw data, and never calls matcher',async()=>{
   const failure=new BpadError('network_error','BPAD API tidak dapat dihubungi');const vehicles:FullVehicleProvider={getVehicleRecord:vi.fn(async()=>{throw failure;})};const matches=matcher(matched);
   const result=await new UnifiedVehicleCompositionService(vehicles,matches).lookup('ZZ0001ZZ','2026-09-20');

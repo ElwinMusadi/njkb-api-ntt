@@ -45,6 +45,25 @@ describe('BPAD vehicle adapter',()=>{
   expect(record.matching.KD_TIPE).toBe('103167 40649');expect(record.raw).not.toHaveProperty('NamaPemilik');
  });
 
+ it.each([
+  ['as BPAD sends it',{kode:'0',status:'failed',pesan:'Nomor polisi ZZ0001ZZ tidak ditemukan'}],
+  ['with a numeric code',{kode:0,status:'failed',pesan:'Nomor polisi ZZ0001ZZ tidak ditemukan'}],
+  ['wrapped in data',{data:{kode:'0',status:'failed',pesan:'Nomor polisi ZZ0001ZZ tidak ditemukan'}}],
+ ])('reports the answer for an unknown plate %s as vehicle_not_found without echoing the plate',async(_case,payload)=>{
+  let error:unknown;try{await new BpadVehicleAdapter({fetch:vi.fn(async()=>jsonResponse(payload))}).getVehicleRecord('zz 0001-zz');}catch(value){error=value;}
+  expect(error).toBeInstanceOf(BpadError);expect(error).toMatchObject({code:'vehicle_not_found',message:'Kendaraan tidak ditemukan di BPAD'});
+ });
+
+ it.each([
+  ['another plate',{kode:'0',status:'failed',pesan:'Nomor polisi ZZ0002ZZ tidak ditemukan'}],
+  ['a longer plate',{kode:'0',status:'failed',pesan:'Nomor polisi ZZ0001ZZA tidak ditemukan'}],
+  ['an error status',{kode:'0',status:'error',pesan:'Nomor polisi ZZ0001ZZ tidak ditemukan'}],
+  ['a success code',{kode:'1',status:'failed',pesan:'Nomor polisi ZZ0001ZZ tidak ditemukan'}],
+  ['another failure',{kode:'0',status:'failed',pesan:'Nomor polisi ZZ0001ZZ gagal diproses'}],
+ ])('keeps a failed answer with %s as invalid_payload',async(_case,payload)=>{
+  await expect(new BpadVehicleAdapter({fetch:vi.fn(async()=>jsonResponse(payload))}).getVehicleRecord('ZZ0001ZZ')).rejects.toMatchObject({code:'invalid_payload'});
+ });
+
  it('rejects metadata-only degraded payload as invalid_payload',async()=>{
   const payload={kode:'0',status:'error',pesan:'SYNTHETIC DEGRADED RESPONSE'};
   await expect(new BpadVehicleAdapter({fetch:vi.fn(async()=>jsonResponse(payload))}).getVehicleRecord('ZZ0001ZZ')).rejects.toMatchObject({code:'invalid_payload'});

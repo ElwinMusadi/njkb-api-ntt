@@ -232,6 +232,11 @@ describe('GET /api/njkb/:nopol',()=>{
   expect(json).toMatchObject({status:'upstream_error',nopol:'DH4786PD',error:{code:'http_error',message:'Layanan kendaraan BPAD sedang tidak tersedia'}});
   expect((json.error as Record<string,unknown>).request_id).toBe(response.headers.get('x-request-id'));
  });
+ it('keeps HTTP 502 for a plate BPAD does not know, since 404 here means a missing NJKB reference',async()=>{
+  const {response,json}=await request({kode:'0',status:'failed',pesan:'Nomor polisi DH4786PD tidak ditemukan'},'http://local/api/njkb/DH4786PD');
+  expect(response.status).toBe(502);
+  expect(json).toMatchObject({status:'upstream_error',nopol:'DH4786PD',error:{code:'invalid_payload'}});
+ });
  it('maps an upstream timeout to HTTP 504',async()=>{
   const fetchMock=vi.fn((_input:RequestInfo|URL,init?:RequestInit)=>new Promise<Response>((_resolve,reject)=>{
    init?.signal?.addEventListener('abort',()=>reject(new DOMException('aborted','AbortError')));

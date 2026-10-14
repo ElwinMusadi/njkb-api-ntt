@@ -25,7 +25,8 @@ export class NjkbLookupService {
   catch(error) {
    if(error instanceof BpadError) {
     if(error.code==='invalid_nopol') return {result:{status:'invalid_request',error:'invalid_nopol'}};
-    return {result:{status:'upstream_error',error:error.code,...(error.httpStatus===undefined?{}:{http_status:error.httpStatus})}};
+    // The public contract already uses 404 for a missing NJKB reference, so an unknown plate keeps its 502 here
+    return {result:{status:'upstream_error',error:error.code==='vehicle_not_found'?'invalid_payload':error.code,...(error.httpStatus===undefined?{}:{http_status:error.httpStatus})}};
    }
    throw error;
   }

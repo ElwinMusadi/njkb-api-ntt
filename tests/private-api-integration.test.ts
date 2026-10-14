@@ -121,6 +121,15 @@ describe('private route independent NJKB status matrix and safe failures',()=>{
   const result=await call({payload:payload({NOPOL:'DH2026ZZ',JenisKendaraan:'SEPEDA MOTOR',Merk:'HONDA',KD_MERK:'167',Type:'C1M02N42L1 A/T',KD_TIPE:'701167 67749',TahunPembuatan:'2026'}),scopes:['vehicle:read','njkb:read']});expect(result.response.status).toBe(200);expect(result.body).toMatchObject({njkb_status:'ambiguous',match:{method:'exact_code_year_and_brand_type'},njkb:null});expect(JSON.stringify(result.body)).not.toMatch(/private-duplicate|candidates/);
  });
 
+ it('answers 404 vehicle_not_found for a plate BPAD does not know, without echoing it or matching NJKB',async()=>{
+  const result=await call({payload:{kode:'0',status:'failed',pesan:'Nomor polisi ZZ0001ZZ tidak ditemukan'},scopes:['vehicle:read','njkb:read']});
+  expect(result.response.status).toBe(404);
+  expect(result.body).toEqual({status:'vehicle_not_found',vehicle_status:'not_found',njkb_status:null,error:{code:'vehicle_not_found',message:'Kendaraan tidak ditemukan di BPAD',request_id:result.response.headers.get('x-request-id')}});
+  expect(JSON.stringify(result.body)).not.toContain('ZZ0001ZZ');expect(result.fetchMock).toHaveBeenCalledOnce();
+  expect((await db.prepare('SELECT count(*) n FROM match_audits').first<{n:number}>())?.n).toBe(0);
+  expect(logger.info).toHaveBeenCalledWith(expect.objectContaining({event:'http_request',result:'vehicle_not_found',http_status:404}));
+ });
+
  it('maps BPAD HTTP failure to safe 502 without raw body or PII',async()=>{
   const result=await call({payload:{secret:'TEST OWNER TEST ADDRESS'},upstreamStatus:503});expect(result.response.status).toBe(502);expect(result.body).toMatchObject({status:'upstream_error',error:{code:'upstream_error'}});expect(JSON.stringify(result.body)).not.toMatch(/TEST OWNER|TEST ADDRESS|secret|503/);
  });

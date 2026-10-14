@@ -3,7 +3,7 @@ import {parseBpadVehicleRecord,type BpadVehicleRecord} from './types';
 export const BPAD_VEHICLE_URL='https://dash.bpad.nttprov.go.id/pajak/webdtd/pendataan/core/php/getnopol.php';
 export const DEFAULT_BPAD_MAX_RESPONSE_BYTES=256*1024;
 
-export type BpadErrorCode='invalid_nopol'|'timeout'|'network_error'|'http_error'|'malformed_json'|'invalid_payload';
+export type BpadErrorCode='invalid_nopol'|'vehicle_not_found'|'timeout'|'network_error'|'http_error'|'malformed_json'|'invalid_payload';
 export class BpadError extends Error {
  constructor(public readonly code:BpadErrorCode,message:string,public readonly httpStatus?:number){super(message);this.name='BpadError';}
 }
@@ -27,6 +27,15 @@ function unwrapPayload(value:unknown):unknown {
   return Array.isArray(data) && data.length===1?data[0]:data;
  }
  return value;
+}
+// BPAD answers an unknown plate with HTTP 200 and metadata only, e.g.
+// {"kode":"0","status":"failed","pesan":"Nomor polisi DH0ZZZ tidak ditemukan"}.
+// Anything less exact stays invalid_payload, so a degraded BPAD is never reported as a missing vehicle.
+function isBpadVehicleNotFound(payload:unknown,nopol:string):boolean {
+ if(payload===null||typeof payload!=='object'||Array.isArray(payload)) return false;
+ const {kode,status,pesan}=payload as Record<string,unknown>;
+ return (kode==='0'||kode===0)&&status==='failed'&&typeof pesan==='string'&&/\btidak ditemukan\b/i.test(pesan)
+  &&pesan.toUpperCase().split(/[^A-Z0-9]+/).includes(nopol);
 }
 async function readWithAbort(reader:ReadableStreamDefaultReader<Uint8Array>,signal:AbortSignal):Promise<ReadableStreamReadResult<Uint8Array>> {
  if(signal.aborted)throw new BpadError('timeout','BPAD API melewati batas waktu');
@@ -82,7 +91,9 @@ export class BpadVehicleAdapter implements VehicleProvider,FullVehicleProvider {
    }
    if(!response.ok)throw new BpadError('http_error',`BPAD API mengembalikan HTTP ${response.status}`,response.status);
    const body=await readBoundedJson(response,controller.signal,this.options.maxResponseBytes??DEFAULT_BPAD_MAX_RESPONSE_BYTES);
-   try{return parseBpadVehicleRecord(unwrapPayload(body));}
+   const payload=unwrapPayload(body);
+   if(isBpadVehicleNotFound(payload,nopol))throw new BpadError('vehicle_not_found','Kendaraan tidak ditemukan di BPAD');
+   try{return parseBpadVehicleRecord(payload);}
    catch(error){if(error instanceof BpadError)throw error;throw new BpadError('invalid_payload','BPAD API tidak memiliki field kendaraan wajib');}
   } finally {clearTimeout(timeout);}
  }

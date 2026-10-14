@@ -369,9 +369,10 @@ Contoh error JSON dari Worker:
 | 400 | NOPOL tidak valid atau query parameter tidak didukung | Perbaiki request; jangan retry otomatis. |
 | 401 | Service Token hilang/tidak valid, atau assertion ditolak | Verifikasi secret/configuration. Response dari Cloudflare Access dapat berupa HTML, bukan JSON. |
 | 403 | Principal terautentikasi tetapi scope dasar ditolak | Hentikan request dan laporkan konfigurasi otorisasi. |
+| 404 | BPAD tidak memiliki kendaraan dengan NOPOL ini (`status` `vehicle_not_found`, `vehicle_status` `not_found`) | Tampilkan bahwa data kendaraan tidak ditemukan; jangan retry otomatis. |
 | 429 | Rate limit terlampaui | Hormati header `Retry-After`; retry terbatas. |
 | 500 | Kesalahan internal/matching | Catat `X-Request-ID`; jangan retry berulang. |
-| 502 | Upstream BPAD gagal, response tidak valid, atau network failure | Boleh retry satu kali dengan backoff dan jitter. |
+| 502 | Upstream BPAD gagal, response tidak valid, atau network failure (bukan NOPOL yang tidak terdaftar) | Boleh retry satu kali dengan backoff dan jitter. |
 | 503 | Database/JWKS/auth provider tidak tersedia | Boleh retry satu kali setelah jeda. |
 | 504 | Upstream BPAD melewati timeout | Boleh retry satu kali dengan backoff dan jitter. |
 

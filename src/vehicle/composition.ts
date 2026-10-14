@@ -15,6 +15,7 @@ export interface UnifiedVehicleComposition extends UnifiedCompositionInput {
 }
 export type UnifiedVehicleLookupFailure=
  |{status:'invalid_request';vehicleStatus:null;njkbStatus:null;error:BpadError}
+ |{status:'vehicle_not_found';vehicleStatus:'not_found';njkbStatus:null;error:BpadError}
  |{status:'upstream_error';vehicleStatus:'upstream_error';njkbStatus:null;error:BpadError};
 export type UnifiedVehicleLookupResult=UnifiedVehicleComposition|UnifiedVehicleLookupFailure;
 
@@ -42,6 +43,7 @@ export class UnifiedVehicleCompositionService {
   catch(error) {
    if(!(error instanceof BpadError))throw error;
    return error.code==='invalid_nopol'?{status:'invalid_request',vehicleStatus:null,njkbStatus:null,error}:
+    error.code==='vehicle_not_found'?{status:'vehicle_not_found',vehicleStatus:'not_found',njkbStatus:null,error}:
     {status:'upstream_error',vehicleStatus:'upstream_error',njkbStatus:null,error};
   }
  }

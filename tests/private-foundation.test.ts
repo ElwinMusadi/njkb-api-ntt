@@ -76,6 +76,8 @@ describe('scope-aware private response contract foundation',()=>{
   expect(privateOpenapi.components.securitySchemes.AccessClientSecret).toMatchObject({type:'apiKey',in:'header',name:'CF-Access-Client-Secret'});
   expect(Object.keys(privateOpenapi.components.schemas.BPADRaw.properties).sort()).toEqual([...knownBpadFields].sort());
   expect(privateOpenapi.components.schemas.BPADRaw.additionalProperties).toBe(true);
+  expect(Object.keys(privateOpenapi.paths['/api/v1/vehicle/{nopol}'].get.responses).sort()).toEqual(['200','400','401','403','404','429','500','502','503','504']);
+  expect(privateOpenapi.components.schemas.PrivateErrorResponse.properties.error.properties.code.enum).toContain('vehicle_not_found');
   expect(JSON.stringify(privateOpenapi)).not.toMatch(/ae3097b9|database_id|private_key|bearer-token/);expect(privateOpenapi.components.schemas.Owner.properties).not.toHaveProperty('phone');
   expect(Object.keys(publicOpenapi.paths).sort()).toEqual(['/api/njkb/{nopol}','/health','/ready']);
  });

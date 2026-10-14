@@ -2,7 +2,7 @@ import type {BpadRawRecord} from '../bpad/types';
 import type {NormalizedBpadRecord,PrivateAdministrative,PrivateOwner,PrivateRegistration,PrivateTax,PrivateVehicle} from '../bpad/normalize';
 import type {GranularPrivateScope} from '../auth/contracts';
 
-export type VehicleStatus='found'|'upstream_error';
+export type VehicleStatus='found'|'not_found'|'upstream_error';
 export type UnifiedNjkbStatus='matched'|'not_found'|'reference_unavailable'|'conflict'|'ambiguous';
 export interface PrivateNjkb {value:string|null;weight:string|null;dpp_pkb:string|null}
 export interface PrivateMatch {method:string;source_code?:string;conflicts?:readonly string[]}
@@ -36,9 +36,10 @@ export function shapeUnifiedVehicleResponse(input:UnifiedCompositionInput,effect
  return result;
 }
 
-export type PrivateErrorCode='invalid_nopol'|'unsupported_query_parameter'|'unauthorized'|'forbidden'|'rate_limit_exceeded'|'upstream_error'|'database_error'|'internal_error';
-export interface PrivateErrorResponse {status:'invalid_request'|'unauthorized'|'forbidden'|'rate_limit_exceeded'|'upstream_error'|'error';vehicle_status?:'upstream_error';njkb_status?:null;error:{code:PrivateErrorCode;message:string;request_id:string}}
+export type PrivateErrorCode='invalid_nopol'|'unsupported_query_parameter'|'unauthorized'|'forbidden'|'rate_limit_exceeded'|'vehicle_not_found'|'upstream_error'|'database_error'|'internal_error';
+export interface PrivateErrorResponse {status:'invalid_request'|'unauthorized'|'forbidden'|'rate_limit_exceeded'|'vehicle_not_found'|'upstream_error'|'error';vehicle_status?:'not_found'|'upstream_error';njkb_status?:null;error:{code:PrivateErrorCode;message:string;request_id:string}}
 export function privateError(code:PrivateErrorCode,message:string,requestId:string):PrivateErrorResponse {
- const status=code==='unauthorized'?'unauthorized':code==='forbidden'?'forbidden':code==='rate_limit_exceeded'?'rate_limit_exceeded':code==='upstream_error'?'upstream_error':code==='database_error'||code==='internal_error'?'error':'invalid_request';
+ const status=code==='unauthorized'?'unauthorized':code==='forbidden'?'forbidden':code==='rate_limit_exceeded'?'rate_limit_exceeded':code==='vehicle_not_found'?'vehicle_not_found':code==='upstream_error'?'upstream_error':code==='database_error'||code==='internal_error'?'error':'invalid_request';
+ if(code==='vehicle_not_found')return {status,vehicle_status:'not_found',njkb_status:null,error:{code,message,request_id:requestId}};
  return code==='upstream_error'?{status,vehicle_status:'upstream_error',njkb_status:null,error:{code,message,request_id:requestId}}:{status,error:{code,message,request_id:requestId}};
 }

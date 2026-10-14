@@ -75,8 +75,12 @@ project scopes. Scopes come only from the reviewed common_name grant registry.
 ## Response/status contract
 
 BPAD success returns HTTP 200 `vehicle_found` with independent `njkb_status`: matched,
-not_found, reference_unavailable, conflict, or ambiguous. BPAD errors use 502/504; auth
-uses 401/403; provider outage uses 503; rate limit uses 429.
+not_found, reference_unavailable, conflict, or ambiguous. A plate BPAD does not know
+(BPAD HTTP 200 with `kode` 0, `status` failed and a `pesan` naming the plate as "tidak
+ditemukan") returns HTTP 404 `vehicle_not_found` with `vehicle_status` not_found and no NJKB
+lookup. BPAD errors use 502/504; auth uses 401/403; provider outage uses 503; rate limit
+uses 429. The public `/api/njkb/{nopol}` route keeps 502 for an unknown plate, because its
+404 already means a missing NJKB reference.
 
 Raw values are returned only with `bpad:raw`; normalized sections do not mutate raw.
 Phone is not established and absent.

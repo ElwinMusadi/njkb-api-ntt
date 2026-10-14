@@ -18,7 +18,7 @@ Pencatatan aktivitas keamanan pada Private API dirancang dengan prinsip **Zero P
 | `principal` | string | Label identitas resmi konsumen yang terverifikasi | `"njkb-api-canary"` |
 | `endpoint_class` | string | Pola route tersanitasi (tanpa NOPOL) | `"/api/v1/vehicle/:nopol"`, `"/api/njkb/:nopol"` |
 | `http_method` | string | HTTP Method | `"GET"` |
-| `http_status` | number | HTTP Response Status Code | `200`, `401`, `403`, `429`, `502`, `503` |
+| `http_status` | number | HTTP Response Status Code | `200`, `401`, `403`, `404`, `429`, `502`, `503` |
 | `auth_result` | string | Status hasil verifikasi autentikasi | `"success"`, `"missing_token"`, `"invalid_signature"` |
 | `authz_result` | string | Status hasil evaluasi otorisasi | `"authorized"`, `"denied"` |
 | `scopes_granted` | array of string | Daftar scope yang dimiliki konsumen saat request | `["vehicle:read", "njkb:read"]` |
@@ -59,6 +59,7 @@ Untuk memfasilitasi filter, agregasi metrik, dan alert terstruktur, sistem mengg
 | `AUTH_UNKNOWN_COMMON_NAME` | WARN / ERROR | Assertion valid namun `common_name` tidak terdaftar di `AUTH_ACCESS_GRANTS_JSON`. |
 | `AUTH_SCOPE_DENIED` | WARN | Konsumen terautentikasi namun tidak memiliki scope `vehicle:read` (HTTP 403). |
 | `RATE_LIMIT_EXCEEDED` | WARN | Konsumen melampaui batas 60 request per 60 detik pada satu isolate (HTTP 429). |
+| `VEHICLE_NOT_FOUND` | INFO | BPAD menjawab bahwa NOPOL tidak terdaftar (`kode` 0, `status` failed); log `result` bernilai `vehicle_not_found` (HTTP 404). Bukan gangguan BPAD. |
 | `UPSTREAM_BPAD_ERROR` | ERROR | BPAD upstream mengembalikan HTTP non-2xx atau JSON malformed/invalid (HTTP 502). |
 | `UPSTREAM_BPAD_TIMEOUT` | ERROR | Panggilan ke BPAD melampaui batas waktu total 5.000 ms (HTTP 504). |
 | `NJKB_NOT_FOUND` | INFO | Kendaraan ditemukan di BPAD namun tidak ada referensi NJKB yang cocok. |

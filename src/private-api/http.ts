@@ -6,7 +6,7 @@ import type {GranularPrivateScope} from '../auth/contracts';
 
 export type PrivateRouteResult=
  |{httpStatus:200;body:UnifiedVehicleResponse}
- |{httpStatus:400|500|502|503|504;body:PrivateErrorResponse};
+ |{httpStatus:400|404|500|502|503|504;body:PrivateErrorResponse};
 
 export function privateRouteResult(result:UnifiedVehicleLookupResult,effectiveScopes:ReadonlySet<GranularPrivateScope>,requestId:string):PrivateRouteResult {
  if(result.status==='vehicle_found')return {httpStatus:200,body:shapeUnifiedVehicleResponse(result,effectiveScopes)};
@@ -14,6 +14,7 @@ export function privateRouteResult(result:UnifiedVehicleLookupResult,effectiveSc
 }
 function privateFailure(result:UnifiedVehicleLookupFailure,requestId:string):PrivateRouteResult {
  if(result.status==='invalid_request')return {httpStatus:400,body:privateError('invalid_nopol','Format NOPOL tidak valid',requestId)};
+ if(result.status==='vehicle_not_found')return {httpStatus:404,body:privateError('vehicle_not_found','Kendaraan tidak ditemukan di BPAD',requestId)};
  const status=result.error.code==='timeout'?504:502;
  return {httpStatus:status,body:privateError('upstream_error',result.error.code==='timeout'?'Layanan kendaraan BPAD melewati batas waktu':'Layanan kendaraan BPAD tidak tersedia',requestId)};
 }
