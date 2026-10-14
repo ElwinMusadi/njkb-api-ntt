@@ -28,7 +28,7 @@ AUTH_ISSUER=https://shy-thunder-ffc9.cloudflareaccess.com
 AUTH_AUDIENCE=927c4e26c78226a08ecf0a50ed91e74f88587dac5f87ac3a91d1e24eb337e4fa
 AUTH_JWKS_URL=https://shy-thunder-ffc9.cloudflareaccess.com/cdn-cgi/access/certs
 AUTH_CLOCK_TOLERANCE_SECONDS=30
-AUTH_ACCESS_GRANTS_JSON=[{"access_common_name":"d6bb9db60e9cd5ee91327eed387cf2fb.access","principal":"njkb-api-canary","scopes":["vehicle:read","njkb:read"]},{"access_common_name":"258c62aadaa1dad3ca33f871d8439a88.access","principal":"kalkulator-pajak-kendaraan","scopes":["vehicle:read","registration:read","owner:read","tax:read","njkb:read"]}]
+AUTH_ACCESS_GRANTS_JSON=[{"access_common_name":"d6bb9db60e9cd5ee91327eed387cf2fb.access","principal":"njkb-api-canary","scopes":["vehicle:read","njkb:read"]},{"access_common_name":"258c62aadaa1dad3ca33f871d8439a88.access","principal":"kalkulator-pajak-kendaraan","scopes":["vehicle:read","registration:read","owner:read","tax:read","njkb:read"]},{"access_common_name":"241881db36b9b92e1eafbdf29e962cbc.access","principal":"njkb-api-pintu","scopes":["vehicle:read","registration:read","owner:read","tax:read","njkb:read"]}]
 ```
 
 Grant JSON is authorization policy, not client-controlled input. The Client Secret is
@@ -104,7 +104,7 @@ It is a bounded application safeguard, not a global distributed quota or WAF rul
 - Active Worker version: `69cb7cf7-db68-42e2-92f9-e26aef880462` on `api.uptdpenda-kupang.web.id`;
 - Rollback target checkpoint: `45f16da5-a1d7-46ef-9f1a-8d21679fde7e`;
 - Canary principal: `njkb-api-canary` (system test / smoke verification only);
-- Production consumer principal: `kalkulator-pajak-kendaraan` (Kalkulator Pajak Kendaraan);
+- Production consumer principals: `kalkulator-pajak-kendaraan` (Kalkulator Pajak Kendaraan) and `njkb-api-pintu` (PINTU, Kalkulator PKB and the portal's tax check);
 - Consumer onboarding runbook: `docs/security/private-api-consumer-onboarding.md`;
 - Monitoring, observability, and audit event model: `docs/security/private-api-monitoring.md`;
 - Drift verification and operational governance: `docs/security/private-api-operations.md`.

@@ -37,7 +37,7 @@ Active production values:
 - `AUTH_AUDIENCE`: `927c4e26c78226a08ecf0a50ed91e74f88587dac5f87ac3a91d1e24eb337e4fa`
 - `AUTH_JWKS_URL`: `https://shy-thunder-ffc9.cloudflareaccess.com/cdn-cgi/access/certs`
 - `AUTH_CLOCK_TOLERANCE_SECONDS`: `30`
-- `AUTH_ACCESS_GRANTS_JSON`: Registered for `njkb-api-canary` (`vehicle:read`, `njkb:read`) and `kalkulator-pajak-kendaraan` (`vehicle:read`, `registration:read`, `owner:read`, `tax:read`, `njkb:read`).
+- `AUTH_ACCESS_GRANTS_JSON`: Registered for `njkb-api-canary` (`vehicle:read`, `njkb:read`), `kalkulator-pajak-kendaraan` (`vehicle:read`, `registration:read`, `owner:read`, `tax:read`, `njkb:read`), and `njkb-api-pintu` (`vehicle:read`, `registration:read`, `owner:read`, `tax:read`, `njkb:read`).
 - Rate limit: 60 requests / 60 seconds / principal / isolate.
 
 ## Execution order

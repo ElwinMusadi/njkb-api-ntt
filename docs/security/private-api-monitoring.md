@@ -130,3 +130,17 @@ Untuk mencegah ketergantungan pada individu spesifik dan memastikan keberlanjuta
   - Anomali autentikasi/otorisasi yang tidak diharapkan.
 - **Alert Threshold**: PENDING *(Menunggu baseline traffic normal pasca aktivasi produksi)*.
 
+### 3. Principal: `njkb-api-pintu`
+- **Peran**: Consumer produksi PINTU: Kalkulator PKB petugas loket dan cek biaya pajak publik di portal (dengan verifikasi 5 digit terakhir nomor rangka).
+- **Volume Normal**: Belum ada baseline. Dibatasi di sisi PINTU: pegawai 30 pencarian/menit per akun; portal 5/menit dan 20/jam per alamat IP, serta 30/menit untuk seluruh portal.
+- **Expected Scope Set**: `vehicle:read`, `registration:read`, `owner:read`, `tax:read`, `njkb:read`.
+- **Forbidden Scopes**: `bpad:raw`, `vehicle:full`.
+- **Fokus Pantau**:
+  - Lonjakan HTTP 401 (kedaluwarsa token / kegagalan Access).
+  - HTTP 403 (percobaan eskalasi atau akses scope terlarang).
+  - HTTP 429: dashboard dan portal berbagi batas 60 req/menit/isolate; lonjakan lalu lintas portal dapat menghabiskan kuota petugas loket.
+  - Pola pencarian berurutan nomor polisi dari portal (indikasi enumerasi).
+  - BPAD upstream failure (HTTP 502 / 504) dan Worker internal error (HTTP 500).
+  - Latensi request (target < 3.000 ms; PINTU memutus setelah 8 detik).
+- **Alert Threshold**: PENDING *(Menunggu baseline traffic normal pasca aktivasi produksi)*.
+

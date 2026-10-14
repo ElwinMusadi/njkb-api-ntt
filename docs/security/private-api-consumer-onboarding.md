@@ -280,7 +280,63 @@ Konfigurasi grant terpasang pada `AUTH_ACCESS_GRANTS_JSON` (`wrangler.jsonc` pro
 
 ---
 
-## 10. Panduan Langkah Manual Cloudflare Zero Trust Dashboard
+## 10. Registri Konsumen Produksi: PINTU
+
+| Atribut | Nilai Operasional |
+|---|---|
+| **Consumer Name** | PINTU — Portal Informasi dan Pelayanan UPTD Pendapatan Daerah Wilayah Kota Kupang |
+| **Principal Identifier** | `njkb-api-pintu` |
+| **Status** | `ACTIVE` |
+| **Tanggal Persetujuan** | 2026-10-14 (keputusan D-041 di repository PINTU, disetujui pemilik produk) |
+| **Endpoint Target** | `GET /api/v1/vehicle/{nopol}` |
+| **Tujuan Bisnis** | (1) Kalkulator PKB untuk petugas loket di dashboard PINTU (hanya pegawai yang login; cukup nomor polisi). (2) Cek biaya pajak publik di portal PINTU: pengunjung memasukkan nomor polisi dan 5 digit terakhir nomor rangka. Perhitungan PKB, Opsen PKB, SWDKLLJ, dan PNBP mengikuti Pergub NTT Nomor 54 Tahun 2026 dengan mesin yang sama dengan Kalkulator Pajak Kendaraan. |
+| **Approved Scopes** | `vehicle:read`, `registration:read`, `owner:read`, `tax:read`, `njkb:read` |
+| **Forbidden Scopes** | `bpad:raw`, `vehicle:full` |
+| **Field yang Dipakai** | `vehicle.category_raw` / `vehicle.category`, `vehicle.chassis_number`, `registration.stnk_valid_until`, `registration.plate_color`, `tax.notice_valid_until`, `njkb.value`, `njkb.weight`, `njkb_status`, `vehicle_status`, `owner.name`. |
+| **Field yang Diterima tetapi Tidak Dipakai** | NIK dan alamat pemilik, nomor mesin, nomor BPKB, kohir, dan field lain dalam scope di atas: tidak disimpan, tidak dicatat di log, dan tidak diteruskan ke peramban. |
+| **Paparan ke Publik** | Portal hanya menampilkan nama pemilik, jenis kendaraan, jatuh tempo pajak dan STNK, serta rincian biaya **setelah 5 karakter terakhir nomor rangka cocok** (dicocokkan di server PINTU). Nomor polisi salah, nomor rangka salah, kendaraan tidak dikenal, dan nomor rangka yang tidak tercatat mendapat jawaban yang sama. Nomor rangka dan nomor mesin tidak pernah dikirim ke peramban. |
+| **Service Token Name** | `njkb-api-pintu` |
+| **Access common_name** | `241881db36b9b92e1eafbdf29e962cbc.access` |
+| **Masa Berlaku Token** | 1 tahun sejak dibuat (2026-10-14); rotasi sesuai bagian 4 sebelum kedaluwarsa. |
+| **Penyimpanan Secret** | Hanya di server PINTU: `.env` lokal dan Environment Variables Laravel Cloud (`NJKB_ACCESS_CLIENT_ID`, `NJKB_ACCESS_CLIENT_SECRET`). Tidak di Git, frontend, maupun log. |
+| **Perilaku Klien** | Timeout 8 detik (koneksi 3 detik), tidak mengikuti redirect, ulang sekali hanya untuk koneksi terputus atau HTTP 502/503/504, mematuhi `Retry-After` setelah HTTP 429 (maks. 1 jam). Kegagalan dicatat hanya dengan alasan, `X-Request-ID`, status HTTP, dan kode galat; tidak ada nomor polisi atau data pemilik di log. |
+| **Expected Traffic** | Belum ada baseline. Dibatasi di sisi PINTU: pegawai 30 pencarian/menit per akun; portal 5 pengecekan/menit dan 20/jam per alamat IP, serta 30/menit untuk seluruh portal. |
+| **Rate Limit** | 60 requests / 60 seconds / principal / isolate (dipakai bersama oleh dashboard dan portal PINTU). |
+| **Technical Contact** | Application Technical Owner / Developer PINTU |
+
+### Justifikasi Scope
+- `vehicle:read`: wajib untuk setiap grant; jenis kendaraan (`category_raw`) menentukan bobot dan tarif SWDKLLJ.
+- `registration:read`: jatuh tempo STNK (penentu PNBP STNK/TNKB), warna TNKB (tarif plat merah), dan nomor rangka untuk verifikasi pengunjung portal. Tanpa scope ini, cek biaya publik tidak dapat memverifikasi pemohon.
+- `tax:read`: `tax.notice_valid_until` (SD_NOTICE) sebagai penentu masa pajak, tunggakan, dan denda; alasan yang sama dengan remediasi `tax:read` pada Kalkulator Pajak Kendaraan (bagian 9).
+- `njkb:read`: nilai NJKB dan bobot sebagai dasar pengenaan PKB.
+- `owner:read`: nama pemilik ditampilkan kepada petugas dan kepada pengunjung yang lolos verifikasi nomor rangka (keputusan pemilik produk PINTU). Scope ini juga mengekspos NIK dan alamat ke server PINTU; keduanya tidak dipakai. Bila nama pemilik tidak lagi diperlukan, scope ini dicabut dan PINTU menampilkan "Nama pemilik tidak tersedia".
+
+Konfigurasi grant terpasang pada `AUTH_ACCESS_GRANTS_JSON` (`wrangler.jsonc` production):
+```json
+[
+  {
+    "access_common_name": "d6bb9db60e9cd5ee91327eed387cf2fb.access",
+    "principal": "njkb-api-canary",
+    "scopes": ["vehicle:read", "njkb:read"]
+  },
+  {
+    "access_common_name": "258c62aadaa1dad3ca33f871d8439a88.access",
+    "principal": "kalkulator-pajak-kendaraan",
+    "scopes": ["vehicle:read", "registration:read", "owner:read", "tax:read", "njkb:read"]
+  },
+  {
+    "access_common_name": "241881db36b9b92e1eafbdf29e962cbc.access",
+    "principal": "njkb-api-pintu",
+    "scopes": ["vehicle:read", "registration:read", "owner:read", "tax:read", "njkb:read"]
+  }
+]
+```
+
+*Catatan Keamanan (Zero Secret Exposure):* Client Secret untuk Service Token `njkb-api-pintu` hanya disimpan di server PINTU dan tidak pernah dicatat atau disimpan di dalam repositori ini.
+
+---
+
+## 11. Panduan Langkah Manual Cloudflare Zero Trust Dashboard
 
 Karena Cloudflare API token default Wrangler tidak memiliki izin administratif Cloudflare Zero Trust (`403 Forbidden` pada `/access/apps` dan `/access/service_tokens`), pembuatan Service Token dilakukan secara mandiri oleh Operator melalui dashboard Zero Trust:
 
